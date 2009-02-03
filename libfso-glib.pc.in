@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@
+
+Name: libfso-glib
+Description: GLib-based DBus bindings for freesmartphone.org - Vala implementation
+Version: @VERSION@
+Requires: dbus-glib-1 glib-2.0 gobject-2.0
+Libs: -L${libdir} -llibfso-glib
+Cflags: -I${includedir}/fso-glib
+
+
