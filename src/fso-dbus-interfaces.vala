@@ -8,7 +8,7 @@ namespace FreeDesktop {
 	namespace Gypsy {
 
 		[DBus (name = "org.freedesktop.Gypsy.Course")]
-		public interface Course {
+		public interface Course : GLib.Object {
 
 			public abstract void get_course(out int fields, out int tstamp, out double speed, out double heading, out double climb) throws DBus.Error;
 
@@ -16,7 +16,7 @@ namespace FreeDesktop {
 		}
 
 		[DBus (name = "org.freedesktop.Gypsy.Accuracy")]
-		public interface Accuracy {
+		public interface Accuracy : GLib.Object {
 
 			public abstract void get_accuracy(out int fields, out double pdop, out double hdop, out double vdop) throws DBus.Error;
 
@@ -24,7 +24,7 @@ namespace FreeDesktop {
 		}
 
 		[DBus (name = "org.freedesktop.Gypsy.Time")]
-		public interface Time {
+		public interface Time : GLib.Object {
 
 			public abstract int get_time() throws DBus.Error;
 
@@ -32,7 +32,7 @@ namespace FreeDesktop {
 		}
 
 		[DBus (name = "org.freedesktop.Gypsy.Device")]
-		public interface Device {
+		public interface Device : GLib.Object {
 
 			public abstract bool get_connection_status() throws DBus.Error;
 
@@ -48,7 +48,7 @@ namespace FreeDesktop {
 		}
 
 		[DBus (name = "org.freedesktop.Gypsy.Position")]
-		public interface Position {
+		public interface Position : GLib.Object {
 
 			public abstract void get_position(out int fields, out int tstamp, out double lat, out double lon, out double alt) throws DBus.Error;
 
@@ -60,7 +60,7 @@ namespace FreeDesktop {
 namespace FreeSmartphone {
 
 	[DBus (name = "org.freesmartphone.Resource")]
-	public interface Resource {
+	public interface Resource : GLib.Object {
 
 		public abstract void enable() throws DBus.Error;
 
@@ -72,7 +72,7 @@ namespace FreeSmartphone {
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
-	public interface Usage {
+	public interface Usage : GLib.Object {
 
 		public abstract string[] list_resources() throws DBus.Error;
 
@@ -96,13 +96,13 @@ namespace FreeSmartphone {
 
 		public signal void resource_available(string name, bool availability);
 
-		public signal void resource_changed(string name, bool state, HashTable<string, GLib.Value?> attributes);
+		public signal void resource_changed(string name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
 
 		public signal void system_action(string action);
 	}
 
 	[DBus (name = "org.freesmartphone.Events")]
-	public interface Events {
+	public interface Events : GLib.Object {
 
 		public abstract void add_rule(string rule) throws DBus.Error;
 
@@ -114,7 +114,7 @@ namespace FreeSmartphone {
 	namespace Phone {
 
 		[DBus (name = "org.freesmartphone.Phone")]
-		public interface Phone {
+		public interface Phone : GLib.Object {
 
 			public abstract string[] init_protocols() throws DBus.Error;
 
@@ -124,7 +124,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Phone.Call")]
-		public interface Call {
+		public interface Call : GLib.Object {
 
 			public abstract string get_peer() throws DBus.Error;
 
@@ -151,7 +151,7 @@ namespace FreeSmartphone {
 	namespace Time {
 
 		[DBus (name = "org.freesmartphone.Time.Alarm")]
-		public interface Alarm {
+		public interface Alarm : GLib.Object {
 
 			public abstract void clear_alarm(string busname) throws DBus.Error;
 
@@ -162,7 +162,7 @@ namespace FreeSmartphone {
 	namespace Preferences {
 
 		[DBus (name = "org.freesmartphone.Preferences.Service")]
-		public interface Service {
+		public interface Service : GLib.Object {
 
 			public abstract string[] get_keys() throws DBus.Error;
 
@@ -178,7 +178,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Preferences")]
-		public interface Preferences {
+		public interface Preferences : GLib.Object {
 
 			public abstract string[] get_services() throws DBus.Error;
 
@@ -195,13 +195,13 @@ namespace FreeSmartphone {
 	namespace Device {
 
 		[DBus (name = "org.freesmartphone.Device.Input")]
-		public interface Input {
+		public interface Input : GLib.Object {
 
 			public signal void event(string name, string action, int seconds);
 		}
 
 		[DBus (name = "org.freesmartphone.Device.LED")]
-		public interface LED {
+		public interface LED : GLib.Object {
 
 			public abstract void set_brightness(int brightness) throws DBus.Error;
 
@@ -211,7 +211,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.PowerControl")]
-		public interface PowerControl {
+		public interface PowerControl : GLib.Object {
 
 			public abstract bool get_power() throws DBus.Error;
 
@@ -221,9 +221,9 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
-		public interface PowerSupply {
+		public interface PowerSupply : GLib.Object {
 
-			public abstract HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
 			public abstract int get_capacity() throws DBus.Error;
 
@@ -235,9 +235,9 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Display")]
-		public interface Display {
+		public interface Display : GLib.Object {
 
-			public abstract HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
 			public abstract int get_brightness() throws DBus.Error;
 
@@ -249,7 +249,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.RealtimeClock")]
-		public interface RealtimeClock {
+		public interface RealtimeClock : GLib.Object {
 
 			public abstract int get_current_time() throws DBus.Error;
 
@@ -261,9 +261,9 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Audio")]
-		public interface Audio {
+		public interface Audio : GLib.Object {
 
-			public abstract HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
 			public abstract string[] get_supported_formats() throws DBus.Error;
 
@@ -275,7 +275,7 @@ namespace FreeSmartphone {
 
 			public abstract void stop_all_sounds() throws DBus.Error;
 
-			public signal void sound_status(string id, string status, HashTable<string, GLib.Value?> properties);
+			public signal void sound_status(string id, string status, GLib.HashTable<string, GLib.Value?> properties);
 
 			public abstract string get_scenario() throws DBus.Error;
 
@@ -289,11 +289,11 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.Device.IdleNotifier")]
-		public interface IdleNotifier {
+		public interface IdleNotifier : GLib.Object {
 
 			public abstract string get_state() throws DBus.Error;
 
-			public abstract HashTable<string, int> get_timeouts() throws DBus.Error;
+			public abstract GLib.HashTable<string, int> get_timeouts() throws DBus.Error;
 
 			public abstract void set_timeout(string state, int timeout) throws DBus.Error;
 
@@ -306,7 +306,7 @@ namespace FreeSmartphone {
 	namespace GSM {
 
 		[DBus (name = "org.freesmartphone.GSM.PDP")]
-		public interface PDP {
+		public interface PDP : GLib.Object {
 
 			public abstract string[] list_gprs_classes() throws DBus.Error;
 
@@ -314,9 +314,9 @@ namespace FreeSmartphone {
 
 			public abstract void set_current_gprs_class(string device_class) throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_network_status() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_network_status() throws DBus.Error;
 
-			public signal void network_status(HashTable<string, GLib.Value?> status);
+			public signal void network_status(GLib.HashTable<string, GLib.Value?> status);
 
 			public abstract int activate_context(string apn, string username, string password) throws DBus.Error;
 
@@ -324,11 +324,11 @@ namespace FreeSmartphone {
 
 			public abstract string get_context_status(int index) throws DBus.Error;
 
-			public signal void context_status(int id, string status, HashTable<string, GLib.Value?> properties);
+			public signal void context_status(int id, string status, GLib.HashTable<string, GLib.Value?> properties);
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.HZ")]
-		public interface HZ {
+		public interface HZ : GLib.Object {
 
 			public abstract string[] get_known_home_zones() throws DBus.Error;
 
@@ -338,19 +338,19 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.Monitor")]
-		public interface Monitor {
+		public interface Monitor : GLib.Object {
 
-			public abstract HashTable<string, GLib.Value?> get_serving_cell_information() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_serving_cell_information() throws DBus.Error;
 
 			public abstract MonitorNeighbourCell[] get_neighbour_cell_information() throws DBus.Error;
 		}
 
 		public struct MonitorNeighbourCell {
-			public HashTable<string, GLib.Value?> attr1;
+			public GLib.HashTable<string, GLib.Value?> attr1;
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.MUX")]
-		public interface MUX {
+		public interface MUX : GLib.Object {
 
 			public abstract void set_power(string origin, bool on) throws DBus.Error;
 
@@ -362,15 +362,15 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.Device")]
-		public interface Device {
+		public interface Device : GLib.Object {
 
-			public abstract HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
 			public abstract bool get_antenna_power() throws DBus.Error;
 
 			public abstract void set_antenna_power(bool antenna_power) throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_features() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_features() throws DBus.Error;
 
 			public abstract int get_speaker_volume() throws DBus.Error;
 
@@ -386,11 +386,11 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.Call")]
-		public interface Call {
+		public interface Call : GLib.Object {
 
 			public abstract void emergency(string number) throws DBus.Error;
 
-			public signal void call_status(int id, string status, HashTable<string, GLib.Value?> properties);
+			public signal void call_status(int id, string status, GLib.HashTable<string, GLib.Value?> properties);
 
 			public abstract void activate(int id) throws DBus.Error;
 
@@ -418,19 +418,19 @@ namespace FreeSmartphone {
 		public struct CallStatus {
 			public int attr1;
 			public string attr2;
-			public HashTable<string, GLib.Value?> attr3;
+			public GLib.HashTable<string, GLib.Value?> attr3;
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.Network")]
-		public interface Network {
+		public interface Network : GLib.Object {
 
 			public abstract void register_() throws DBus.Error;
 
 			public abstract void unregister() throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_status() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_status() throws DBus.Error;
 
-			public signal void status(HashTable<string, GLib.Value?> status);
+			public signal void status(GLib.HashTable<string, GLib.Value?> status);
 
 			public abstract int get_signal_strength() throws DBus.Error;
 
@@ -442,11 +442,11 @@ namespace FreeSmartphone {
 
 			public abstract void get_network_country_code(out string dial_code, out string country_name) throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_call_forwarding(string reason) throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_call_forwarding(string reason) throws DBus.Error;
 
-			public abstract void enable_call_forwarding(string reason, string class, string number, int timeout) throws DBus.Error;
+			public abstract void enable_call_forwarding(string reason, string class_, string number, int timeout) throws DBus.Error;
 
-			public abstract void disable_call_forwarding(string reason, string class) throws DBus.Error;
+			public abstract void disable_call_forwarding(string reason, string class_) throws DBus.Error;
 
 			public abstract void set_calling_identification(string visible) throws DBus.Error;
 
@@ -454,7 +454,7 @@ namespace FreeSmartphone {
 
 			public abstract void send_ussd_request(string request) throws DBus.Error;
 
-			public signal void incoming_ussd(string mode, string message);
+			public signal void incoming_ussd(string mode, string message_);
 
 			public signal void cipher_status(string gsm, string gprs);
 		}
@@ -468,15 +468,15 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
-		public interface SMS {
+		public interface SMS : GLib.Object {
 
-			public abstract void send_message(string recipient_number, string contents, HashTable<string, GLib.Value?> properties, out int transaction_index, out string timestamp) throws DBus.Error;
+			public abstract void send_message(string recipient_number, string contents, GLib.HashTable<string, GLib.Value?> properties, out int transaction_index, out string timestamp) throws DBus.Error;
 
-			public signal void incoming_message(string sender_number, string contents, HashTable<string, GLib.Value?> properties);
+			public signal void incoming_message(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.CB")]
-		public interface CB {
+		public interface CB : GLib.Object {
 
 			public abstract string get_cell_broadcast_subscriptions() throws DBus.Error;
 
@@ -486,7 +486,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.SIM")]
-		public interface SIM {
+		public interface SIM : GLib.Object {
 
 			public abstract string get_auth_status() throws DBus.Error;
 
@@ -502,7 +502,7 @@ namespace FreeSmartphone {
 
 			public abstract bool get_auth_code_required() throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_sim_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_sim_info() throws DBus.Error;
 
 			public abstract string send_generic_sim_command(string command) throws DBus.Error;
 
@@ -514,7 +514,7 @@ namespace FreeSmartphone {
 
 			public abstract string[] list_phonebooks() throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_phonebook_info(string category) throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_phonebook_info(string category) throws DBus.Error;
 
 			public abstract SIMEntry[] retrieve_phonebook(string category) throws DBus.Error;
 
@@ -524,7 +524,7 @@ namespace FreeSmartphone {
 
 			public abstract void retrieve_entry(string category, int index, out string name, out string number) throws DBus.Error;
 
-			public abstract HashTable<string, GLib.Value?> get_messagebook_info() throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_messagebook_info() throws DBus.Error;
 
 			public abstract SIMMessage[] retrieve_messagebook(string category) throws DBus.Error;
 
@@ -536,11 +536,11 @@ namespace FreeSmartphone {
 
 			public abstract void delete_message(int index) throws DBus.Error;
 
-			public abstract int store_message(string recipient_number, string contents, HashTable<string, GLib.Value?> properties) throws DBus.Error;
+			public abstract int store_message(string recipient_number, string contents, GLib.HashTable<string, GLib.Value?> properties) throws DBus.Error;
 
 			public abstract void send_stored_message(int index, out int transaction_index, out string timestamp) throws DBus.Error;
 
-			public abstract void retrieve_message(int index, out string status, out string sender_number, out string contents, out HashTable<string, GLib.Value?> properties) throws DBus.Error;
+			public abstract void retrieve_message(int index, out string status, out string sender_number, out string contents, out GLib.HashTable<string, GLib.Value?> properties) throws DBus.Error;
 		}
 
 		public struct SIMMessage {
@@ -548,7 +548,7 @@ namespace FreeSmartphone {
 			public string attr2;
 			public string attr3;
 			public string attr4;
-			public HashTable<string, GLib.Value?> attr5;
+			public GLib.HashTable<string, GLib.Value?> attr5;
 		}
 
 		public struct SIMHomezone {
