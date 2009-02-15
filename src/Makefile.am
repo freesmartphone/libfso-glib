@@ -24,6 +24,9 @@ libfso_glib_HEADERS = fso-dbus-interfaces.h fso-dbus-utils.h
 vapidir = $(datadir)/vala/vapi
 vapi_DATA = fso-1.0.vapi
 
+girdir = $(libdir)/girepository-1.0
+gir_DATA = fso-1.0.gir
+
 libfso_glib_la_SOURCES = \
 	$(libfso_glib_la_VALASOURCES:.vala=.c) \
 	$(libfso_glib_la_VALASOURCES:.vala=.h)
