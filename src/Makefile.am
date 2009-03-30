@@ -8,7 +8,8 @@ AM_CFLAGS = \
 VALACFLAGS = \
 	--pkg vala-1.0 \
 	--pkg dbus-glib-1 \
-	--library FreeSmartphone-1.0
+	--library freesmartphone-1.0 \
+	--gir FreeSmartphone-1.0
 
 BUILT_SOURCES = libfso_glib_la.vala.stamp
 
@@ -30,7 +31,10 @@ libfso_glib_HEADERS = \
 	freesmartphone-utils.h
 
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = FreeSmartphone-1.0.vapi
+vapi_DATA = freesmartphone-1.0.vapi
+
+girdir = $(datadir)/gir-1.0
+gir_DATA = FreeSmartphone-1.0.gir
 
 typelibdir = $(libdir)/girepository-1.0
 typelib_DATA = FreeSmartphone-1.0.typelib
@@ -44,7 +48,7 @@ libfso_glib_la.vala.stamp: $(libfso_glib_la_VALASOURCES)
 	touch $@
 
 FreeSmartphone-1.0.typelib:FreeSmartphone-1.0.gir
-	$(GIR_COMPILER) FreeSmartphone-1.0.gir -o FreeSmartphone-1.0.typelib
+	$(GIR_COMPILER) --includedir /usr/share/gir-1.0/ FreeSmartphone-1.0.gir -o FreeSmartphone-1.0.typelib
 
 libfso_glib_la_LIBADD = \
 	$(VALA_LIBS) \
