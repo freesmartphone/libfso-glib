@@ -4,7 +4,6 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libfso-glib.pc
 
 SUBDIRS = \
-	po \
 	src
 
 dist-hook: gen-ChangeLog
@@ -20,14 +19,17 @@ gen-ChangeLog:
 	fi
 
 EXTRA_DIST = \
-	intltool-extract.in \
-	intltool-update.in \
-	intltool-merge.in \
 	gitlog-to-changelog
 
 DISTCLEANFILES = \
-	intltool-extract \
-	intltool-update \
-	intltool-merge \
-	po/.intltool-merge-cache
+	configure \
+	config.guess \
+	config.sub \
+	Makefile.in \
+	aclocal.m4 \
+	compile \
+	depcomp \
+	install-sh \
+	ltmain.sh \
+	missing
 

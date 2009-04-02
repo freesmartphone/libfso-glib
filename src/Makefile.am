@@ -64,3 +64,6 @@ CLEANFILES = \
 	*.gir \
 	*.typelib \
 	libfso_glib_la.vala.stamp
+
+DISTCLEANFILES = \
+		 Makefile.in 

@@ -1,8 +1,16 @@
 #! /bin/sh
 
 # Automake requires that ChangeLog exist.
+# stolen from mickey
 touch ChangeLog
 
+srcdir=`dirname $0`
+test -z "$srcdir" && srcdir=.
+
+ORIGDIR=`pwd`
+cd $srcdir
+
 autoreconf -v --install || exit 1
-glib-gettextize --force --copy || exit 1
-./configure --enable-maintainer-mode "$@"
+cd $ORIGDIR || exit $?
+
+$srcdir/configure "$@"
