@@ -9,6 +9,16 @@ AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
 
+AC_SUBST(SPECS_PATH)
+AC_ARG_VAR(SPECS_PATH, [path to XML specs])
+AM_CONDITIONAL([GENERATE_BINDINGS], [test x$SPECS_PATH != x])
+
+AS_IF([test "x$SPECS_PATH" != x],
+	[AC_PATH_PROG(DBUSBINDINGTOOL, vala-dbus-binding-tool, :)
+	 AC_SUBST(DBUSBINDINGTOOL)
+	 AS_IF([test "$DBUSBINDINGTOOL" = :],
+		[AC_MSG_ERROR([vala-dbus-binding-tool not found])])])
+
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
 

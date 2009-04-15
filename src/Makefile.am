@@ -40,9 +40,17 @@ libfso_glib_la_SOURCES = \
 	$(libfso_glib_la_VALASOURCES:.vala=.c) \
 	$(libfso_glib_la_VALASOURCES:.vala=.h)
 
-libfso_glib_la.vala.stamp: $(libfso_glib_la_VALASOURCES)
+libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
 	$(VALAC) -C ${VALACFLAGS} --basedir . $^
 	touch $@
+
+if GENERATE_BINDINGS
+gen-bindings:
+	$(DBUSBINDINGTOOL) --api-path=../$(SPECS_PATH)/ --directory=./ --strip-namespace=org --rename-namespace=freedesktop:FreeDesktop --rename-namespace=freesmartphone:FreeSmartphone
+else
+gen-bindings:
+	
+endif
 
 if TYPELIB
 typelibdir = $(libdir)/girepository-1.0
