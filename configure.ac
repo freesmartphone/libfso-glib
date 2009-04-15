@@ -12,9 +12,18 @@ AC_PROG_LIBTOOL
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
 
-AC_PATH_PROG(GIR_COMPILER, g-ir-compiler, g-ir-compiler)
-AC_SUBST(GIR_COMPILER)
+AC_ARG_ENABLE(typelib,
+	[AS_HELP_STRING([--enable-typelib],
+		[enable typelib generation (default is no)])],
+	[ ],
+	[enable_typelib=no])
+AM_CONDITIONAL([TYPELIB], [test x$enable_typelib != xno])
 
+AS_IF([test "x$enable_typelib" != xno],
+	[AC_PATH_PROG(GIR_COMPILER, g-ir-compiler, :)
+	 AC_SUBST(GIR_COMPILER)
+	 AS_IF([test "$GIR_COMPILER" = :],
+		[AC_MSG_ERROR([g-ir-compiler not found])])])
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)

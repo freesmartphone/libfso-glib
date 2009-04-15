@@ -36,9 +36,6 @@ vapi_DATA = freesmartphone-1.0.vapi
 girdir = $(datadir)/gir-1.0
 gir_DATA = FreeSmartphone-1.0.gir
 
-typelibdir = $(libdir)/girepository-1.0
-typelib_DATA = FreeSmartphone-1.0.typelib
-
 libfso_glib_la_SOURCES = \
 	$(libfso_glib_la_VALASOURCES:.vala=.c) \
 	$(libfso_glib_la_VALASOURCES:.vala=.h)
@@ -47,8 +44,13 @@ libfso_glib_la.vala.stamp: $(libfso_glib_la_VALASOURCES)
 	$(VALAC) -C ${VALACFLAGS} --basedir . $^
 	touch $@
 
+if TYPELIB
+typelibdir = $(libdir)/girepository-1.0
+typelib_DATA = FreeSmartphone-1.0.typelib
+
 FreeSmartphone-1.0.typelib:FreeSmartphone-1.0.gir
 	$(GIR_COMPILER) --includedir /usr/share/gir-1.0/ FreeSmartphone-1.0.gir -o FreeSmartphone-1.0.typelib
+endif
 
 libfso_glib_la_LIBADD = \
 	$(VALA_LIBS) \
