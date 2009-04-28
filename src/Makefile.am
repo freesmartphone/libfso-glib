@@ -38,7 +38,7 @@ libfso_glib_la_SOURCES = \
 	$(libfso_glib_la_VALASOURCES:.vala=.h)
 
 libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
-	$(VALAC) -C ${VALACFLAGS} --basedir . $^
+	$(VALAC) -C ${VALACFLAGS} --basedir . $(libfso_glib_la_VALASOURCES)
 	touch $@
 
 if GENERATE_BINDINGS
