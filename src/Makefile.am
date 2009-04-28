@@ -8,6 +8,7 @@ AM_CFLAGS = \
 VALACFLAGS = \
 	--pkg vala-1.0 \
 	--pkg dbus-glib-1 \
+	--header freesmartphone.h \
 	--library freesmartphone-1.0 \
 	--gir FreeSmartphone-1.0
 
@@ -24,11 +25,7 @@ libfso_glib_la_VALASOURCES = \
 
 libfso_glibdir = $(includedir)/fso-glib
 libfso_glib_HEADERS = \
-	freesmartphone.h \
-	freesmartphone-device.h \
-	freesmartphone-gsm.h \
-	freesmartphone-time.h \
-	freesmartphone-utils.h
+	freesmartphone.h
 
 vapidir = $(datadir)/vala/vapi
 vapi_DATA = freesmartphone-1.0.vapi
