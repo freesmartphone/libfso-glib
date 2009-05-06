@@ -21,6 +21,7 @@ libfso_glib_la_VALASOURCES = \
 	freesmartphone-device.vala \
 	freesmartphone-gsm.vala \
 	freesmartphone-time.vala \
+	freesmartphone-pim.vala \
 	freesmartphone-utils.vala
 
 libfso_glibdir = $(includedir)/fso-glib
