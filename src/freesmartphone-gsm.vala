@@ -145,12 +145,6 @@ namespace FreeSmartphone {
 			public abstract void send_dtmf(string tones) throws DBus.Error;
 		}
 
-		public struct CallDetail {
-			public int attr1;
-			public string attr2;
-			public GLib.HashTable<string, GLib.Value?> attr3;
-		}
-
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
 		public interface SMS : GLib.Object {
 
@@ -209,6 +203,12 @@ namespace FreeSmartphone {
 			public string attr3;
 			public string attr4;
 			public string attr5;
+		}
+
+		public struct CallDetail {
+			public int id;
+			public FreeSmartphone.GSM.CallStatus status;
+			public GLib.HashTable<string, GLib.Value?> properties;
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.CB")]
