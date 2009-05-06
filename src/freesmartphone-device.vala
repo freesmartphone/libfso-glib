@@ -13,6 +13,24 @@ namespace FreeSmartphone {
 			public signal void event(string name, string action, int seconds);
 		}
 
+		[DBus (use_string_marshalling = true)]
+		public enum IdleState {
+			[DBus (value="busy")]
+			BUSY,
+			[DBus (value="idle")]
+			IDLE,
+			[DBus (value="idle_dim")]
+			IDLE_DIM,
+			[DBus (value="idle_prelock")]
+			IDLE_PRELOCK,
+			[DBus (value="lock")]
+			LOCK,
+			[DBus (value="suspend")]
+			SUSPEND,
+			[DBus (value="awake")]
+			AWAKE,
+		}
+
 		[DBus (name = "org.freesmartphone.Device.LED")]
 		public interface LED : GLib.Object {
 
@@ -106,15 +124,15 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.IdleNotifier")]
 		public interface IdleNotifier : GLib.Object {
 
-			public abstract string get_state() throws DBus.Error;
+			public abstract FreeSmartphone.Device.IdleState get_state() throws DBus.Error;
 
 			public abstract GLib.HashTable<string, int> get_timeouts() throws DBus.Error;
 
 			public abstract void set_timeout(string state, int timeout) throws DBus.Error;
 
-			public abstract void set_state(string status) throws DBus.Error;
+			public abstract void set_state(FreeSmartphone.Device.IdleState status) throws DBus.Error;
 
-			public signal void state(string status);
+			public signal void state(FreeSmartphone.Device.IdleState status);
 		}
 	}
 }
