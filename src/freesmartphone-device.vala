@@ -14,6 +14,20 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (use_string_marshalling = true)]
+		public enum PowerStatus {
+			[DBus (value="charging")]
+			CHARGING,
+			[DBus (value="discharging")]
+			DISCHARGING,
+			[DBus (value="full")]
+			FULL,
+			[DBus (value="empty")]
+			EMPTY,
+			[DBus (value="critical")]
+			CRITICAL,
+		}
+
+		[DBus (use_string_marshalling = true)]
 		public enum IdleState {
 			[DBus (value="busy")]
 			BUSY,
@@ -50,9 +64,9 @@ namespace FreeSmartphone {
 
 			public abstract int get_capacity() throws DBus.Error;
 
-			public abstract string get_power_status() throws DBus.Error;
+			public abstract FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error;
 
-			public signal void power_status(string status);
+			public signal void power_status(FreeSmartphone.Device.PowerStatus status);
 
 			public signal void capacity(int energy);
 		}
