@@ -1,7 +1,7 @@
 AUTOMAKE_OPTIONS = subdir-objects
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = libfso-glib.pc
+pkgconfig_DATA = fso-glib-1.0.pc
 
 SUBDIRS = \
 	src

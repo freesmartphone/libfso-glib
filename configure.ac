@@ -50,6 +50,6 @@ AC_SUBST(DBUS_LIBS)
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile
-	libfso-glib.pc
+	fso-glib-1.0.pc
 ])
 AC_OUTPUT
