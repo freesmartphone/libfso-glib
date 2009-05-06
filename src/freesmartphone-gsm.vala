@@ -40,7 +40,7 @@ namespace FreeSmartphone {
 		}
 
 		[DBus (use_string_marshalling = true)]
-		public enum CallStatusEnum {
+		public enum CallStatus {
 			[DBus (value="INCOMING")]
 			INCOMING,
 			[DBus (value="OUTGOING")]
@@ -120,7 +120,7 @@ namespace FreeSmartphone {
 
 			public abstract void emergency(string number) throws FreeSmartphone.GSM.CallError, DBus.Error;
 
-			public signal void call_status(int id, FreeSmartphone.GSM.CallStatusEnum status, GLib.HashTable<string, GLib.Value?> properties);
+			public signal void call_status(int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties);
 
 			public abstract void activate(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
 
@@ -140,12 +140,12 @@ namespace FreeSmartphone {
 
 			public abstract int initiate(string number, string type) throws FreeSmartphone.GSM.CallError, DBus.Error;
 
-			public abstract CallStatus[] list_calls() throws DBus.Error;
+			public abstract CallDetail[] list_calls() throws DBus.Error;
 
 			public abstract void send_dtmf(string tones) throws DBus.Error;
 		}
 
-		public struct CallStatus {
+		public struct CallDetail {
 			public int attr1;
 			public string attr2;
 			public GLib.HashTable<string, GLib.Value?> attr3;
