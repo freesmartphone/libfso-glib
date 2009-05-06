@@ -65,6 +65,20 @@ namespace FreeSmartphone {
 			public GLib.HashTable<string, GLib.Value?> attr1;
 		}
 
+		[DBus (use_string_marshalling = true)]
+		public enum SIMAuthStatus {
+			[DBus (value="READY")]
+			READY,
+			[DBus (value="SIM PIN")]
+			PIN_REQUIRED,
+			[DBus (value="SIM PUK")]
+			PUK_REQUIRED,
+			[DBus (value="SIM PIN2")]
+			PIN2_REQUIRED,
+			[DBus (value="SIM PUK2")]
+			PUK2_REQUIRED,
+		}
+
 		[DBus (name = "org.freesmartphone.GSM.Call.Error")]
 		public errordomain CallError {
 			[DBus (name = "NotFound")]
@@ -224,9 +238,9 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.GSM.SIM")]
 		public interface SIM : GLib.Object {
 
-			public abstract string get_auth_status() throws DBus.Error;
+			public abstract FreeSmartphone.GSM.SIMAuthStatus get_auth_status() throws DBus.Error;
 
-			public signal void auth_status(string status);
+			public signal void auth_status(FreeSmartphone.GSM.SIMAuthStatus status);
 
 			public abstract void send_auth_code(string pin) throws DBus.Error;
 
