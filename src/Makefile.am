@@ -9,7 +9,7 @@ VALACFLAGS = \
 	--pkg vala-1.0 \
 	--pkg dbus-glib-1 \
 	--header freesmartphone.h \
-	--library freesmartphone-1.0 \
+	--library fso-glib-1.0 \
 	--gir FreeSmartphone-1.0
 
 BUILT_SOURCES = libfso_glib_la.vala.stamp
@@ -29,7 +29,7 @@ libfso_glib_HEADERS = \
 	freesmartphone.h
 
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = freesmartphone-1.0.vapi
+vapi_DATA = fso-glib-1.0.vapi
 
 girdir = $(datadir)/gir-1.0
 gir_DATA = FreeSmartphone-1.0.gir
