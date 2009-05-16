@@ -79,7 +79,7 @@ namespace FreeSmartphone {
 			PUK2_REQUIRED,
 		}
 
-		[DBus (name = "org.freesmartphone.GSM.Call.Error")]
+		[DBus (name = "org.freesmartphone.GSM.Call")]
 		public errordomain CallError {
 			[DBus (name = "NotFound")]
 			NOT_FOUND,

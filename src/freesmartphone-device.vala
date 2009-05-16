@@ -10,7 +10,7 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.Input")]
 		public interface Input : GLib.Object {
 
-			public signal void event(string name, string action, int seconds);
+			public signal void event(string name, FreeSmartphone.Device.InputState action, int seconds);
 		}
 
 		[DBus (use_string_marshalling = true)]
@@ -45,16 +45,34 @@ namespace FreeSmartphone {
 			AWAKE,
 		}
 
+		[DBus (use_string_marshalling = true)]
+		public enum SoundState {
+			[DBus (value="playing")]
+			PLAYING,
+			[DBus (value="stopped")]
+			STOPPED,
+		}
+
 		[DBus (name = "org.freesmartphone.Device.LED")]
 		public interface LED : GLib.Object {
 
 			public abstract void set_brightness(int brightness) throws DBus.Error;
 
-			public abstract void set_blinking(int on_duration, int off_duration) throws DBus.Error;
+			public abstract void set_blinking(int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void blink_seconds(int seconds, int on_duration, int off_duration) throws DBus.Error;
+			public abstract void blink_seconds(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void set_networking(string interface, string mode) throws DBus.Error;
+			public abstract void set_networking(string interface, string mode) throws FreeSmartphone.Error, DBus.Error;
+		}
+
+		[DBus (use_string_marshalling = true)]
+		public enum InputState {
+			[DBus (value="pressed")]
+			PRESSED,
+			[DBus (value="held")]
+			HELD,
+			[DBus (value="released")]
+			RELEASED,
 		}
 
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
@@ -122,7 +140,7 @@ namespace FreeSmartphone {
 
 			public abstract void stop_all_sounds() throws DBus.Error;
 
-			public signal void sound_status(string id, string status, GLib.HashTable<string, GLib.Value?> properties);
+			public signal void sound_status(string id, FreeSmartphone.Device.SoundState status, GLib.HashTable<string, GLib.Value?> properties);
 
 			public abstract string get_scenario() throws DBus.Error;
 

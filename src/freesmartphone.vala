@@ -5,6 +5,18 @@ using GLib;
 
 namespace FreeSmartphone {
 
+	[DBus (name = "org.freesmartphone")]
+	public errordomain Error {
+		[DBus (name = "InvalidParameter")]
+		INVALID_PARAMETER,
+		[DBus (name = "InternalError")]
+		INTERNAL_ERROR,
+		[DBus (name = "SystemError")]
+		SYSTEM_ERROR,
+		[DBus (name = "Unsupported")]
+		UNSUPPORTED,
+	}
+
 	[DBus (name = "org.freesmartphone.Phone")]
 	public interface Phone : GLib.Object {
 
@@ -20,11 +32,11 @@ namespace FreeSmartphone {
 
 		public abstract void enable() throws DBus.Error;
 
-		public abstract void disable() throws DBus.Error;
+		public abstract void disable() throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void suspend() throws DBus.Error;
+		public abstract void suspend() throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void resume() throws DBus.Error;
+		public abstract void resume() throws FreeSmartphone.ResourceError, DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Phone.Call")]
@@ -66,21 +78,55 @@ namespace FreeSmartphone {
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
+	public errordomain UsageError {
+		[DBus (name = "PolicyUnknown")]
+		POLICY_UNKNOWN,
+		[DBus (name = "PolicyDisabled")]
+		POLICY_DISABLED,
+		[DBus (name = "ResourceUnknown")]
+		RESOURCE_UNKNOWN,
+		[DBus (name = "ResourceExists")]
+		RESOURCE_EXISTS,
+		[DBus (name = "ResourceInUse")]
+		RESOURCE_IN_USE,
+		[DBus (name = "UserExists")]
+		USER_EXISTS,
+		[DBus (name = "UserUnknown")]
+		USER_UNKNOWN,
+	}
+
+	[DBus (use_string_marshalling = true)]
+	public enum ResourceName {
+		[DBus (value="GSM")]
+		GSM,
+		[DBus (value="GPS")]
+		GPS,
+		[DBus (value="WiFi")]
+		WIFI,
+		[DBus (value="Bluetooth")]
+		BLUETOOTH,
+		[DBus (value="Display")]
+		DISPLAY,
+		[DBus (value="CPU")]
+		CPU,
+	}
+
+	[DBus (name = "org.freesmartphone.Usage")]
 	public interface Usage : GLib.Object {
 
-		public abstract string[] list_resources() throws DBus.Error;
+		public abstract FreeSmartphone.ResourceName[] list_resources() throws DBus.Error;
 
-		public abstract string get_resource_policy(string name) throws DBus.Error;
+		public abstract string get_resource_policy(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void set_resource_policy(string name, string policy) throws DBus.Error;
+		public abstract void set_resource_policy(FreeSmartphone.ResourceName name, string policy) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract bool get_resource_state(string name) throws DBus.Error;
+		public abstract bool get_resource_state(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract string[] get_resource_users(string name) throws DBus.Error;
+		public abstract string[] get_resource_users(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void request_resource(string name) throws DBus.Error;
+		public abstract void request_resource(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void release_resource(string name) throws DBus.Error;
+		public abstract void release_resource(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
 
 		public abstract void suspend() throws DBus.Error;
 
@@ -88,9 +134,9 @@ namespace FreeSmartphone {
 
 		public abstract void reboot() throws DBus.Error;
 
-		public signal void resource_available(string name, bool availability);
+		public signal void resource_available(FreeSmartphone.ResourceName name, bool availability);
 
-		public signal void resource_changed(string name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
+		public signal void resource_changed(FreeSmartphone.ResourceName name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
 
 		public signal void system_action(string action);
 	}
@@ -98,7 +144,17 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Network")]
 	public interface Network : GLib.Object {
 
-		public abstract void start_connection_sharing_with_interface(string interface) throws DBus.Error;
+		public abstract void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
+	}
+
+	[DBus (name = "org.freesmartphone.Events")]
+	public interface Events : GLib.Object {
+
+		public abstract void add_rule(string rule) throws DBus.Error;
+
+		public abstract void remove_rule(string name) throws DBus.Error;
+
+		public abstract void trigger_test(string name, bool value) throws DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Preferences.Service")]
@@ -117,13 +173,9 @@ namespace FreeSmartphone {
 		public signal void notify(string key, GLib.Value value);
 	}
 
-	[DBus (name = "org.freesmartphone.Events")]
-	public interface Events : GLib.Object {
-
-		public abstract void add_rule(string rule) throws DBus.Error;
-
-		public abstract void remove_rule(string name) throws DBus.Error;
-
-		public abstract void trigger_test(string name, bool value) throws DBus.Error;
+	[DBus (name = "org.freesmartphone.Resource")]
+	public errordomain ResourceError {
+		[DBus (name = "NotEnabled")]
+		NOT_ENABLED,
 	}
 }
