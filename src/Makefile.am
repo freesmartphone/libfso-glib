@@ -1,6 +1,7 @@
 AUTOMAKE_OPTIONS = 
 
 AM_CFLAGS = \
+	$(GLIB_CFLAGS) \
 	$(VALA_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	-include $(CONFIG_HEADER)
@@ -59,6 +60,7 @@ FreeSmartphone-1.0.typelib:FreeSmartphone-1.0.gir
 endif
 
 libfso_glib_la_LIBADD = \
+	$(GLIB_LIBS) \
 	$(VALA_LIBS) \
 	$(DBUS_LIBS)
 
