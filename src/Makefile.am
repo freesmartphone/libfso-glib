@@ -44,7 +44,7 @@ libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
 
 if GENERATE_BINDINGS
 gen-bindings:
-	$(DBUSBINDINGTOOL) --api-path=../$(SPECS_PATH)/ --directory=./ --strip-namespace=org --rename-namespace=freedesktop:FreeDesktop --rename-namespace=freesmartphone:FreeSmartphone
+	$(DBUSBINDINGTOOL) --api-path=$(SPECS_PATH) --directory=./ --strip-namespace=org --rename-namespace=freedesktop:FreeDesktop --rename-namespace=freesmartphone:FreeSmartphone
 else
 gen-bindings:
 	
