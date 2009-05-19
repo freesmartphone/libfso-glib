@@ -2,7 +2,6 @@ AUTOMAKE_OPTIONS =
 
 AM_CFLAGS = \
 	$(GLIB_CFLAGS) \
-	$(VALA_CFLAGS) \
 	$(DBUS_CFLAGS) \
 	-include $(CONFIG_HEADER)
 
@@ -61,7 +60,6 @@ endif
 
 libfso_glib_la_LIBADD = \
 	$(GLIB_LIBS) \
-	$(VALA_LIBS) \
 	$(DBUS_LIBS)
 
 EXTRA_DIST = \
@@ -77,3 +75,4 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 		 Makefile.in 
+
