@@ -41,6 +41,10 @@ namespace FreeSmartphone {
 			public abstract void init_all_entries() throws DBus.Error;
 
 			public abstract int get_entry_count() throws DBus.Error;
+
+			public abstract string[] get_domains() throws DBus.Error;
+
+			public abstract string get_default_backend(string domain) throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Contact")]
@@ -49,6 +53,8 @@ namespace FreeSmartphone {
 			public abstract GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
 
 			public abstract GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
+
+			public abstract string[] get_used_backends() throws DBus.Error;
 
 			public abstract void update(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
 
@@ -106,7 +112,17 @@ namespace FreeSmartphone {
 
 			public abstract string get_status() throws DBus.Error;
 
-			public abstract GLib.HashTable<string, GLib.Value?> get_supported_p_i_m_domains() throws DBus.Error;
+			public abstract string[] get_supported_p_i_m_domains() throws DBus.Error;
+
+			public abstract void enable() throws DBus.Error;
+
+			public abstract void disable() throws DBus.Error;
+
+			public abstract bool get_enabled() throws DBus.Error;
+
+			public abstract string[] get_properties() throws DBus.Error;
+
+			public abstract void set_as_default(string domain) throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Message")]
