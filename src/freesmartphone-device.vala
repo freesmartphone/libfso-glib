@@ -172,9 +172,9 @@ namespace FreeSmartphone {
 
 			public abstract string[] get_available_scenarios() throws DBus.Error;
 
-			public abstract void play_sound(string id, int loop, int length) throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract void play_sound(string name, int loop, int length) throws FreeSmartphone.Device.AudioError, DBus.Error;
 
-			public abstract void stop_sound(string id) throws DBus.Error;
+			public abstract void stop_sound(string name) throws DBus.Error;
 
 			public abstract void stop_all_sounds() throws DBus.Error;
 
