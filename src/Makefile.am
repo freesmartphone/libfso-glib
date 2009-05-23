@@ -11,7 +11,7 @@ VALACFLAGS = \
 	--pkg dbus-glib-1 \
 	--header freesmartphone.h \
 	--library fso-glib-1.0 \
-	--gir FreeSmartphone-1.0
+	--gir FreeSmartphone-1.0.gir
 
 BUILT_SOURCES = libfso_glib_la.vala.stamp
 
