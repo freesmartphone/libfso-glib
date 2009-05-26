@@ -6,7 +6,6 @@ AM_CFLAGS = \
 	-include $(CONFIG_HEADER)
 
 VALACFLAGS = \
-	--pkg vala-1.0 \
 	--pkg dbus-glib-1 \
 	--header freesmartphone.h \
 	--library fso-glib-1.0 \
