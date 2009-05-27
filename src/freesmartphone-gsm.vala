@@ -131,36 +131,6 @@ namespace FreeSmartphone {
 			public abstract void set_sim_buffers_sms(bool sim_buffers_sms) throws DBus.Error;
 		}
 
-		[DBus (name = "org.freesmartphone.GSM.Call")]
-		public interface Call : GLib.Object {
-
-			public abstract void emergency(string number) throws FreeSmartphone.GSM.CallError, DBus.Error;
-
-			public signal void call_status(int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties);
-
-			public abstract void activate(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-
-			public abstract void activate_conference(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-
-			public abstract void release(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-
-			public abstract void hold_active() throws DBus.Error;
-
-			public abstract void join() throws DBus.Error;
-
-			public abstract void transfer(string number) throws DBus.Error;
-
-			public abstract void release_held() throws DBus.Error;
-
-			public abstract void release_all() throws DBus.Error;
-
-			public abstract int initiate(string number, string type) throws FreeSmartphone.GSM.CallError, DBus.Error;
-
-			public abstract CallDetail[] list_calls() throws DBus.Error;
-
-			public abstract void send_dtmf(string tones) throws DBus.Error;
-		}
-
 		[DBus (name = "org.freesmartphone.GSM.Network")]
 		public interface Network : GLib.Object {
 
@@ -219,6 +189,36 @@ namespace FreeSmartphone {
 			public signal void incoming_message(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
 
 			public signal void incoming_message_receipt(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
+		}
+
+		[DBus (name = "org.freesmartphone.GSM.Call")]
+		public interface Call : GLib.Object {
+
+			public abstract void emergency(string number) throws FreeSmartphone.GSM.CallError, DBus.Error;
+
+			public signal void call_status(int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties);
+
+			public abstract void activate(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
+
+			public abstract void activate_conference(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
+
+			public abstract void release(int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
+
+			public abstract void hold_active() throws DBus.Error;
+
+			public abstract void join() throws DBus.Error;
+
+			public abstract void transfer(string number) throws DBus.Error;
+
+			public abstract void release_held() throws DBus.Error;
+
+			public abstract void release_all() throws DBus.Error;
+
+			public abstract int initiate(string number, string type) throws FreeSmartphone.GSM.CallError, DBus.Error;
+
+			public abstract CallDetail[] list_calls() throws DBus.Error;
+
+			public abstract void send_dtmf(string tones) throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.CB")]
