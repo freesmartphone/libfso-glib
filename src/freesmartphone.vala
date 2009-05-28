@@ -63,6 +63,16 @@ namespace FreeSmartphone {
 		public signal void activated();
 	}
 
+	[DBus (use_string_marshalling = true)]
+	public enum UsageResourcePolicy {
+		[DBus (value="auto")]
+		AUTO,
+		[DBus (value="disabled")]
+		DISABLED,
+		[DBus (value="enabled")]
+		ENABLED,
+	}
+
 	[DBus (name = "org.freesmartphone.Preferences")]
 	public interface Preferences : GLib.Object {
 
@@ -92,9 +102,9 @@ namespace FreeSmartphone {
 
 		public abstract string[] list_resources() throws DBus.Error;
 
-		public abstract string get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void set_resource_policy(string name, string policy) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error;
 
 		public abstract bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
