@@ -86,7 +86,7 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Usage")]
 	public interface Usage : GLib.Object {
 
-		public abstract void register_resource(string name) throws DBus.Error;
+		public abstract void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error;
 
 		public abstract void unregister_resource(string name) throws DBus.Error;
 
