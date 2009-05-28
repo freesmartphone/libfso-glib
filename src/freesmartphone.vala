@@ -83,20 +83,38 @@ namespace FreeSmartphone {
 		public abstract void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
 	}
 
-	[DBus (use_string_marshalling = true)]
-	public enum ResourceName {
-		[DBus (value="GSM")]
-		GSM,
-		[DBus (value="GPS")]
-		GPS,
-		[DBus (value="WiFi")]
-		WIFI,
-		[DBus (value="Bluetooth")]
-		BLUETOOTH,
-		[DBus (value="Display")]
-		DISPLAY,
-		[DBus (value="CPU")]
-		CPU,
+	[DBus (name = "org.freesmartphone.Usage")]
+	public interface Usage : GLib.Object {
+
+		public abstract void register_resource(string name) throws DBus.Error;
+
+		public abstract void unregister_resource(string name) throws DBus.Error;
+
+		public abstract string[] list_resources() throws DBus.Error;
+
+		public abstract string get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract void set_resource_policy(string name, string policy) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+
+		public abstract void suspend() throws DBus.Error;
+
+		public abstract void shutdown() throws DBus.Error;
+
+		public abstract void reboot() throws DBus.Error;
+
+		public signal void resource_available(string name, bool availability);
+
+		public signal void resource_changed(string name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
+
+		public signal void system_action(string action);
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
@@ -115,36 +133,6 @@ namespace FreeSmartphone {
 		USER_EXISTS,
 		[DBus (name = "UserUnknown")]
 		USER_UNKNOWN,
-	}
-
-	[DBus (name = "org.freesmartphone.Usage")]
-	public interface Usage : GLib.Object {
-
-		public abstract FreeSmartphone.ResourceName[] list_resources() throws DBus.Error;
-
-		public abstract string get_resource_policy(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract void set_resource_policy(FreeSmartphone.ResourceName name, string policy) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract bool get_resource_state(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract string[] get_resource_users(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract void request_resource(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract void release_resource(FreeSmartphone.ResourceName name) throws FreeSmartphone.UsageError, DBus.Error;
-
-		public abstract void suspend() throws DBus.Error;
-
-		public abstract void shutdown() throws DBus.Error;
-
-		public abstract void reboot() throws DBus.Error;
-
-		public signal void resource_available(FreeSmartphone.ResourceName name, bool availability);
-
-		public signal void resource_changed(FreeSmartphone.ResourceName name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
-
-		public signal void system_action(string action);
 	}
 
 	[DBus (name = "org.freesmartphone.Preferences.Service")]
