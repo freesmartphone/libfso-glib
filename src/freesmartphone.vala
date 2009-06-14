@@ -39,6 +39,18 @@ namespace FreeSmartphone {
 		public abstract void resume() throws FreeSmartphone.ResourceError, DBus.Error;
 	}
 
+	[DBus (use_string_marshalling = true)]
+	public enum UsageSystemAction {
+		[DBus (value="suspend")]
+		SUSPEND,
+		[DBus (value="resume")]
+		RESUME,
+		[DBus (value="shutdown")]
+		SHUTDOWN,
+		[DBus (value="reboot")]
+		REBOOT,
+	}
+
 	[DBus (name = "org.freesmartphone.Phone.Call")]
 	public interface PhoneCall : GLib.Object {
 
@@ -124,7 +136,7 @@ namespace FreeSmartphone {
 
 		public signal void resource_changed(string name, bool state, GLib.HashTable<string, GLib.Value?> attributes);
 
-		public signal void system_action(string action);
+		public signal void system_action(FreeSmartphone.UsageSystemAction action);
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
