@@ -28,7 +28,8 @@ libfso_glib_HEADERS = \
 	freesmartphone.h
 
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = fso-glib-1.0.vapi
+vapi_DATA = fso-glib-1.0.vapi \
+	    fso-glib-1.0.deps
 
 girdir = $(datadir)/gir-1.0
 gir_DATA = FreeSmartphone-1.0.gir
