@@ -25,6 +25,20 @@ namespace FreeSmartphone {
 			public abstract void dispose_() yields throws DBus.Error;
 		}
 
+		[DBus (name = "org.freesmartphone.PIM.Calls")]
+		public interface Calls : GLib.Object {
+
+			public abstract string add(GLib.HashTable<string, GLib.Value?> call_data) yields throws DBus.Error;
+
+			public abstract string get_single_call_single_field(GLib.HashTable<string, GLib.Value?> query, string field) yields throws DBus.Error;
+
+			public abstract string query(GLib.HashTable<string, GLib.Value?> query) yields throws DBus.Error;
+
+			public signal void new_call(string call_path);
+
+			public signal void new_missed_calls(int amount);
+		}
+
 		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
 		public interface MessageFolder : GLib.Object {
 
@@ -33,6 +47,24 @@ namespace FreeSmartphone {
 			public abstract string[] get_message_paths(int first, int count) yields throws DBus.Error;
 
 			public signal void message_moved(string message_path, string new_folder);
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.CallQuery")]
+		public interface CallQuery : GLib.Object {
+
+			public abstract int get_result_count() yields throws DBus.Error;
+
+			public abstract void rewind() yields throws DBus.Error;
+
+			public abstract void skip(int count) yields throws DBus.Error;
+
+			public abstract string get_call_path() yields throws DBus.Error;
+
+			public abstract GLib.HashTable<string, GLib.Value?> get_result() yields throws DBus.Error;
+
+			public abstract GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+
+			public abstract void dispose_() yields throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Sources")]
@@ -69,6 +101,8 @@ namespace FreeSmartphone {
 			public abstract string get_single_contact_single_field(GLib.HashTable<string, GLib.Value?> query, string field) yields throws DBus.Error;
 
 			public abstract string query(GLib.HashTable<string, GLib.Value?> query) yields throws DBus.Error;
+
+			public signal void new_contact(string contact_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.ContactQuery")]
@@ -105,6 +139,8 @@ namespace FreeSmartphone {
 			public signal void new_message(string message_path);
 
 			public signal void incoming_message(string message_path);
+
+			public signal void unread_messages(int amount);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Source")]
@@ -125,6 +161,20 @@ namespace FreeSmartphone {
 			public abstract string[] get_properties() throws DBus.Error;
 
 			public abstract void set_as_default(string domain) throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Call")]
+		public interface Call : GLib.Object {
+
+			public abstract GLib.HashTable<string, GLib.Value?> get_content() yields throws DBus.Error;
+
+			public abstract GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) yields throws DBus.Error;
+
+			public abstract string[] get_used_backends() throws DBus.Error;
+
+			public abstract void update(GLib.HashTable<string, GLib.Value?> call_data) yields throws DBus.Error;
+
+			public abstract void delete() yields throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Message")]

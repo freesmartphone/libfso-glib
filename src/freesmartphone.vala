@@ -157,16 +157,6 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
-	[DBus (name = "org.freesmartphone.Events")]
-	public interface Events : GLib.Object {
-
-		public abstract void add_rule(string rule) throws DBus.Error;
-
-		public abstract void remove_rule(string name) throws DBus.Error;
-
-		public abstract void trigger_test(string name, bool value) throws DBus.Error;
-	}
-
 	[DBus (name = "org.freesmartphone.Preferences.Service")]
 	public interface PreferencesService : GLib.Object {
 
@@ -181,6 +171,16 @@ namespace FreeSmartphone {
 		public abstract string get_type_(string key) yields throws DBus.Error;
 
 		public signal void notify(string key, GLib.Value value);
+	}
+
+	[DBus (name = "org.freesmartphone.Events")]
+	public interface Events : GLib.Object {
+
+		public abstract void add_rule(string rule) throws DBus.Error;
+
+		public abstract void remove_rule(string name) throws DBus.Error;
+
+		public abstract void trigger_test(string name, bool value) throws DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]
