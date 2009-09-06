@@ -10,7 +10,6 @@ namespace FreeSmartphone {
 			public abstract string[] get_available_scenarios () throws DBus.Error;
 			public abstract GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
 			public abstract string get_scenario () throws DBus.Error;
-			public abstract string[] get_supported_formats () throws DBus.Error;
 			public abstract void play_sound (string name, int loop, int length) throws FreeSmartphone.Device.AudioError, DBus.Error;
 			public abstract string pull_scenario () throws FreeSmartphone.Device.AudioError, DBus.Error;
 			public abstract void push_scenario (string scenario) throws FreeSmartphone.Device.AudioError, DBus.Error;

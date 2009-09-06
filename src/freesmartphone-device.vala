@@ -28,9 +28,9 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.Input")]
 		public interface Input : GLib.Object {
 
-			public abstract string get_id() yields throws DBus.Error;
+			public abstract string get_id() throws DBus.Error;
 
-			public abstract string get_capabilities() yields throws DBus.Error;
+			public abstract string get_capabilities() throws DBus.Error;
 
 			public signal void event(string name, FreeSmartphone.Device.InputState action, int seconds);
 		}
@@ -88,21 +88,21 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.LED")]
 		public interface LED : GLib.Object {
 
-			public abstract void set_brightness(int brightness) yields throws DBus.Error;
+			public abstract void set_brightness(int brightness) throws DBus.Error;
 
-			public abstract void set_blinking(int on_duration, int off_duration) yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract void set_blinking(int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void blink_seconds(int seconds, int on_duration, int off_duration) yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract void blink_seconds(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void set_networking(string interface, string mode) yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract void set_networking(string interface, string mode) throws FreeSmartphone.Error, DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.Device.PowerControl")]
 		public interface PowerControl : GLib.Object {
 
-			public abstract bool get_power() yields throws DBus.Error;
+			public abstract bool get_power() throws DBus.Error;
 
-			public abstract void set_power(bool on) yields throws DBus.Error;
+			public abstract void set_power(bool on) throws DBus.Error;
 
 			public signal void power(bool on);
 		}
@@ -134,49 +134,47 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.Info")]
 		public interface Info : GLib.Object {
 
-			public abstract GLib.HashTable<string, GLib.Value?> get_cpu_info() yields throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Display")]
 		public interface Display : GLib.Object {
 
-			public abstract GLib.HashTable<string, GLib.Value?> get_info() yields throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
-			public abstract int get_brightness() yields throws DBus.Error;
+			public abstract int get_brightness() throws DBus.Error;
 
-			public abstract void set_brightness(int brightness) yields throws DBus.Error;
+			public abstract void set_brightness(int brightness) throws DBus.Error;
 
-			public abstract bool get_backlight_power() yields throws DBus.Error;
+			public abstract bool get_backlight_power() throws DBus.Error;
 
-			public abstract void set_backlight_power(bool power) yields throws DBus.Error;
+			public abstract void set_backlight_power(bool power) throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.Device.RealtimeClock")]
 		public interface RealtimeClock : GLib.Object {
 
-			public abstract int get_current_time() yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract int get_current_time() throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void set_current_time(int time) yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract void set_current_time(int time) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract int get_wakeup_time() yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract int get_wakeup_time() throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract void set_wakeup_time(int time) yields throws FreeSmartphone.Error, DBus.Error;
+			public abstract void set_wakeup_time(int time) throws FreeSmartphone.Error, DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Audio")]
 		public interface Audio : GLib.Object {
 
-			public abstract GLib.HashTable<string, GLib.Value?> get_info() yields throws DBus.Error;
+			public abstract GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
-			public abstract string[] get_supported_formats() yields throws DBus.Error;
+			public abstract string[] get_available_scenarios() throws DBus.Error;
 
-			public abstract string[] get_available_scenarios() yields throws DBus.Error;
+			public abstract void play_sound(string name, int loop, int length) throws FreeSmartphone.Device.AudioError, DBus.Error;
 
-			public abstract void play_sound(string name, int loop, int length) yields throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract void stop_sound(string name) throws DBus.Error;
 
-			public abstract void stop_sound(string name) yields throws DBus.Error;
-
-			public abstract void stop_all_sounds() yields throws DBus.Error;
+			public abstract void stop_all_sounds() throws DBus.Error;
 
 			public signal void sound_status(string id, FreeSmartphone.Device.SoundState status, GLib.HashTable<string, GLib.Value?> properties);
 
@@ -194,13 +192,13 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.IdleNotifier")]
 		public interface IdleNotifier : GLib.Object {
 
-			public abstract FreeSmartphone.Device.IdleState get_state() yields throws DBus.Error;
+			public abstract FreeSmartphone.Device.IdleState get_state() throws DBus.Error;
 
-			public abstract GLib.HashTable<string, int> get_timeouts() yields throws DBus.Error;
+			public abstract GLib.HashTable<string, int> get_timeouts() throws DBus.Error;
 
-			public abstract void set_timeout(FreeSmartphone.Device.IdleState status, int timeout) yields throws DBus.Error;
+			public abstract void set_timeout(FreeSmartphone.Device.IdleState status, int timeout) throws DBus.Error;
 
-			public abstract void set_state(FreeSmartphone.Device.IdleState status) yields throws DBus.Error;
+			public abstract void set_state(FreeSmartphone.Device.IdleState status) throws DBus.Error;
 
 			public signal void state(FreeSmartphone.Device.IdleState status);
 		}
