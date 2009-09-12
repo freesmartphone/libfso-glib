@@ -30,13 +30,13 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Resource")]
 	public interface Resource : GLib.Object {
 
-		public abstract void enable() throws DBus.Error;
+		public abstract void enable() yields throws DBus.Error;
 
-		public abstract void disable() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract void disable() yields throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void suspend() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract void suspend() yields throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void resume() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract void resume() yields throws FreeSmartphone.ResourceError, DBus.Error;
 	}
 
 	[DBus (use_string_marshalling = true)]
@@ -88,49 +88,49 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Preferences")]
 	public interface Preferences : GLib.Object {
 
-		public abstract string[] get_services() throws DBus.Error;
+		public abstract string[] get_services() yields throws DBus.Error;
 
-		public abstract ObjectPath get_service(string name) throws DBus.Error;
+		public abstract ObjectPath get_service(string name) yields throws DBus.Error;
 
-		public abstract string[] get_profiles() throws DBus.Error;
+		public abstract string[] get_profiles() yields throws DBus.Error;
 
-		public abstract string get_profile() throws DBus.Error;
+		public abstract string get_profile() yields throws DBus.Error;
 
-		public abstract void set_profile(string profile) throws DBus.Error;
+		public abstract void set_profile(string profile) yields throws DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Network")]
 	public interface Network : GLib.Object {
 
-		public abstract void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
+		public abstract void start_connection_sharing_with_interface(string interface) yields throws FreeSmartphone.Error, DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
 	public interface Usage : GLib.Object {
 
-		public abstract void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract void register_resource(string name, ObjectPath path) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void unregister_resource(string name) throws DBus.Error;
+		public abstract void unregister_resource(string name) yields throws DBus.Error;
 
-		public abstract string[] list_resources() throws DBus.Error;
+		public abstract string[] list_resources() yields throws DBus.Error;
 
-		public abstract FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract bool get_resource_state(string name) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract string[] get_resource_users(string name) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract void request_resource(string name) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract void release_resource(string name) yields throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void suspend() throws DBus.Error;
+		public abstract void suspend() yields throws DBus.Error;
 
-		public abstract void shutdown() throws DBus.Error;
+		public abstract void shutdown() yields throws DBus.Error;
 
-		public abstract void reboot() throws DBus.Error;
+		public abstract void reboot() yields throws DBus.Error;
 
 		public signal void resource_available(string name, bool availability);
 
@@ -157,22 +157,6 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-
-		public abstract string[] get_keys() throws DBus.Error;
-
-		public abstract GLib.Value get_value(string key) throws DBus.Error;
-
-		public abstract void set_value(string key, GLib.Value value) throws DBus.Error;
-
-		public abstract bool is_profilable(string key) throws DBus.Error;
-
-		public abstract string get_type_(string key) throws DBus.Error;
-
-		public signal void notify(string key, GLib.Value value);
-	}
-
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -181,6 +165,22 @@ namespace FreeSmartphone {
 		public abstract void remove_rule(string name) throws DBus.Error;
 
 		public abstract void trigger_test(string name, bool value) throws DBus.Error;
+	}
+
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+
+		public abstract string[] get_keys() yields throws DBus.Error;
+
+		public abstract GLib.Value get_value(string key) yields throws DBus.Error;
+
+		public abstract void set_value(string key, GLib.Value value) yields throws DBus.Error;
+
+		public abstract bool is_profilable(string key) yields throws DBus.Error;
+
+		public abstract string get_type_(string key) yields throws DBus.Error;
+
+		public signal void notify(string key, GLib.Value value);
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]

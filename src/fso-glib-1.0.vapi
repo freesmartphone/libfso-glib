@@ -58,6 +58,13 @@ namespace FreeSmartphone {
 			public abstract void set_networking (string @interface, string mode) throws FreeSmartphone.Error, DBus.Error;
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.Device.Orientation")]
+		public interface Orientation : GLib.Object {
+			public abstract GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
+			public abstract string get_orientation () throws DBus.Error;
+			public signal void orientation_changed (string orientation);
+		}
+		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.Device.PowerControl")]
 		public interface PowerControl : GLib.Object {
 			public abstract bool get_power () throws DBus.Error;
@@ -80,6 +87,7 @@ namespace FreeSmartphone {
 			public abstract int get_wakeup_time () throws FreeSmartphone.Error, DBus.Error;
 			public abstract void set_current_time (int time) throws FreeSmartphone.Error, DBus.Error;
 			public abstract void set_wakeup_time (int time) throws FreeSmartphone.Error, DBus.Error;
+			public signal void wakeup_time_changed (int time);
 		}
 		[CCode (cprefix = "FREE_SMARTPHONE_DEVICE_IDLE_STATE_", cheader_filename = "freesmartphone.h")]
 		[DBus (use_string_marshalling = true)]
