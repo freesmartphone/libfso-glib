@@ -87,6 +87,7 @@ namespace FreeSmartphone {
 			public abstract int get_wakeup_time () throws FreeSmartphone.Error, DBus.Error;
 			public abstract void set_current_time (int time) throws FreeSmartphone.Error, DBus.Error;
 			public abstract void set_wakeup_time (int time) throws FreeSmartphone.Error, DBus.Error;
+			public signal void alarm (int time);
 			public signal void wakeup_time_changed (int time);
 		}
 		[CCode (cprefix = "FREE_SMARTPHONE_DEVICE_IDLE_STATE_", cheader_filename = "freesmartphone.h")]
@@ -470,7 +471,7 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Time.Alarm")]
 		public interface Alarm : GLib.Object {
 			public abstract void clear_alarm (string busname) throws DBus.Error;
-			public abstract void set_alarm (string busname, int timestamp) throws DBus.Error;
+			public abstract void set_alarm (string busname, int timestamp) throws FreeSmartphone.Error, DBus.Error;
 		}
 	}
 	[CCode (cheader_filename = "freesmartphone.h")]
