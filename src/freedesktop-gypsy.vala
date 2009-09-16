@@ -10,7 +10,7 @@ namespace FreeDesktop {
 		[DBus (name = "org.freedesktop.Gypsy.Course")]
 		public interface Course : GLib.Object {
 
-			public abstract void get_course(out int fields, out int tstamp, out double speed, out double heading, out double climb) throws DBus.Error;
+			public abstract  void get_course(out int fields, out int tstamp, out double speed, out double heading, out double climb) throws DBus.Error;
 
 			public signal void course_changed();
 		}
@@ -18,7 +18,7 @@ namespace FreeDesktop {
 		[DBus (name = "org.freedesktop.Gypsy.Accuracy")]
 		public interface Accuracy : GLib.Object {
 
-			public abstract void get_accuracy(out int fields, out double pdop, out double hdop, out double vdop) throws DBus.Error;
+			public abstract  void get_accuracy(out int fields, out double pdop, out double hdop, out double vdop) throws DBus.Error;
 
 			public signal void accuracy_changed();
 		}
@@ -26,7 +26,7 @@ namespace FreeDesktop {
 		[DBus (name = "org.freedesktop.Gypsy.Time")]
 		public interface Time : GLib.Object {
 
-			public abstract int get_time() throws DBus.Error;
+			public abstract  int get_time() throws DBus.Error;
 
 			public signal void time_changed();
 		}
@@ -34,13 +34,13 @@ namespace FreeDesktop {
 		[DBus (name = "org.freedesktop.Gypsy.Device")]
 		public interface Device : GLib.Object {
 
-			public abstract bool get_connection_status() throws DBus.Error;
+			public abstract  bool get_connection_status() throws DBus.Error;
 
-			public abstract int get_fix_status() throws DBus.Error;
+			public abstract  int get_fix_status() throws DBus.Error;
 
-			public abstract void start() throws DBus.Error;
+			public abstract  void start() throws DBus.Error;
 
-			public abstract void stop() throws DBus.Error;
+			public abstract  void stop() throws DBus.Error;
 
 			public signal void connection_status_changed();
 
@@ -50,7 +50,7 @@ namespace FreeDesktop {
 		[DBus (name = "org.freedesktop.Gypsy.Position")]
 		public interface Position : GLib.Object {
 
-			public abstract void get_position(out int fields, out int tstamp, out double lat, out double lon, out double alt) throws DBus.Error;
+			public abstract  void get_position(out int fields, out int tstamp, out double lat, out double lon, out double alt) throws DBus.Error;
 
 			public signal void position_changed(int fields, int tstamp, double lat, double lon, double alt);
 		}

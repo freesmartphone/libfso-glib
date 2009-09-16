@@ -10,9 +10,9 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Time.Alarm")]
 		public interface Alarm : GLib.Object {
 
-			public abstract void clear_alarm(string busname) throws DBus.Error;
+			public abstract async void clear_alarm(string busname) throws DBus.Error;
 
-			public abstract void set_alarm(string busname, int timestamp) throws FreeSmartphone.Error, DBus.Error;
+			public abstract async void set_alarm(string busname, int timestamp) throws FreeSmartphone.Error, DBus.Error;
 		}
 	}
 }

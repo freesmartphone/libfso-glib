@@ -5,6 +5,16 @@ using GLib;
 
 namespace FreeSmartphone {
 
+	[DBus (use_string_marshalling = true)]
+	public enum MusicPlayerPlaylistMode {
+		[DBus (value="normal")]
+		NORMAL,
+		[DBus (value="random")]
+		RANDOM,
+		[DBus (value="endless")]
+		ENDLESS,
+	}
+
 	[DBus (name = "org.freesmartphone")]
 	public errordomain Error {
 		[DBus (name = "InvalidParameter")]
@@ -17,12 +27,76 @@ namespace FreeSmartphone {
 		UNSUPPORTED,
 	}
 
+	[DBus (name = "org.freesmartphone.MusicPlayer")]
+	public interface MusicPlayer : GLib.Object {
+
+		public abstract  void delete_playlist(ObjectPath list) throws DBus.Error;
+
+		public abstract  ObjectPath get_current_playlist() throws DBus.Error;
+
+		public abstract  GLib.HashTable<string, GLib.Value?> get_info_for_file(string file) throws DBus.Error;
+
+		public abstract  string get_playing() throws DBus.Error;
+
+		public abstract  GLib.HashTable<string, GLib.Value?> get_playing_info() throws DBus.Error;
+
+		public abstract  string[] get_playlist() throws DBus.Error;
+
+		public abstract  int get_volume() throws DBus.Error;
+
+		public abstract  void jump(int position) throws DBus.Error;
+
+		public abstract  ObjectPath new_playlist(string name) throws DBus.Error;
+
+		public abstract  void next() throws DBus.Error;
+
+		public abstract  void pause() throws DBus.Error;
+
+		public abstract  void play() throws DBus.Error;
+
+		public abstract  void previous() throws DBus.Error;
+
+		public abstract  void seek_backward(int step) throws DBus.Error;
+
+		public abstract  void seek_forward(int step) throws DBus.Error;
+
+		public abstract  void set_current_playlist(ObjectPath list) throws DBus.Error;
+
+		public abstract  void set_playing(string file) throws DBus.Error;
+
+		public abstract  void set_volume(int volume) throws DBus.Error;
+
+		public abstract  void stop() throws DBus.Error;
+
+		public signal void playing_changed(string file);
+
+		public signal void playlist_added(ObjectPath path);
+
+		public signal void playlist_removed(ObjectPath path);
+
+		public signal void progress(int progress);
+
+		public signal void state(FreeSmartphone.MusicPlayerState state);
+	}
+
+	[DBus (use_string_marshalling = true)]
+	public enum MusicPlayerState {
+		[DBus (value="stopped")]
+		STOPPED,
+		[DBus (value="playing")]
+		PLAYING,
+		[DBus (value="pause")]
+		PAUSED,
+		[DBus (value="buffering")]
+		BUFFERING,
+	}
+
 	[DBus (name = "org.freesmartphone.Phone")]
 	public interface Phone : GLib.Object {
 
-		public abstract string[] init_protocols() throws DBus.Error;
+		public abstract  string[] init_protocols() throws DBus.Error;
 
-		public abstract ObjectPath create_call(string number, string protocol, bool force) throws DBus.Error;
+		public abstract  ObjectPath create_call(string number, string protocol, bool force) throws DBus.Error;
 
 		public signal void incoming(ObjectPath call);
 	}
@@ -30,13 +104,13 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Resource")]
 	public interface Resource : GLib.Object {
 
-		public abstract void enable() throws DBus.Error;
+		public abstract async void enable() throws DBus.Error;
 
-		public abstract void disable() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract async void disable() throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void suspend() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract async void suspend() throws FreeSmartphone.ResourceError, DBus.Error;
 
-		public abstract void resume() throws FreeSmartphone.ResourceError, DBus.Error;
+		public abstract async void resume() throws FreeSmartphone.ResourceError, DBus.Error;
 	}
 
 	[DBus (use_string_marshalling = true)]
@@ -54,17 +128,17 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Phone.Call")]
 	public interface PhoneCall : GLib.Object {
 
-		public abstract string get_peer() throws DBus.Error;
+		public abstract  string get_peer() throws DBus.Error;
 
-		public abstract string initiate() throws DBus.Error;
+		public abstract  string initiate() throws DBus.Error;
 
-		public abstract string activate() throws DBus.Error;
+		public abstract  string activate() throws DBus.Error;
 
-		public abstract string release() throws DBus.Error;
+		public abstract  string release() throws DBus.Error;
 
-		public abstract string get_status() throws DBus.Error;
+		public abstract  string get_status() throws DBus.Error;
 
-		public abstract void remove() throws DBus.Error;
+		public abstract  void remove() throws DBus.Error;
 
 		public signal void incoming();
 
@@ -88,49 +162,49 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Preferences")]
 	public interface Preferences : GLib.Object {
 
-		public abstract string[] get_services() throws DBus.Error;
+		public abstract async string[] get_services() throws DBus.Error;
 
-		public abstract ObjectPath get_service(string name) throws DBus.Error;
+		public abstract async ObjectPath get_service(string name) throws DBus.Error;
 
-		public abstract string[] get_profiles() throws DBus.Error;
+		public abstract async string[] get_profiles() throws DBus.Error;
 
-		public abstract string get_profile() throws DBus.Error;
+		public abstract async string get_profile() throws DBus.Error;
 
-		public abstract void set_profile(string profile) throws DBus.Error;
+		public abstract async void set_profile(string profile) throws DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Network")]
 	public interface Network : GLib.Object {
 
-		public abstract void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
+		public abstract async void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
 	}
 
 	[DBus (name = "org.freesmartphone.Usage")]
 	public interface Usage : GLib.Object {
 
-		public abstract void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void unregister_resource(string name) throws DBus.Error;
+		public abstract async void unregister_resource(string name) throws DBus.Error;
 
-		public abstract string[] list_resources() throws DBus.Error;
+		public abstract async string[] list_resources() throws DBus.Error;
 
-		public abstract FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
 
-		public abstract void suspend() throws DBus.Error;
+		public abstract async void suspend() throws DBus.Error;
 
-		public abstract void shutdown() throws DBus.Error;
+		public abstract async void shutdown() throws DBus.Error;
 
-		public abstract void reboot() throws DBus.Error;
+		public abstract async void reboot() throws DBus.Error;
 
 		public signal void resource_available(string name, bool availability);
 
@@ -160,15 +234,15 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Preferences.Service")]
 	public interface PreferencesService : GLib.Object {
 
-		public abstract string[] get_keys() throws DBus.Error;
+		public abstract async string[] get_keys() throws DBus.Error;
 
-		public abstract GLib.Value get_value(string key) throws DBus.Error;
+		public abstract async GLib.Value get_value(string key) throws DBus.Error;
 
-		public abstract void set_value(string key, GLib.Value value) throws DBus.Error;
+		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
 
-		public abstract bool is_profilable(string key) throws DBus.Error;
+		public abstract async bool is_profilable(string key) throws DBus.Error;
 
-		public abstract string get_type_(string key) throws DBus.Error;
+		public abstract async string get_type_(string key) throws DBus.Error;
 
 		public signal void notify(string key, GLib.Value value);
 	}
@@ -176,11 +250,49 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
-		public abstract void add_rule(string rule) throws DBus.Error;
+		public abstract  void add_rule(string rule) throws DBus.Error;
 
-		public abstract void remove_rule(string name) throws DBus.Error;
+		public abstract  void remove_rule(string name) throws DBus.Error;
 
-		public abstract void trigger_test(string name, bool value) throws DBus.Error;
+		public abstract  void trigger_test(string name, bool value) throws DBus.Error;
+	}
+
+	[DBus (name = "org.freesmartphone.MusicPlayer.Playlist")]
+	public interface MusicPlayerPlaylist : GLib.Object {
+
+		public abstract  int add(string file) throws DBus.Error;
+
+		public abstract  void change_name(string new_name) throws DBus.Error;
+
+		public abstract  string get_at_position(int position) throws DBus.Error;
+
+		public abstract  string[] get_files() throws DBus.Error;
+
+		public abstract  FreeSmartphone.MusicPlayerPlaylistMode get_mode() throws DBus.Error;
+
+		public abstract  string get_name() throws DBus.Error;
+
+		public abstract  void insert(int position, string file) throws DBus.Error;
+
+		public abstract  void insert_dir(int position, string file, bool recursive) throws DBus.Error;
+
+		public abstract  void load_from_file(string file) throws DBus.Error;
+
+		public abstract  void remove(int position) throws DBus.Error;
+
+		public abstract  void set_mode(FreeSmartphone.MusicPlayerPlaylistMode mode) throws DBus.Error;
+
+		public signal void deleted();
+
+		public signal void file_added(int position, string file);
+
+		public signal void file_removed(int postion);
+
+		public signal void mode_changed(FreeSmartphone.MusicPlayerPlaylistMode mode);
+
+		public signal void name(string name);
+
+		public signal void playing(string file);
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]
