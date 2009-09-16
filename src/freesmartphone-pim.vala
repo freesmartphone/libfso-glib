@@ -7,6 +7,20 @@ namespace FreeSmartphone {
 
 	namespace PIM {
 
+		[DBus (name = "org.freesmartphone.PIM.Calls")]
+		public interface Calls : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
+
+			public abstract async string get_single_call_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_call(string call_path);
+
+			public signal void new_missed_calls(int amount);
+		}
+
 		[DBus (name = "org.freesmartphone.PIM.MessageQuery")]
 		public interface MessageQuery : GLib.Object {
 
@@ -25,30 +39,6 @@ namespace FreeSmartphone {
 			public abstract async void dispose_() throws DBus.Error;
 		}
 
-		[DBus (name = "org.freesmartphone.PIM.Calls")]
-		public interface Calls : GLib.Object {
-
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
-
-			public abstract async string get_single_call_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_call(string call_path);
-
-			public signal void new_missed_calls(int amount);
-		}
-
-		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
-		public interface MessageFolder : GLib.Object {
-
-			public abstract async int get_message_count() throws DBus.Error;
-
-			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
-
-			public signal void message_moved(string message_path, string new_folder);
-		}
-
 		[DBus (name = "org.freesmartphone.PIM.CallQuery")]
 		public interface CallQuery : GLib.Object {
 
@@ -65,6 +55,16 @@ namespace FreeSmartphone {
 			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
+		public interface MessageFolder : GLib.Object {
+
+			public abstract async int get_message_count() throws DBus.Error;
+
+			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
+
+			public signal void message_moved(string message_path, string new_folder);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Sources")]
@@ -93,18 +93,6 @@ namespace FreeSmartphone {
 			public abstract async void delete() throws DBus.Error;
 		}
 
-		[DBus (name = "org.freesmartphone.PIM.Contacts")]
-		public interface Contacts : GLib.Object {
-
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
-
-			public abstract async string get_single_contact_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_contact(string contact_path);
-		}
-
 		[DBus (name = "org.freesmartphone.PIM.ContactQuery")]
 		public interface ContactQuery : GLib.Object {
 
@@ -121,6 +109,18 @@ namespace FreeSmartphone {
 			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Contacts")]
+		public interface Contacts : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
+
+			public abstract async string get_single_contact_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_contact(string contact_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Messages")]
