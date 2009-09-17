@@ -1,4 +1,4 @@
-AC_INIT([libfso-glib], [0.2.0], [ptitjes@free.fr], [libfso-glib])
+AC_INIT([libfso-glib], [0.2.1], [ptitjes@free.fr], [libfso-glib])
 AC_CONFIG_SRCDIR([src/Makefile.am])
 AC_CONFIG_HEADERS(config.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -12,12 +12,6 @@ AC_PROG_LIBTOOL
 AC_SUBST(SPECS_PATH)
 AC_ARG_VAR(SPECS_PATH, [path to XML specs])
 AM_CONDITIONAL([GENERATE_BINDINGS], [test x$SPECS_PATH != x])
-
-AS_IF([test "x$SPECS_PATH" != x],
-	[AC_PATH_PROG(DBUSBINDINGTOOL, vala-dbus-binding-tool, :)
-	 AC_SUBST(DBUSBINDINGTOOL)
-	 AS_IF([test "$DBUSBINDINGTOOL" = :],
-		[AC_MSG_ERROR([vala-dbus-binding-tool not found])])])
 
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
@@ -39,8 +33,15 @@ AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
+VALA_REQUIRED=0.7.6
+VDBT_REQUIRED=0.1.1
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
+
+PKG_CHECK_MODULES(VALA,
+	vala-1.0 >= $VALA_REQUIRED)
+PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
+	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
 
 PKG_CHECK_MODULES(GLIB,
 	glib-2.0 >= $GLIB_REQUIRED
