@@ -36,8 +36,7 @@ girdir = $(datadir)/gir-1.0
 gir_DATA = FreeSmartphone-1.0.gir
 
 libfso_glib_la_SOURCES = \
-	$(libfso_glib_la_VALASOURCES:.vala=.c) \
-	$(libfso_glib_la_VALASOURCES:.vala=.h)
+	$(libfso_glib_la_VALASOURCES:.vala=.c)
 
 libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
 	$(VALAC) -C ${VALACFLAGS} --basedir . $(libfso_glib_la_VALASOURCES)
