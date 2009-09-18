@@ -145,48 +145,47 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.CB")]
 		public interface CB : GLib.Object {
-			public abstract async string get_cell_broadcast_subscriptions () throws DBus.Error;
-			public abstract async void set_cell_broadcast_subscriptions (string channels) throws DBus.Error;
+			public abstract async string get_cell_broadcast_subscriptions () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_cell_broadcast_subscriptions (string channels) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void incoming_cell_broadcast (int serial, int channel, int encoding, int page, string data);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.Call")]
 		public interface Call : GLib.Object {
-			public abstract async void activate (int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-			public abstract async void activate_conference (int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-			public abstract async void emergency (string number) throws FreeSmartphone.GSM.CallError, DBus.Error;
-			public abstract async void hold_active () throws DBus.Error;
-			public abstract async int initiate (string number, string type) throws FreeSmartphone.GSM.CallError, DBus.Error;
-			public abstract async void join () throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.CallDetail[] list_calls () throws DBus.Error;
-			public abstract async void release (int id) throws FreeSmartphone.GSM.CallError, DBus.Error;
-			public abstract async void release_all () throws DBus.Error;
-			public abstract async void release_held () throws DBus.Error;
-			public abstract async void send_dtmf (string tones) throws DBus.Error;
-			public abstract async void transfer (string number) throws DBus.Error;
+			public abstract async void activate (int id) throws FreeSmartphone.GSM.DeviceError, FreeSmartphone.GSM.CallError, DBus.Error;
+			public abstract async void activate_conference (int id) throws FreeSmartphone.GSM.DeviceError, FreeSmartphone.GSM.CallError, DBus.Error;
+			public abstract async void emergency (string number) throws FreeSmartphone.GSM.DeviceError, FreeSmartphone.GSM.CallError, DBus.Error;
+			public abstract async void hold_active () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async int initiate (string number, string type) throws FreeSmartphone.GSM.DeviceError, FreeSmartphone.GSM.CallError, DBus.Error;
+			public abstract async void join () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.CallDetail[] list_calls () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void release (int id) throws FreeSmartphone.GSM.DeviceError, FreeSmartphone.GSM.CallError, DBus.Error;
+			public abstract async void release_all () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void release_held () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void send_dtmf (string tones) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void transfer (string number) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void call_status (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string,GLib.Value?> properties);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.Device")]
 		public interface Device : GLib.Object {
-			public abstract async bool get_antenna_power () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_features () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
-			public abstract async bool get_microphone_muted () throws DBus.Error;
-			public abstract async void get_power_status (out string status, out int level) throws DBus.Error;
+			public abstract async bool get_antenna_power () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_features () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_info () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async bool get_microphone_muted () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public abstract async bool get_sim_buffers_sms () throws DBus.Error;
-			public abstract async int get_speaker_volume () throws DBus.Error;
-			public abstract async void set_antenna_power (bool antenna_power) throws DBus.Error;
-			public abstract async void set_microphone_muted (bool muted) throws DBus.Error;
+			public abstract async int get_speaker_volume () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_antenna_power (bool antenna_power) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_microphone_muted (bool muted) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public abstract async void set_sim_buffers_sms (bool sim_buffers_sms) throws DBus.Error;
-			public abstract async void set_speaker_volume (int volume) throws DBus.Error;
+			public abstract async void set_speaker_volume (int volume) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void keypad_event (string name, bool pressed);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.HZ")]
 		public interface HZ : GLib.Object {
-			public abstract async string get_home_zone_status () throws DBus.Error;
-			public abstract async string[] get_known_home_zones () throws DBus.Error;
+			public abstract async string get_home_zone_status () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string[] get_known_home_zones () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void home_zone_status (string name);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
@@ -202,25 +201,25 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.Monitor")]
 		public interface Monitor : GLib.Object {
-			public abstract async FreeSmartphone.GSM.MonitorNeighbourCell[] get_neighbour_cell_information () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_serving_cell_information () throws DBus.Error;
+			public abstract async FreeSmartphone.GSM.MonitorNeighbourCell[] get_neighbour_cell_information () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_serving_cell_information () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.Network")]
 		public interface Network : GLib.Object {
-			public abstract async void disable_call_forwarding (string reason, string class_) throws DBus.Error;
-			public abstract async void enable_call_forwarding (string reason, string class_, string number, int timeout) throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_call_forwarding (string reason) throws DBus.Error;
-			public abstract async string get_calling_identification () throws DBus.Error;
-			public abstract async void get_network_country_code (out string dial_code, out string country_name) throws DBus.Error;
-			public abstract async int get_signal_strength () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_status () throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.NetworkProvider[] list_providers () throws DBus.Error;
-			public abstract async void register_ () throws DBus.Error;
-			public abstract async void register_with_provider (string operator_code) throws DBus.Error;
-			public abstract async void send_ussd_request (string request) throws DBus.Error;
-			public abstract async void set_calling_identification (string visible) throws DBus.Error;
-			public abstract async void unregister () throws DBus.Error;
+			public abstract async void disable_call_forwarding (string reason, string class_) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void enable_call_forwarding (string reason, string class_, string number, int timeout) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_call_forwarding (string reason) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string get_calling_identification () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void get_network_country_code (out string dial_code, out string country_name) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async int get_signal_strength () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_status () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.NetworkProvider[] list_providers () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void register_ () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void register_with_provider (string operator_code) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void send_ussd_request (string request) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_calling_identification (string visible) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void unregister () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void cipher_status (string gsm, string gprs);
 			public signal void incoming_ussd (string mode, string message_);
 			public signal void signal_strength (int signal_strength);
@@ -229,46 +228,46 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.PDP")]
 		public interface PDP : GLib.Object {
-			public abstract async int activate_context (string apn, string username, string password) throws DBus.Error;
-			public abstract async void deactivate_context (int index) throws DBus.Error;
-			public abstract async string get_context_status (int index) throws DBus.Error;
-			public abstract async string get_current_gprs_class () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_network_status () throws DBus.Error;
-			public abstract async string[] list_gprs_classes () throws DBus.Error;
-			public abstract async void set_current_gprs_class (string device_class) throws DBus.Error;
+			public abstract async int activate_context (string apn, string username, string password) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void deactivate_context (int index) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string get_context_status (int index) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string get_current_gprs_class () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_network_status () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string[] list_gprs_classes () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_current_gprs_class (string device_class) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void context_status (int id, string status, GLib.HashTable<string,GLib.Value?> properties);
 			public signal void network_status (GLib.HashTable<string,GLib.Value?> status);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.SIM")]
 		public interface SIM : GLib.Object {
-			public abstract async void change_auth_code (string old_pin, string new_pin) throws DBus.Error;
-			public abstract async void delete_entry (string category, int index) throws DBus.Error;
-			public abstract async void delete_message (int index) throws DBus.Error;
-			public abstract async bool get_auth_code_required () throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.SIMAuthStatus get_auth_status () throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.SIMHomezone[] get_home_zones () throws DBus.Error;
-			public abstract async string get_issuer () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_messagebook_info () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_phonebook_info (string category) throws DBus.Error;
-			public abstract async GLib.HashTable<string,string> get_provider_list () throws DBus.Error;
-			public abstract async string get_service_center_number () throws DBus.Error;
-			public abstract async GLib.HashTable<string,GLib.Value?> get_sim_info () throws DBus.Error;
-			public abstract async bool get_sim_ready () throws DBus.Error;
-			public abstract async string[] list_phonebooks () throws DBus.Error;
-			public abstract async void retrieve_entry (string category, int index, out string name, out string number) throws DBus.Error;
-			public abstract async void retrieve_message (int index, out string status, out string sender_number, out string contents, out GLib.HashTable<string,GLib.Value?> properties) throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.SIMMessage[] retrieve_messagebook (string category) throws DBus.Error;
-			public abstract async FreeSmartphone.GSM.SIMEntry[] retrieve_phonebook (string category) throws DBus.Error;
-			public abstract async void send_auth_code (string pin) throws DBus.Error;
-			public abstract async string send_generic_sim_command (string command) throws DBus.Error;
-			public abstract async string send_restricted_sim_command (int command, int fileid, int p1, int p2, int p3, string data) throws DBus.Error;
-			public abstract async void send_stored_message (int index, out int transaction_index, out string timestamp) throws DBus.Error;
-			public abstract async void set_auth_code_required (bool check, string pin) throws DBus.Error;
-			public abstract async void set_service_center_number (string number) throws DBus.Error;
-			public abstract async void store_entry (string category, int index, string name, string number) throws DBus.Error;
-			public abstract async int store_message (string recipient_number, string contents, GLib.HashTable<string,GLib.Value?> properties) throws DBus.Error;
-			public abstract async void unlock (string puk, string new_pin) throws DBus.Error;
+			public abstract async void change_auth_code (string old_pin, string new_pin) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void delete_entry (string category, int index) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void delete_message (int index) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async bool get_auth_code_required () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMAuthStatus get_auth_status () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMHomezone[] get_home_zones () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string get_issuer () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_messagebook_info () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_phonebook_info (string category) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,string> get_provider_list () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string get_service_center_number () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_sim_info () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async bool get_sim_ready () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string[] list_phonebooks () throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void retrieve_entry (string category, int index, out string name, out string number) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void retrieve_message (int index, out string status, out string sender_number, out string contents, out GLib.HashTable<string,GLib.Value?> properties) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMMessage[] retrieve_messagebook (string category) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMEntry[] retrieve_phonebook (string category) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void send_auth_code (string pin) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string send_generic_sim_command (string command) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async string send_restricted_sim_command (int command, int fileid, int p1, int p2, int p3, string data) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void send_stored_message (int index, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_auth_code_required (bool check, string pin) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void set_service_center_number (string number) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void store_entry (string category, int index, string name, string number) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async int store_message (string recipient_number, string contents, GLib.HashTable<string,GLib.Value?> properties) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void unlock (string puk, string new_pin) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void auth_status (FreeSmartphone.GSM.SIMAuthStatus status);
 			public signal void incoming_stored_message (int index);
 			public signal void ready_status (bool status);
@@ -276,9 +275,9 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
 		public interface SMS : GLib.Object {
-			public abstract async void ack_message (string contents, GLib.HashTable<string,GLib.Value?> properties) throws DBus.Error;
-			public abstract async void nack_message (string contents, GLib.HashTable<string,GLib.Value?> properties) throws DBus.Error;
-			public abstract async void send_message (string recipient_number, string contents, GLib.HashTable<string,GLib.Value?> properties, out int transaction_index, out string timestamp) throws DBus.Error;
+			public abstract async void ack_message (string contents, GLib.HashTable<string,GLib.Value?> properties) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void nack_message (string contents, GLib.HashTable<string,GLib.Value?> properties) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
+			public abstract async void send_message (string recipient_number, string contents, GLib.HashTable<string,GLib.Value?> properties, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.DeviceError, DBus.Error;
 			public signal void incoming_message (string sender_number, string contents, GLib.HashTable<string,GLib.Value?> properties);
 			public signal void incoming_message_receipt (string sender_number, string contents, GLib.HashTable<string,GLib.Value?> properties);
 		}
@@ -344,6 +343,45 @@ namespace FreeSmartphone {
 		public errordomain CallError {
 			NOT_FOUND,
 			NOT_AN_EMERGENCY_NUMBER,
+		}
+		[CCode (cprefix = "FREE_SMARTPHONE_GSM_DEVICE_ERROR_", cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.GSM.Device")]
+		public errordomain DeviceError {
+			NOT_PRESENT,
+			TIMEOUT,
+			FAILED,
+		}
+		[CCode (cprefix = "FREE_SMARTPHONE_GSM_MUX_ERROR_", cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.GSM.MUX")]
+		public errordomain MUXError {
+			CHANNEL_TAKEN,
+			NO_CHANNEL,
+			NO_SESSION,
+			SESSION_ALREADY_OPEN,
+			SESSION_OPEN_ERROR,
+		}
+		[CCode (cprefix = "FREE_SMARTPHONE_GSM_NETWORK_ERROR_", cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.GSM.Network")]
+		public errordomain NetworkError {
+			NOT_PRESENT,
+			UNAUTHORIZED,
+			NOT_SUPPORTED,
+			NOT_FOUND,
+		}
+		[CCode (cprefix = "FREE_SMARTPHONE_GSM_PDP_ERROR_", cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.GSM.PDP")]
+		public errordomain PDPError {
+			NOT_FOUND,
+		}
+		[CCode (cprefix = "FREE_SMARTPHONE_GSM_SIM_ERROR_", cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.GSM.SIM")]
+		public errordomain SIMError {
+			NOT_PRESENT,
+			AUTH_FAILED,
+			BLOCKED,
+			NOT_FOUND,
+			MEMORY_FULL,
+			INVALID_INDEX,
 		}
 	}
 	[CCode (cprefix = "FreeSmartphonePIM", lower_case_cprefix = "free_smartphone_pim_")]
