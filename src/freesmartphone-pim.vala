@@ -7,6 +7,20 @@ namespace FreeSmartphone {
 
 	namespace PIM {
 
+		[DBus (name = "org.freesmartphone.PIM.Calls")]
+		public interface Calls : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
+
+			public abstract async string get_single_call_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_call(string call_path);
+
+			public signal void new_missed_calls(int amount);
+		}
+
 		[DBus (name = "org.freesmartphone.PIM.MessageQuery")]
 		public interface MessageQuery : GLib.Object {
 
@@ -25,28 +39,22 @@ namespace FreeSmartphone {
 			public abstract async void dispose_() throws DBus.Error;
 		}
 
-		[DBus (name = "org.freesmartphone.PIM.Calls")]
-		public interface Calls : GLib.Object {
+		[DBus (name = "org.freesmartphone.PIM.Notes")]
+		public interface Notes : GLib.Object {
 
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> note_data) throws DBus.Error;
 
-			public abstract async string get_single_call_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+			public abstract async string[] get_used_tags() throws DBus.Error;
+
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
 
 			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
 
-			public signal void new_call(string call_path);
+			public signal void new_note(string note_path);
 
-			public signal void new_missed_calls(int amount);
-		}
+			public signal void new_tag(string tag);
 
-		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
-		public interface MessageFolder : GLib.Object {
-
-			public abstract async int get_message_count() throws DBus.Error;
-
-			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
-
-			public signal void message_moved(string message_path, string new_folder);
+			public signal void tag_removed(string tag);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.CallQuery")]
@@ -65,6 +73,16 @@ namespace FreeSmartphone {
 			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
+		public interface MessageFolder : GLib.Object {
+
+			public abstract async int get_message_count() throws DBus.Error;
+
+			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
+
+			public signal void message_moved(string message_path, string new_folder);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Sources")]
@@ -91,18 +109,10 @@ namespace FreeSmartphone {
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
 
 			public abstract async void delete() throws DBus.Error;
-		}
 
-		[DBus (name = "org.freesmartphone.PIM.Contacts")]
-		public interface Contacts : GLib.Object {
+			public signal void contact_deleted();
 
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
-
-			public abstract async string get_single_contact_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_contact(string contact_path);
+			public signal void contact_updated(GLib.HashTable<string, GLib.Value?> data);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.ContactQuery")]
@@ -121,6 +131,20 @@ namespace FreeSmartphone {
 			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
+
+			public signal void contact_added(string contact_path);
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Contacts")]
+		public interface Contacts : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
+
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_contact(string contact_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Messages")]
@@ -189,6 +213,44 @@ namespace FreeSmartphone {
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> message_data) throws DBus.Error;
 
 			public abstract async void delete() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Note")]
+		public interface Note : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
+
+			public abstract  string[] get_used_backends() throws DBus.Error;
+
+			public abstract async void update(GLib.HashTable<string, GLib.Value?> note_data) throws DBus.Error;
+
+			public abstract async void delete() throws DBus.Error;
+
+			public signal void note_deleted();
+
+			public signal void note_updated(GLib.HashTable<string, GLib.Value?> data);
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.NoteQuery")]
+		public interface NoteQuery : GLib.Object {
+
+			public abstract async int get_result_count() throws DBus.Error;
+
+			public abstract async void rewind() throws DBus.Error;
+
+			public abstract async void skip(int count) throws DBus.Error;
+
+			public abstract async string get_note_path() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
+
+			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+
+			public abstract async void dispose_() throws DBus.Error;
+
+			public signal void note_added(string note_path);
 		}
 	}
 }
