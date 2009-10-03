@@ -148,6 +148,10 @@ namespace FreeSmartphone {
 
 			public abstract async void set_antenna_power(bool antenna_power) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
+			public abstract async string get_functionality() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void set_functionality(string level) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
 			public abstract async GLib.HashTable<string, GLib.Value?> get_features() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async int get_speaker_volume() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;

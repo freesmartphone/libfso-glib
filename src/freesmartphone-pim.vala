@@ -181,6 +181,26 @@ namespace FreeSmartphone {
 			public signal void unread_messages(int amount);
 		}
 
+		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
+		public interface DateQuery : GLib.Object {
+
+			public abstract async int get_result_count() throws DBus.Error;
+
+			public abstract async void rewind() throws DBus.Error;
+
+			public abstract async void skip(int count) throws DBus.Error;
+
+			public abstract async string get_date_path() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
+
+			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+
+			public abstract async void dispose_() throws DBus.Error;
+
+			public signal void date_added(string date_path);
+		}
+
 		[DBus (name = "org.freesmartphone.PIM.Source")]
 		public interface Source : GLib.Object {
 
@@ -203,6 +223,18 @@ namespace FreeSmartphone {
 			public abstract  void set_as_default(string domain) throws DBus.Error;
 
 			public abstract  bool synchronize() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Dates")]
+		public interface Dates : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> date_data) throws DBus.Error;
+
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_date(string date_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Call")]
@@ -277,6 +309,24 @@ namespace FreeSmartphone {
 			public abstract async void dispose_() throws DBus.Error;
 
 			public signal void note_added(string note_path);
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.Date")]
+		public interface Date : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
+
+			public abstract  string[] get_used_backends() throws DBus.Error;
+
+			public abstract async void update(GLib.HashTable<string, GLib.Value?> date_data) throws DBus.Error;
+
+			public abstract async void delete() throws DBus.Error;
+
+			public signal void date_deleted();
+
+			public signal void date_updated(GLib.HashTable<string, GLib.Value?> data);
 		}
 	}
 }

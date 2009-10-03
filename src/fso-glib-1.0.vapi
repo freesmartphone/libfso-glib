@@ -171,12 +171,14 @@ namespace FreeSmartphone {
 		public interface Device : GLib.Object {
 			public abstract async bool get_antenna_power () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_features () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async string get_functionality () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_info () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async bool get_microphone_muted () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async void get_power_status (out string status, out int level) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async bool get_sim_buffers_sms () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async int get_speaker_volume () throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async void set_antenna_power (bool antenna_power) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async void set_functionality (string level) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async void set_microphone_muted (bool muted) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async void set_sim_buffers_sms (bool sim_buffers_sms) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 			public abstract async void set_speaker_volume (int volume) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
@@ -430,6 +432,37 @@ namespace FreeSmartphone {
 			public abstract async string get_single_entry_single_field (GLib.HashTable<string,GLib.Value?> query, string field) throws DBus.Error;
 			public abstract async string query (GLib.HashTable<string,GLib.Value?> query) throws DBus.Error;
 			public signal void new_contact (string contact_path);
+		}
+		[CCode (cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.PIM.Date")]
+		public interface Date : GLib.Object {
+			public abstract async void @delete () throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_content () throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_multiple_fields (string field_list) throws DBus.Error;
+			public abstract string[] get_used_backends () throws DBus.Error;
+			public abstract async void update (GLib.HashTable<string,GLib.Value?> date_data) throws DBus.Error;
+			public signal void date_deleted ();
+			public signal void date_updated (GLib.HashTable<string,GLib.Value?> data);
+		}
+		[CCode (cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
+		public interface DateQuery : GLib.Object {
+			public abstract async void dispose_ () throws DBus.Error;
+			public abstract async string get_date_path () throws DBus.Error;
+			public abstract GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_result () throws DBus.Error;
+			public abstract async int get_result_count () throws DBus.Error;
+			public abstract async void rewind () throws DBus.Error;
+			public abstract async void skip (int count) throws DBus.Error;
+			public signal void date_added (string date_path);
+		}
+		[CCode (cheader_filename = "freesmartphone.h")]
+		[DBus (name = "org.freesmartphone.PIM.Dates")]
+		public interface Dates : GLib.Object {
+			public abstract async string add (GLib.HashTable<string,GLib.Value?> date_data) throws DBus.Error;
+			public abstract async string get_single_entry_single_field (GLib.HashTable<string,GLib.Value?> query, string field) throws DBus.Error;
+			public abstract async string query (GLib.HashTable<string,GLib.Value?> query) throws DBus.Error;
+			public signal void new_date (string date_path);
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.PIM.Message")]
