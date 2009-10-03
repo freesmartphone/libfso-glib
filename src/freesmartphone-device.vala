@@ -136,11 +136,11 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
 		public interface PowerSupply : GLib.Object {
 
-			public abstract  GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
 
-			public abstract  int get_capacity() throws DBus.Error;
+			public abstract async int get_capacity() throws DBus.Error;
 
-			public abstract  FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error;
+			public abstract async FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error;
 
 			public signal void power_status(FreeSmartphone.Device.PowerStatus status);
 
@@ -192,13 +192,13 @@ namespace FreeSmartphone {
 
 			public signal void sound_status(string id, FreeSmartphone.Device.SoundState status, GLib.HashTable<string, GLib.Value?> properties);
 
-			public abstract  string get_scenario() throws DBus.Error;
+			public abstract async string get_scenario() throws DBus.Error;
 
-			public abstract  void set_scenario(string scenario) throws DBus.Error;
+			public abstract async void set_scenario(string scenario) throws DBus.Error;
 
-			public abstract  void push_scenario(string scenario) throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract async void push_scenario(string scenario) throws FreeSmartphone.Device.AudioError, DBus.Error;
 
-			public abstract  string pull_scenario() throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract async string pull_scenario() throws FreeSmartphone.Device.AudioError, DBus.Error;
 
 			public signal void scenario(string scenario, string reason);
 		}

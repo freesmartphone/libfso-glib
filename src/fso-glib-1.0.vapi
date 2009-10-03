@@ -9,11 +9,11 @@ namespace FreeSmartphone {
 		public interface Audio : GLib.Object {
 			public abstract async string[] get_available_scenarios () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
-			public abstract string get_scenario () throws DBus.Error;
+			public abstract async string get_scenario () throws DBus.Error;
 			public abstract async void play_sound (string name, int loop, int length) throws FreeSmartphone.Device.AudioError, DBus.Error;
-			public abstract string pull_scenario () throws FreeSmartphone.Device.AudioError, DBus.Error;
-			public abstract void push_scenario (string scenario) throws FreeSmartphone.Device.AudioError, DBus.Error;
-			public abstract void set_scenario (string scenario) throws DBus.Error;
+			public abstract async string pull_scenario () throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract async void push_scenario (string scenario) throws FreeSmartphone.Device.AudioError, DBus.Error;
+			public abstract async void set_scenario (string scenario) throws DBus.Error;
 			public abstract async void stop_all_sounds () throws DBus.Error;
 			public abstract async void stop_sound (string name) throws DBus.Error;
 			public signal void scenario (string scenario, string reason);
@@ -74,9 +74,9 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
 		public interface PowerSupply : GLib.Object {
-			public abstract int get_capacity () throws DBus.Error;
-			public abstract GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
-			public abstract FreeSmartphone.Device.PowerStatus get_power_status () throws DBus.Error;
+			public abstract async int get_capacity () throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?> get_info () throws DBus.Error;
+			public abstract async FreeSmartphone.Device.PowerStatus get_power_status () throws DBus.Error;
 			public signal void capacity (int energy);
 			public signal void power_status (FreeSmartphone.Device.PowerStatus status);
 		}
@@ -374,7 +374,7 @@ namespace FreeSmartphone {
 			public abstract async void @delete () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_content () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_multiple_fields (string field_list) throws DBus.Error;
-			public abstract string[] get_used_backends () throws DBus.Error;
+			public abstract async string[] get_used_backends () throws DBus.Error;
 			public abstract async void update (GLib.HashTable<string,GLib.Value?> call_data) throws DBus.Error;
 			public signal void call_deleted ();
 			public signal void call_updated (GLib.HashTable<string,GLib.Value?> data);
@@ -384,7 +384,7 @@ namespace FreeSmartphone {
 		public interface CallQuery : GLib.Object {
 			public abstract async void dispose_ () throws DBus.Error;
 			public abstract async string get_call_path () throws DBus.Error;
-			public abstract GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_result () throws DBus.Error;
 			public abstract async int get_result_count () throws DBus.Error;
 			public abstract async void rewind () throws DBus.Error;
@@ -408,7 +408,7 @@ namespace FreeSmartphone {
 			public abstract async void @delete () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_content () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_multiple_fields (string field_list) throws DBus.Error;
-			public abstract string[] get_used_backends () throws DBus.Error;
+			public abstract async string[] get_used_backends () throws DBus.Error;
 			public abstract async void update (GLib.HashTable<string,GLib.Value?> contact_data) throws DBus.Error;
 			public signal void contact_deleted ();
 			public signal void contact_updated (GLib.HashTable<string,GLib.Value?> data);
@@ -418,7 +418,7 @@ namespace FreeSmartphone {
 		public interface ContactQuery : GLib.Object {
 			public abstract async void dispose_ () throws DBus.Error;
 			public abstract async string get_contact_path () throws DBus.Error;
-			public abstract GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_result () throws DBus.Error;
 			public abstract async int get_result_count () throws DBus.Error;
 			public abstract async void rewind () throws DBus.Error;
@@ -439,7 +439,7 @@ namespace FreeSmartphone {
 			public abstract async void @delete () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_content () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_multiple_fields (string field_list) throws DBus.Error;
-			public abstract string[] get_used_backends () throws DBus.Error;
+			public abstract async string[] get_used_backends () throws DBus.Error;
 			public abstract async void update (GLib.HashTable<string,GLib.Value?> date_data) throws DBus.Error;
 			public signal void date_deleted ();
 			public signal void date_updated (GLib.HashTable<string,GLib.Value?> data);
@@ -449,7 +449,7 @@ namespace FreeSmartphone {
 		public interface DateQuery : GLib.Object {
 			public abstract async void dispose_ () throws DBus.Error;
 			public abstract async string get_date_path () throws DBus.Error;
-			public abstract GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_result () throws DBus.Error;
 			public abstract async int get_result_count () throws DBus.Error;
 			public abstract async void rewind () throws DBus.Error;
@@ -514,7 +514,7 @@ namespace FreeSmartphone {
 			public abstract async void @delete () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_content () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_multiple_fields (string field_list) throws DBus.Error;
-			public abstract string[] get_used_backends () throws DBus.Error;
+			public abstract async string[] get_used_backends () throws DBus.Error;
 			public abstract async void update (GLib.HashTable<string,GLib.Value?> note_data) throws DBus.Error;
 			public signal void note_deleted ();
 			public signal void note_updated (GLib.HashTable<string,GLib.Value?> data);
@@ -523,7 +523,7 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.PIM.NoteQuery")]
 		public interface NoteQuery : GLib.Object {
 			public abstract async void dispose_ () throws DBus.Error;
-			public abstract GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string,GLib.Value?>[] get_multiple_results (int count) throws DBus.Error;
 			public abstract async string get_note_path () throws DBus.Error;
 			public abstract async GLib.HashTable<string,GLib.Value?> get_result () throws DBus.Error;
 			public abstract async int get_result_count () throws DBus.Error;
@@ -545,23 +545,23 @@ namespace FreeSmartphone {
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.PIM.Source")]
 		public interface Source : GLib.Object {
-			public abstract void disable () throws DBus.Error;
-			public abstract void enable () throws DBus.Error;
-			public abstract bool get_enabled () throws DBus.Error;
-			public abstract bool get_initialized () throws DBus.Error;
+			public abstract async void disable () throws DBus.Error;
+			public abstract async void enable () throws DBus.Error;
+			public abstract async bool get_enabled () throws DBus.Error;
+			public abstract async bool get_initialized () throws DBus.Error;
 			public abstract async string get_name () throws DBus.Error;
-			public abstract string[] get_properties () throws DBus.Error;
+			public abstract async string[] get_properties () throws DBus.Error;
 			public abstract async string get_status () throws DBus.Error;
 			public abstract async string[] get_supported_p_i_m_domains () throws DBus.Error;
-			public abstract void set_as_default (string domain) throws DBus.Error;
-			public abstract bool synchronize () throws DBus.Error;
+			public abstract async void set_as_default (string domain) throws DBus.Error;
+			public abstract async bool synchronize () throws DBus.Error;
 		}
 		[CCode (cheader_filename = "freesmartphone.h")]
 		[DBus (name = "org.freesmartphone.PIM.Sources")]
 		public interface Sources : GLib.Object {
-			public abstract string[] get_backends () throws DBus.Error;
-			public abstract string get_default_backend (string domain) throws DBus.Error;
-			public abstract string[] get_domains () throws DBus.Error;
+			public abstract async string[] get_backends () throws DBus.Error;
+			public abstract async string get_default_backend (string domain) throws DBus.Error;
+			public abstract async string[] get_domains () throws DBus.Error;
 			public abstract async int get_entry_count () throws DBus.Error;
 			public abstract async void init_all_entries () throws DBus.Error;
 		}
@@ -578,32 +578,32 @@ namespace FreeSmartphone {
 	[CCode (cheader_filename = "freesmartphone.h")]
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
-		public abstract void add_rule (string rule) throws DBus.Error;
-		public abstract void remove_rule (string name) throws DBus.Error;
-		public abstract void trigger_test (string name, bool value) throws DBus.Error;
+		public abstract async void add_rule (string rule) throws DBus.Error;
+		public abstract async void remove_rule (string name) throws DBus.Error;
+		public abstract async void trigger_test (string name, bool value) throws DBus.Error;
 	}
 	[CCode (cheader_filename = "freesmartphone.h")]
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
 	public interface MusicPlayer : GLib.Object {
-		public abstract void delete_playlist (DBus.ObjectPath list) throws DBus.Error;
-		public abstract DBus.ObjectPath get_current_playlist () throws DBus.Error;
-		public abstract GLib.HashTable<string,GLib.Value?> get_info_for_file (string file) throws DBus.Error;
-		public abstract string get_playing () throws DBus.Error;
-		public abstract GLib.HashTable<string,GLib.Value?> get_playing_info () throws DBus.Error;
-		public abstract string[] get_playlist () throws DBus.Error;
-		public abstract int get_volume () throws DBus.Error;
-		public abstract void jump (int position) throws DBus.Error;
-		public abstract DBus.ObjectPath new_playlist (string name) throws DBus.Error;
-		public abstract void next () throws DBus.Error;
-		public abstract void pause () throws DBus.Error;
-		public abstract void play () throws DBus.Error;
-		public abstract void previous () throws DBus.Error;
-		public abstract void seek_backward (int step) throws DBus.Error;
-		public abstract void seek_forward (int step) throws DBus.Error;
-		public abstract void set_current_playlist (DBus.ObjectPath list) throws DBus.Error;
-		public abstract void set_playing (string file) throws DBus.Error;
-		public abstract void set_volume (int volume) throws DBus.Error;
-		public abstract void stop () throws DBus.Error;
+		public abstract async void delete_playlist (DBus.ObjectPath list) throws DBus.Error;
+		public abstract async DBus.ObjectPath get_current_playlist () throws DBus.Error;
+		public abstract async GLib.HashTable<string,GLib.Value?> get_info_for_file (string file) throws DBus.Error;
+		public abstract async string get_playing () throws DBus.Error;
+		public abstract async GLib.HashTable<string,GLib.Value?> get_playing_info () throws DBus.Error;
+		public abstract async string[] get_playlist () throws DBus.Error;
+		public abstract async int get_volume () throws DBus.Error;
+		public abstract async void jump (int position) throws DBus.Error;
+		public abstract async DBus.ObjectPath new_playlist (string name) throws DBus.Error;
+		public abstract async void next () throws DBus.Error;
+		public abstract async void pause () throws DBus.Error;
+		public abstract async void play () throws DBus.Error;
+		public abstract async void previous () throws DBus.Error;
+		public abstract async void seek_backward (int step) throws DBus.Error;
+		public abstract async void seek_forward (int step) throws DBus.Error;
+		public abstract async void set_current_playlist (DBus.ObjectPath list) throws DBus.Error;
+		public abstract async void set_playing (string file) throws DBus.Error;
+		public abstract async void set_volume (int volume) throws DBus.Error;
+		public abstract async void stop () throws DBus.Error;
 		public signal void playing_changed (string file);
 		public signal void playlist_added (DBus.ObjectPath path);
 		public signal void playlist_removed (DBus.ObjectPath path);
@@ -613,17 +613,17 @@ namespace FreeSmartphone {
 	[CCode (cheader_filename = "freesmartphone.h")]
 	[DBus (name = "org.freesmartphone.MusicPlayer.Playlist")]
 	public interface MusicPlayerPlaylist : GLib.Object {
-		public abstract int add (string file) throws DBus.Error;
-		public abstract void change_name (string new_name) throws DBus.Error;
-		public abstract string get_at_position (int position) throws DBus.Error;
-		public abstract string[] get_files () throws DBus.Error;
-		public abstract FreeSmartphone.MusicPlayerPlaylistMode get_mode () throws DBus.Error;
-		public abstract string get_name () throws DBus.Error;
-		public abstract void insert (int position, string file) throws DBus.Error;
-		public abstract void insert_dir (int position, string file, bool recursive) throws DBus.Error;
-		public abstract void load_from_file (string file) throws DBus.Error;
-		public abstract void remove (int position) throws DBus.Error;
-		public abstract void set_mode (FreeSmartphone.MusicPlayerPlaylistMode mode) throws DBus.Error;
+		public abstract async int add (string file) throws DBus.Error;
+		public abstract async void change_name (string new_name) throws DBus.Error;
+		public abstract async string get_at_position (int position) throws DBus.Error;
+		public abstract async string[] get_files () throws DBus.Error;
+		public abstract async FreeSmartphone.MusicPlayerPlaylistMode get_mode () throws DBus.Error;
+		public abstract async string get_name () throws DBus.Error;
+		public abstract async void insert (int position, string file) throws DBus.Error;
+		public abstract async void insert_dir (int position, string file, bool recursive) throws DBus.Error;
+		public abstract async void load_from_file (string file) throws DBus.Error;
+		public abstract async void remove (int position) throws DBus.Error;
+		public abstract async void set_mode (FreeSmartphone.MusicPlayerPlaylistMode mode) throws DBus.Error;
 		public signal void deleted ();
 		public signal void file_added (int position, string file);
 		public signal void file_removed (int postion);
@@ -639,19 +639,19 @@ namespace FreeSmartphone {
 	[CCode (cheader_filename = "freesmartphone.h")]
 	[DBus (name = "org.freesmartphone.Phone")]
 	public interface Phone : GLib.Object {
-		public abstract DBus.ObjectPath create_call (string number, string protocol, bool force) throws DBus.Error;
-		public abstract string[] init_protocols () throws DBus.Error;
+		public abstract async DBus.ObjectPath create_call (string number, string protocol, bool force) throws DBus.Error;
+		public abstract async string[] init_protocols () throws DBus.Error;
 		public signal void incoming (DBus.ObjectPath call);
 	}
 	[CCode (cheader_filename = "freesmartphone.h")]
 	[DBus (name = "org.freesmartphone.Phone.Call")]
 	public interface PhoneCall : GLib.Object {
-		public abstract string activate () throws DBus.Error;
-		public abstract string get_peer () throws DBus.Error;
-		public abstract string get_status () throws DBus.Error;
-		public abstract string initiate () throws DBus.Error;
-		public abstract string release () throws DBus.Error;
-		public abstract void remove () throws DBus.Error;
+		public abstract async string activate () throws DBus.Error;
+		public abstract async string get_peer () throws DBus.Error;
+		public abstract async string get_status () throws DBus.Error;
+		public abstract async string initiate () throws DBus.Error;
+		public abstract async string release () throws DBus.Error;
+		public abstract async void remove () throws DBus.Error;
 		public signal void activated ();
 		public signal void incoming ();
 		public signal void outgoing ();

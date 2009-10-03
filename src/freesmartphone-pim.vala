@@ -76,7 +76,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
 
-			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
 
@@ -100,11 +100,11 @@ namespace FreeSmartphone {
 
 			public abstract async int get_entry_count() throws DBus.Error;
 
-			public abstract  string[] get_domains() throws DBus.Error;
+			public abstract async string[] get_domains() throws DBus.Error;
 
-			public abstract  string get_default_backend(string domain) throws DBus.Error;
+			public abstract async string get_default_backend(string domain) throws DBus.Error;
 
-			public abstract  string[] get_backends() throws DBus.Error;
+			public abstract async string[] get_backends() throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Contact")]
@@ -114,7 +114,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
 
-			public abstract  string[] get_used_backends() throws DBus.Error;
+			public abstract async string[] get_used_backends() throws DBus.Error;
 
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
 
@@ -138,7 +138,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
 
-			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
 
@@ -194,7 +194,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
 
-			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
 
@@ -210,19 +210,19 @@ namespace FreeSmartphone {
 
 			public abstract async string[] get_supported_p_i_m_domains() throws DBus.Error;
 
-			public abstract  void enable() throws DBus.Error;
+			public abstract async void enable() throws DBus.Error;
 
-			public abstract  void disable() throws DBus.Error;
+			public abstract async void disable() throws DBus.Error;
 
-			public abstract  bool get_enabled() throws DBus.Error;
+			public abstract async bool get_enabled() throws DBus.Error;
 
-			public abstract  bool get_initialized() throws DBus.Error;
+			public abstract async bool get_initialized() throws DBus.Error;
 
-			public abstract  string[] get_properties() throws DBus.Error;
+			public abstract async string[] get_properties() throws DBus.Error;
 
-			public abstract  void set_as_default(string domain) throws DBus.Error;
+			public abstract async void set_as_default(string domain) throws DBus.Error;
 
-			public abstract  bool synchronize() throws DBus.Error;
+			public abstract async bool synchronize() throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Dates")]
@@ -244,7 +244,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
 
-			public abstract  string[] get_used_backends() throws DBus.Error;
+			public abstract async string[] get_used_backends() throws DBus.Error;
 
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
 
@@ -280,7 +280,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
 
-			public abstract  string[] get_used_backends() throws DBus.Error;
+			public abstract async string[] get_used_backends() throws DBus.Error;
 
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> note_data) throws DBus.Error;
 
@@ -304,7 +304,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
 
-			public abstract  GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
 
 			public abstract async void dispose_() throws DBus.Error;
 
@@ -318,7 +318,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
 
-			public abstract  string[] get_used_backends() throws DBus.Error;
+			public abstract async string[] get_used_backends() throws DBus.Error;
 
 			public abstract async void update(GLib.HashTable<string, GLib.Value?> date_data) throws DBus.Error;
 
