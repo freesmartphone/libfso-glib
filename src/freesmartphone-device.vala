@@ -25,32 +25,6 @@ namespace FreeSmartphone {
 			DEVICE_FAILED,
 		}
 
-		[DBus (use_string_marshalling = true)]
-		public enum SoundState {
-			[DBus (value="playing")]
-			PLAYING,
-			[DBus (value="stopped")]
-			STOPPED,
-		}
-
-		[DBus (use_string_marshalling = true)]
-		public enum IdleState {
-			[DBus (value="busy")]
-			BUSY,
-			[DBus (value="idle")]
-			IDLE,
-			[DBus (value="idle_dim")]
-			IDLE_DIM,
-			[DBus (value="idle_prelock")]
-			IDLE_PRELOCK,
-			[DBus (value="lock")]
-			LOCK,
-			[DBus (value="suspend")]
-			SUSPEND,
-			[DBus (value="awake")]
-			AWAKE,
-		}
-
 		[DBus (name = "org.freesmartphone.Device.Input")]
 		public interface Input : GLib.Object {
 
@@ -85,6 +59,32 @@ namespace FreeSmartphone {
 			AC,
 		}
 
+		[DBus (use_string_marshalling = true)]
+		public enum SoundState {
+			[DBus (value="playing")]
+			PLAYING,
+			[DBus (value="stopped")]
+			STOPPED,
+		}
+
+		[DBus (use_string_marshalling = true)]
+		public enum IdleState {
+			[DBus (value="busy")]
+			BUSY,
+			[DBus (value="idle")]
+			IDLE,
+			[DBus (value="idle_dim")]
+			IDLE_DIM,
+			[DBus (value="idle_prelock")]
+			IDLE_PRELOCK,
+			[DBus (value="lock")]
+			LOCK,
+			[DBus (value="suspend")]
+			SUSPEND,
+			[DBus (value="awake")]
+			AWAKE,
+		}
+
 		[DBus (name = "org.freesmartphone.Device.LED")]
 		public interface LED : GLib.Object {
 
@@ -107,10 +107,14 @@ namespace FreeSmartphone {
 			public signal void orientation_changed(string orientation);
 		}
 
-		[DBus (name = "org.freesmartphone.Device.Info")]
-		public interface Info : GLib.Object {
+		[DBus (name = "org.freesmartphone.Device.PowerControl")]
+		public interface PowerControl : GLib.Object {
 
-			public abstract async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error;
+			public abstract async bool get_power() throws DBus.Error;
+
+			public abstract async void set_power(bool on) throws DBus.Error;
+
+			public signal void power(bool on);
 		}
 
 		[DBus (use_string_marshalling = true)]
@@ -121,16 +125,6 @@ namespace FreeSmartphone {
 			HELD,
 			[DBus (value="released")]
 			RELEASED,
-		}
-
-		[DBus (name = "org.freesmartphone.Device.PowerControl")]
-		public interface PowerControl : GLib.Object {
-
-			public abstract async bool get_power() throws DBus.Error;
-
-			public abstract async void set_power(bool on) throws DBus.Error;
-
-			public signal void power(bool on);
 		}
 
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
@@ -145,6 +139,12 @@ namespace FreeSmartphone {
 			public signal void power_status(FreeSmartphone.Device.PowerStatus status);
 
 			public signal void capacity(int energy);
+		}
+
+		[DBus (name = "org.freesmartphone.Device.Info")]
+		public interface Info : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Display")]

@@ -296,32 +296,31 @@ namespace FreeSmartphone {
 		}
 		[CCode (type_id = "FREE_SMARTPHONE_GSM_TYPE_NETWORK_PROVIDER", cheader_filename = "freesmartphone.h")]
 		public struct NetworkProvider {
-			public string attr1;
-			public string attr2;
-			public string attr3;
-			public string attr4;
-			public string attr5;
+			public string status;
+			public string shortname;
+			public string longname;
+			public string mccmnc;
+			public string act;
 		}
 		[CCode (type_id = "FREE_SMARTPHONE_GSM_TYPE_SIM_ENTRY", cheader_filename = "freesmartphone.h")]
 		public struct SIMEntry {
-			public int attr1;
-			public string attr2;
-			public string attr3;
+			public int index;
+			public string name;
+			public string number;
 		}
 		[CCode (type_id = "FREE_SMARTPHONE_GSM_TYPE_SIM_HOMEZONE", cheader_filename = "freesmartphone.h")]
 		public struct SIMHomezone {
-			public string attr1;
-			public int attr2;
-			public int attr3;
-			public int attr4;
+			public int x;
+			public int y;
+			public int radius;
 		}
 		[CCode (type_id = "FREE_SMARTPHONE_GSM_TYPE_SIM_MESSAGE", cheader_filename = "freesmartphone.h")]
 		public struct SIMMessage {
-			public int attr1;
-			public string attr2;
-			public string attr3;
-			public string attr4;
-			public GLib.HashTable<string,GLib.Value?> attr5;
+			public int index;
+			public string status;
+			public string number;
+			public string contents;
+			public GLib.HashTable<string,GLib.Value?> properties;
 		}
 		[CCode (cprefix = "FREE_SMARTPHONE_GSM_CALL_STATUS_", cheader_filename = "freesmartphone.h")]
 		[DBus (use_string_marshalling = true)]
