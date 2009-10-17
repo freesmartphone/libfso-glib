@@ -24,4 +24,5 @@ compile
 stamp-h1
 *.pc
 *.service
+*.vapi
 

@@ -111,6 +111,8 @@ namespace FreeSmartphone {
 
 		[DBus (use_string_marshalling = true)]
 		public enum SIMAuthStatus {
+			[DBus (value="UNKNOWN")]
+			UNKNOWN,
 			[DBus (value="READY")]
 			READY,
 			[DBus (value="SIM PIN")]
