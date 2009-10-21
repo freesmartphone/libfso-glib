@@ -47,6 +47,8 @@ namespace FreeSmartphone {
 			DEVICE_TIMEOUT,
 			[DBus (name = "DeviceFailed")]
 			DEVICE_FAILED,
+			[DBus (name = "AuthorizationRequired")]
+			AUTHORIZATION_REQUIRED,
 			[DBus (name = "SimNotPresent")]
 			SIM_NOT_PRESENT,
 			[DBus (name = "SimAuthFailed")]
