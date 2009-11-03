@@ -85,6 +85,14 @@ namespace FreeSmartphone {
 			CONTEXT_NOT_FOUND,
 		}
 
+		[DBus (name = "org.freesmartphone.GSM.Debug")]
+		public interface Debug : GLib.Object {
+
+			public abstract async string debug_at_command(string command, string channel) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void debug_inject_at_response(string response, string channel) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+		}
+
 		[DBus (use_string_marshalling = true)]
 		public enum CallStatus {
 			[DBus (value="INCOMING")]
@@ -229,6 +237,10 @@ namespace FreeSmartphone {
 
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
 		public interface SMS : GLib.Object {
+
+			public abstract async uint get_size_for_text_message(string contents) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void send_text_message(string recipient_number, string contents, bool want_report, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void send_message(string recipient_number, string contents, GLib.HashTable<string, GLib.Value?> properties, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
