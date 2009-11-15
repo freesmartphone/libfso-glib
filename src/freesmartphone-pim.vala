@@ -125,6 +125,18 @@ namespace FreeSmartphone {
 			public signal void contact_updated(GLib.HashTable<string, GLib.Value?> data);
 		}
 
+		[DBus (name = "org.freesmartphone.PIM.Contacts")]
+		public interface Contacts : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
+
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_contact(string contact_path);
+		}
+
 		[DBus (name = "org.freesmartphone.PIM.ContactQuery")]
 		public interface ContactQuery : GLib.Object {
 
@@ -143,18 +155,6 @@ namespace FreeSmartphone {
 			public abstract async void dispose_() throws DBus.Error;
 
 			public signal void contact_added(string contact_path);
-		}
-
-		[DBus (name = "org.freesmartphone.PIM.Contacts")]
-		public interface Contacts : GLib.Object {
-
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
-
-			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_contact(string contact_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Messages")]
@@ -181,26 +181,6 @@ namespace FreeSmartphone {
 			public signal void unread_messages(int amount);
 		}
 
-		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
-		public interface DateQuery : GLib.Object {
-
-			public abstract async int get_result_count() throws DBus.Error;
-
-			public abstract async void rewind() throws DBus.Error;
-
-			public abstract async void skip(int count) throws DBus.Error;
-
-			public abstract async string get_date_path() throws DBus.Error;
-
-			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
-
-			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
-
-			public abstract async void dispose_() throws DBus.Error;
-
-			public signal void date_added(string date_path);
-		}
-
 		[DBus (name = "org.freesmartphone.PIM.Source")]
 		public interface Source : GLib.Object {
 
@@ -223,6 +203,26 @@ namespace FreeSmartphone {
 			public abstract async void set_as_default(string domain) throws DBus.Error;
 
 			public abstract async bool synchronize() throws DBus.Error;
+		}
+
+		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
+		public interface DateQuery : GLib.Object {
+
+			public abstract async int get_result_count() throws DBus.Error;
+
+			public abstract async void rewind() throws DBus.Error;
+
+			public abstract async void skip(int count) throws DBus.Error;
+
+			public abstract async string get_date_path() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+
+			public abstract async void dispose_() throws DBus.Error;
+
+			public signal void date_added(string date_path);
 		}
 
 		[DBus (name = "org.freesmartphone.PIM.Dates")]

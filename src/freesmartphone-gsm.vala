@@ -29,16 +29,6 @@ namespace FreeSmartphone {
 			public signal void context_status(int id, string status, GLib.HashTable<string, GLib.Value?> properties);
 		}
 
-		[DBus (name = "org.freesmartphone.GSM.HZ")]
-		public interface HZ : GLib.Object {
-
-			public abstract async string[] get_known_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async string get_home_zone_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public signal void home_zone_status(string name);
-		}
-
 		[DBus (name = "org.freesmartphone.GSM")]
 		public errordomain Error {
 			[DBus (name = "DeviceNotPresent")]
@@ -83,6 +73,16 @@ namespace FreeSmartphone {
 			NETWORK_NOT_FOUND,
 			[DBus (name = "ContextNotFound")]
 			CONTEXT_NOT_FOUND,
+		}
+
+		[DBus (name = "org.freesmartphone.GSM.HZ")]
+		public interface HZ : GLib.Object {
+
+			public abstract async string[] get_known_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async string get_home_zone_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public signal void home_zone_status(string name);
 		}
 
 		[DBus (use_string_marshalling = true)]
@@ -283,6 +283,12 @@ namespace FreeSmartphone {
 			public signal void incoming_message_receipt(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
 		}
 
+		public struct CallDetail {
+			public int id;
+			public FreeSmartphone.GSM.CallStatus status;
+			public GLib.HashTable<string, GLib.Value?> properties;
+		}
+
 		[DBus (name = "org.freesmartphone.GSM.CB")]
 		public interface CB : GLib.Object {
 
@@ -291,12 +297,6 @@ namespace FreeSmartphone {
 			public abstract async void set_cell_broadcast_subscriptions(string channels) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public signal void incoming_cell_broadcast(int serial, int channel, int encoding, int page, string data);
-		}
-
-		public struct CallDetail {
-			public int id;
-			public FreeSmartphone.GSM.CallStatus status;
-			public GLib.HashTable<string, GLib.Value?> properties;
 		}
 
 		public struct SIMEntry {

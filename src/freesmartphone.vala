@@ -5,16 +5,6 @@ using GLib;
 
 namespace FreeSmartphone {
 
-	[DBus (use_string_marshalling = true)]
-	public enum MusicPlayerPlaylistMode {
-		[DBus (value="normal")]
-		NORMAL,
-		[DBus (value="random")]
-		RANDOM,
-		[DBus (value="endless")]
-		ENDLESS,
-	}
-
 	[DBus (name = "org.freesmartphone.MusicPlayer.Playlist")]
 	public errordomain MusicPlayerPlaylistError {
 		[DBus (name = "FileNotFound")]
@@ -29,6 +19,16 @@ namespace FreeSmartphone {
 		NO_FILE_SELECTED,
 		[DBus (name = "OutOfFiles")]
 		OUT_OF_FILES,
+	}
+
+	[DBus (use_string_marshalling = true)]
+	public enum MusicPlayerPlaylistMode {
+		[DBus (value="normal")]
+		NORMAL,
+		[DBus (value="random")]
+		RANDOM,
+		[DBus (value="endless")]
+		ENDLESS,
 	}
 
 	[DBus (name = "org.freesmartphone")]
@@ -70,7 +70,11 @@ namespace FreeSmartphone {
 
 		public abstract async void play() throws FreeSmartphone.MusicPlayerError, DBus.Error;
 
+		public abstract async void pop_pause() throws FreeSmartphone.MusicPlayerError, DBus.Error;
+
 		public abstract async void previous() throws FreeSmartphone.MusicPlayerError, DBus.Error;
+
+		public abstract async void push_pause() throws FreeSmartphone.MusicPlayerError, DBus.Error;
 
 		public abstract async void seek_backward(int step) throws FreeSmartphone.MusicPlayerError, DBus.Error;
 
@@ -95,6 +99,16 @@ namespace FreeSmartphone {
 		public signal void state(FreeSmartphone.MusicPlayerState state);
 	}
 
+	[DBus (name = "org.freesmartphone.Phone")]
+	public interface Phone : GLib.Object {
+
+		public abstract async string[] init_protocols() throws DBus.Error;
+
+		public abstract async ObjectPath create_call(string number, string protocol, bool force) throws DBus.Error;
+
+		public signal void incoming(ObjectPath call);
+	}
+
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerState {
 		[DBus (value="stopped")]
@@ -105,16 +119,6 @@ namespace FreeSmartphone {
 		PAUSED,
 		[DBus (value="buffering")]
 		BUFFERING,
-	}
-
-	[DBus (name = "org.freesmartphone.Phone")]
-	public interface Phone : GLib.Object {
-
-		public abstract async string[] init_protocols() throws DBus.Error;
-
-		public abstract async ObjectPath create_call(string number, string protocol, bool force) throws DBus.Error;
-
-		public signal void incoming(ObjectPath call);
 	}
 
 	[DBus (use_string_marshalling = true)]
@@ -265,6 +269,32 @@ namespace FreeSmartphone {
 		public abstract async void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
 	}
 
+	[DBus (name = "org.freesmartphone.Events")]
+	public interface Events : GLib.Object {
+
+		public abstract async void add_rule(string rule) throws DBus.Error;
+
+		public abstract async void remove_rule(string name) throws DBus.Error;
+
+		public abstract async void trigger_test(string name, bool value) throws DBus.Error;
+	}
+
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+
+		public abstract async string[] get_keys() throws DBus.Error;
+
+		public abstract async GLib.Value get_value(string key) throws DBus.Error;
+
+		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
+
+		public abstract async bool is_profilable(string key) throws DBus.Error;
+
+		public abstract async string get_type_(string key) throws DBus.Error;
+
+		public signal void notify(string key, GLib.Value value);
+	}
+
 	[DBus (name = "org.freesmartphone.MusicPlayer.Playlist")]
 	public interface MusicPlayerPlaylist : GLib.Object {
 
@@ -303,32 +333,6 @@ namespace FreeSmartphone {
 		public signal void name(string name);
 
 		public signal void playing(string file);
-	}
-
-	[DBus (name = "org.freesmartphone.Events")]
-	public interface Events : GLib.Object {
-
-		public abstract async void add_rule(string rule) throws DBus.Error;
-
-		public abstract async void remove_rule(string name) throws DBus.Error;
-
-		public abstract async void trigger_test(string name, bool value) throws DBus.Error;
-	}
-
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-
-		public abstract async string[] get_keys() throws DBus.Error;
-
-		public abstract async GLib.Value get_value(string key) throws DBus.Error;
-
-		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
-
-		public abstract async bool is_profilable(string key) throws DBus.Error;
-
-		public abstract async string get_type_(string key) throws DBus.Error;
-
-		public signal void notify(string key, GLib.Value value);
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]

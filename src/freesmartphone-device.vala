@@ -33,30 +33,6 @@ namespace FreeSmartphone {
 			STOPPED,
 		}
 
-		[DBus (use_string_marshalling = true)]
-		public enum PowerStatus {
-			[DBus (value="charging")]
-			CHARGING,
-			[DBus (value="discharging")]
-			DISCHARGING,
-			[DBus (value="full")]
-			FULL,
-			[DBus (value="empty")]
-			EMPTY,
-			[DBus (value="critical")]
-			CRITICAL,
-			[DBus (value="critical")]
-			REMOVED,
-			[DBus (value="unknown")]
-			UNKNOWN,
-			[DBus (value="online")]
-			ONLINE,
-			[DBus (value="offline")]
-			OFFLINE,
-			[DBus (value="ac")]
-			AC,
-		}
-
 		[DBus (name = "org.freesmartphone.Device.Input")]
 		public interface Input : GLib.Object {
 
@@ -85,6 +61,30 @@ namespace FreeSmartphone {
 			AWAKE,
 		}
 
+		[DBus (use_string_marshalling = true)]
+		public enum PowerStatus {
+			[DBus (value="charging")]
+			CHARGING,
+			[DBus (value="discharging")]
+			DISCHARGING,
+			[DBus (value="full")]
+			FULL,
+			[DBus (value="empty")]
+			EMPTY,
+			[DBus (value="critical")]
+			CRITICAL,
+			[DBus (value="critical")]
+			REMOVED,
+			[DBus (value="unknown")]
+			UNKNOWN,
+			[DBus (value="online")]
+			ONLINE,
+			[DBus (value="offline")]
+			OFFLINE,
+			[DBus (value="ac")]
+			AC,
+		}
+
 		[DBus (name = "org.freesmartphone.Device.LED")]
 		public interface LED : GLib.Object {
 
@@ -105,20 +105,6 @@ namespace FreeSmartphone {
 			public abstract async string get_orientation() throws DBus.Error;
 
 			public signal void orientation_changed(string orientation);
-		}
-
-		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
-		public interface PowerSupply : GLib.Object {
-
-			public abstract async GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
-
-			public abstract async int get_capacity() throws DBus.Error;
-
-			public abstract async FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error;
-
-			public signal void power_status(FreeSmartphone.Device.PowerStatus status);
-
-			public signal void capacity(int energy);
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Info")]
@@ -145,6 +131,20 @@ namespace FreeSmartphone {
 			public abstract async void set_power(bool on) throws DBus.Error;
 
 			public signal void power(bool on);
+		}
+
+		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
+		public interface PowerSupply : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_info() throws DBus.Error;
+
+			public abstract async int get_capacity() throws DBus.Error;
+
+			public abstract async FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error;
+
+			public signal void power_status(FreeSmartphone.Device.PowerStatus status);
+
+			public signal void capacity(int energy);
 		}
 
 		[DBus (name = "org.freesmartphone.Device.Display")]
