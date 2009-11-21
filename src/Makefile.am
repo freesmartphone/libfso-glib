@@ -18,6 +18,7 @@ lib_LTLIBRARIES = libfso-glib.la
 
 libfso_glib_la_VALASOURCES = \
 	freesmartphone.vala \
+	freesmartphone-data.vala \
 	freesmartphone-device.vala \
 	freesmartphone-gsm.vala \
 	freesmartphone-time.vala \
