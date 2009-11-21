@@ -7,17 +7,17 @@ namespace FreeSmartphone {
 
 	namespace Data {
 
+		public struct WorldCountry {
+			public string code;
+			public string name;
+		}
+
 		[DBus (name = "org.freesmartphone.Data.World")]
 		public interface World : GLib.Object {
 
-			public abstract async WorldBusname[] get_all_countries() throws DBus.Error;
+			public abstract async FreeSmartphone.Data.WorldCountry[] get_all_countries() throws DBus.Error;
 
 			public abstract async string get_country_code_for_mcc_mnc(string mcc_mnc) throws FreeSmartphone.Error, DBus.Error;
-		}
-
-		public struct WorldBusname {
-			public string attr1;
-			public string attr2;
 		}
 	}
 }
