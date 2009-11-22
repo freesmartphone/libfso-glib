@@ -18,6 +18,8 @@ namespace FreeSmartphone {
 			public abstract async FreeSmartphone.Data.WorldCountry[] get_all_countries() throws DBus.Error;
 
 			public abstract async string get_country_code_for_mcc_mnc(string mcc_mnc) throws FreeSmartphone.Error, DBus.Error;
+
+			public abstract async GLib.HashTable<string, string> get_timezones_for_country_code(string country_code) throws FreeSmartphone.Error, DBus.Error;
 		}
 	}
 }
