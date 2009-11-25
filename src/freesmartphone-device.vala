@@ -200,6 +200,8 @@ namespace FreeSmartphone {
 
 			public abstract async string pull_scenario() throws FreeSmartphone.Device.AudioError, DBus.Error;
 
+			public abstract async void save_scenario(string scenario) throws DBus.Error;
+
 			public signal void scenario(string scenario, string reason);
 		}
 
