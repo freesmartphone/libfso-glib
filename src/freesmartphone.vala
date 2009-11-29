@@ -43,6 +43,38 @@ namespace FreeSmartphone {
 		UNSUPPORTED,
 	}
 
+	[DBus (use_string_marshalling = true)]
+	public enum MusicPlayerStreamError {
+		[DBus (value="failed")]
+		FAILED,
+		[DBus (value="state_changed")]
+		STATE_CHANGED,
+		[DBus (value="negotiation")]
+		NEGOTIATION,
+		[DBus (value="event")]
+		EVENT,
+		[DBus (value="seek")]
+		SEEK,
+		[DBus (value="tag")]
+		TAG,
+		[DBus (value="missing_plugin")]
+		MISSING_PLUGIN,
+		[DBus (value="disabled")]
+		DISABLED,
+		[DBus (value="settings")]
+		SETTING,
+		[DBus (value="encode")]
+		ENCODE,
+		[DBus (value="decrypt")]
+		DECRYPT,
+		[DBus (value="nokey")]
+		NOKEY,
+		[DBus (value="wrong_type")]
+		WRONG_TYPE,
+		[DBus (value="codec_not_found")]
+		CODEC_NOT_FOUND,
+	}
+
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
 	public interface MusicPlayer : GLib.Object {
 
@@ -97,6 +129,8 @@ namespace FreeSmartphone {
 		public signal void progress(int progress);
 
 		public signal void state(FreeSmartphone.MusicPlayerState state);
+
+		public signal void error(FreeSmartphone.MusicPlayerStreamError the_error, string info);
 	}
 
 	[DBus (use_string_marshalling = true)]
@@ -269,6 +303,22 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+
+		public abstract async string[] get_keys() throws DBus.Error;
+
+		public abstract async GLib.Value get_value(string key) throws DBus.Error;
+
+		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
+
+		public abstract async bool is_profilable(string key) throws DBus.Error;
+
+		public abstract async string get_type_(string key) throws DBus.Error;
+
+		public signal void notify(string key, GLib.Value value);
+	}
+
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -300,7 +350,7 @@ namespace FreeSmartphone {
 
 		public abstract async void jump_to(int position) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error;
 
-		public abstract async void load_from_file(string file) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error;
+		public abstract async void load_from_uri(string file) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error;
 
 		public abstract async void remove(int position) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error;
 
@@ -317,22 +367,6 @@ namespace FreeSmartphone {
 		public signal void name(string name);
 
 		public signal void playing(string file);
-	}
-
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-
-		public abstract async string[] get_keys() throws DBus.Error;
-
-		public abstract async GLib.Value get_value(string key) throws DBus.Error;
-
-		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
-
-		public abstract async bool is_profilable(string key) throws DBus.Error;
-
-		public abstract async string get_type_(string key) throws DBus.Error;
-
-		public signal void notify(string key, GLib.Value value);
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]
