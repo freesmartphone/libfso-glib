@@ -31,6 +31,18 @@ namespace FreeSmartphone {
 		ENDLESS,
 	}
 
+	[DBus (name = "org.freesmartphone")]
+	public errordomain Error {
+		[DBus (name = "InvalidParameter")]
+		INVALID_PARAMETER,
+		[DBus (name = "InternalError")]
+		INTERNAL_ERROR,
+		[DBus (name = "SystemError")]
+		SYSTEM_ERROR,
+		[DBus (name = "Unsupported")]
+		UNSUPPORTED,
+	}
+
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerStreamError {
 		[DBus (value="failed")]
@@ -61,18 +73,6 @@ namespace FreeSmartphone {
 		WRONG_TYPE,
 		[DBus (value="codec_not_found")]
 		CODEC_NOT_FOUND,
-	}
-
-	[DBus (name = "org.freesmartphone")]
-	public errordomain Error {
-		[DBus (name = "InvalidParameter")]
-		INVALID_PARAMETER,
-		[DBus (name = "InternalError")]
-		INTERNAL_ERROR,
-		[DBus (name = "SystemError")]
-		SYSTEM_ERROR,
-		[DBus (name = "Unsupported")]
-		UNSUPPORTED,
 	}
 
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
@@ -307,6 +307,10 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+	}
+
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -355,22 +359,6 @@ namespace FreeSmartphone {
 		public signal void name(string name);
 
 		public signal void playing(string file);
-	}
-
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-
-		public abstract async string[] get_keys() throws DBus.Error;
-
-		public abstract async GLib.Value get_value(string key) throws DBus.Error;
-
-		public abstract async void set_value(string key, GLib.Value value) throws DBus.Error;
-
-		public abstract async bool is_profilable(string key) throws DBus.Error;
-
-		public abstract async string get_type_(string key) throws DBus.Error;
-
-		public signal void notify(string key, GLib.Value value);
 	}
 
 	[DBus (name = "org.freesmartphone.Resource")]
