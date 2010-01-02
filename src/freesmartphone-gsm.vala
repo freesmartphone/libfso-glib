@@ -10,23 +10,23 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.GSM.PDP")]
 		public interface PDP : GLib.Object {
 
-			public abstract async string[] list_gprs_classes() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async string get_current_gprs_class() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void set_current_gprs_class(string device_class) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
 			public abstract async GLib.HashTable<string, GLib.Value?> get_network_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public signal void network_status(GLib.HashTable<string, GLib.Value?> status);
 
-			public abstract async int activate_context(string apn, string username, string password) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async void set_credentials(string apn, string username, string password) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async void deactivate_context(int index) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async void get_credentials(out string apn, out string username, out string password) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async string get_context_status(int index) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async void activate_context() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public signal void context_status(int id, string status, GLib.HashTable<string, GLib.Value?> properties);
+			public abstract async void deactivate_context() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void get_context_status(out string status, out GLib.HashTable<string, GLib.Value?> properties) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public signal void context_status(string status, GLib.HashTable<string, GLib.Value?> properties);
+
+			public abstract async void internal_status_update(string status, GLib.HashTable<string, GLib.Value?> properties) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.HZ")]
