@@ -12,7 +12,7 @@ namespace FreeSmartphone {
 
 			public abstract async void clear_alarms(string busname) throws DBus.Error;
 
-			public abstract async void list_alarms(FreeSmartphone.Time.WakeupAlarm[] alarms) throws DBus.Error;
+			public abstract async FreeSmartphone.Time.WakeupAlarm[] list_alarms() throws DBus.Error;
 
 			public abstract async void remove_alarm(string busname, int timestamp) throws DBus.Error;
 
