@@ -22,6 +22,11 @@ namespace FreeSmartphone {
 		public struct WakeupAlarm {
 			public string busname;
 			public int timestamp;
+
+			public WakeupAlarm (string busname, int timestamp ) {
+				this.busname = busname;
+				this.timestamp = timestamp;
+			}
 		}
 	}
 }

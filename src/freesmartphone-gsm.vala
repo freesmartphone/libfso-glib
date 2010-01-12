@@ -189,6 +189,14 @@ namespace FreeSmartphone {
 			public string number;
 			public string contents;
 			public GLib.HashTable<string, GLib.Value?> properties;
+
+			public SIMMessage (int index, string status, string number, string contents, GLib.HashTable<string, GLib.Value?> properties ) {
+				this.index = index;
+				this.status = status;
+				this.number = number;
+				this.contents = contents;
+				this.properties = properties;
+			}
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.Network")]
@@ -233,6 +241,12 @@ namespace FreeSmartphone {
 			public int x;
 			public int y;
 			public int radius;
+
+			public SIMHomezone (int x, int y, int radius ) {
+				this.x = x;
+				this.y = y;
+				this.radius = radius;
+			}
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
@@ -297,12 +311,24 @@ namespace FreeSmartphone {
 			public int index;
 			public string name;
 			public string number;
+
+			public SIMEntry (int index, string name, string number ) {
+				this.index = index;
+				this.name = name;
+				this.number = number;
+			}
 		}
 
 		public struct CallDetail {
 			public int id;
 			public FreeSmartphone.GSM.CallStatus status;
 			public GLib.HashTable<string, GLib.Value?> properties;
+
+			public CallDetail (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties ) {
+				this.id = id;
+				this.status = status;
+				this.properties = properties;
+			}
 		}
 
 		public struct NetworkProvider {
@@ -311,6 +337,14 @@ namespace FreeSmartphone {
 			public string longname;
 			public string mccmnc;
 			public string act;
+
+			public NetworkProvider (string status, string shortname, string longname, string mccmnc, string act ) {
+				this.status = status;
+				this.shortname = shortname;
+				this.longname = longname;
+				this.mccmnc = mccmnc;
+				this.act = act;
+			}
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.SIM")]

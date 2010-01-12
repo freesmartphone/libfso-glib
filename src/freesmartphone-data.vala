@@ -10,6 +10,11 @@ namespace FreeSmartphone {
 		public struct WorldCountry {
 			public string code;
 			public string name;
+
+			public WorldCountry (string code, string name ) {
+				this.code = code;
+				this.name = name;
+			}
 		}
 
 		[DBus (name = "org.freesmartphone.Data.World")]
