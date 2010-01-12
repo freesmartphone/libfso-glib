@@ -19,11 +19,36 @@ namespace FreeSmartphone {
 			public abstract async void add_alarm(string busname, int timestamp) throws FreeSmartphone.Error, DBus.Error;
 		}
 
+		//Proxy class for interface Alarm
+		public class AlarmProxy: GLib.Object, Alarm {
+		
+			private Alarm alarm;
+			
+			public AlarmProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				alarm = con.get_object (bus_name,path) as Alarm;
+			}
+
+			public async void clear_alarms(string busname) throws DBus.Error { 
+				yield alarm.clear_alarms(busname);
+			}
+
+			public async FreeSmartphone.Time.WakeupAlarm[] list_alarms() throws DBus.Error { 
+				return yield alarm.list_alarms();
+			}
+
+			public async void remove_alarm(string busname, int timestamp) throws DBus.Error { 
+				yield alarm.remove_alarm(busname, timestamp);
+			}
+
+			public async void add_alarm(string busname, int timestamp) throws FreeSmartphone.Error, DBus.Error { 
+				yield alarm.add_alarm(busname, timestamp);
+			}
+		}
 		public struct WakeupAlarm {
 			public string busname;
 			public int timestamp;
 
-			public WakeupAlarm (string busname, int timestamp ) {
+			public WakeupAlarm (string busname, int timestam ) {
 				this.busname = busname;
 				this.timestamp = timestamp;
 			}

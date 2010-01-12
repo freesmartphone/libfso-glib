@@ -11,7 +11,7 @@ namespace FreeSmartphone {
 			public string code;
 			public string name;
 
-			public WorldCountry (string code, string name ) {
+			public WorldCountry (string code, string nam ) {
 				this.code = code;
 				this.name = name;
 			}
@@ -26,5 +26,26 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, string> get_timezones_for_country_code(string country_code) throws FreeSmartphone.Error, DBus.Error;
 		}
-	}
+
+		//Proxy class for interface World
+		public class WorldProxy: GLib.Object, World {
+		
+			private World world;
+			
+			public WorldProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				world = con.get_object (bus_name,path) as World;
+			}
+
+			public async FreeSmartphone.Data.WorldCountry[] get_all_countries() throws DBus.Error { 
+				return yield world.get_all_countries();
+			}
+
+			public async string get_country_code_for_mcc_mnc(string mcc_mnc) throws FreeSmartphone.Error, DBus.Error { 
+				return yield world.get_country_code_for_mcc_mnc(mcc_mnc);
+			}
+
+			public async GLib.HashTable<string, string> get_timezones_for_country_code(string country_code) throws FreeSmartphone.Error, DBus.Error { 
+				return yield world.get_timezones_for_country_code(country_code);
+			}
+		}	}
 }

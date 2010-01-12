@@ -64,7 +64,8 @@ libfso_glib_la_LIBADD = \
 	$(DBUS_LIBS)
 
 EXTRA_DIST = \
-	$(libfso_glib_la_VALASOURCES)
+	$(libfso_glib_la_VALASOURCES) \
+	libfso_glib_la.vala.stamp
 
 CLEANFILES = \
 	*.c \
