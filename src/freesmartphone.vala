@@ -226,6 +226,25 @@ namespace FreeSmartphone {
 			yield music_player.stop();
 		}
 	}
+	[DBus (name = "org.freesmartphone.Notification")]
+	public interface Notification : GLib.Object {
+
+		public abstract async void alarm() throws DBus.Error;
+	}
+
+	//Proxy class for interface Notification
+	public class NotificationProxy: GLib.Object, Notification {
+	
+		private Notification notification;
+		
+		public NotificationProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+			notification = con.get_object (bus_name,path) as Notification;
+		}
+
+		public async void alarm() throws DBus.Error { 
+			yield notification.alarm();
+		}
+	}
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerState {
 		[DBus (value="stopped")]
