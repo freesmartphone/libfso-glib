@@ -31,18 +31,6 @@ namespace FreeSmartphone {
 		ENDLESS,
 	}
 
-	[DBus (name = "org.freesmartphone")]
-	public errordomain Error {
-		[DBus (name = "InvalidParameter")]
-		INVALID_PARAMETER,
-		[DBus (name = "InternalError")]
-		INTERNAL_ERROR,
-		[DBus (name = "SystemError")]
-		SYSTEM_ERROR,
-		[DBus (name = "Unsupported")]
-		UNSUPPORTED,
-	}
-
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerStreamError {
 		[DBus (value="failed")]
@@ -73,6 +61,18 @@ namespace FreeSmartphone {
 		WRONG_TYPE,
 		[DBus (value="codec_not_found")]
 		CODEC_NOT_FOUND,
+	}
+
+	[DBus (name = "org.freesmartphone")]
+	public errordomain Error {
+		[DBus (name = "InvalidParameter")]
+		INVALID_PARAMETER,
+		[DBus (name = "InternalError")]
+		INTERNAL_ERROR,
+		[DBus (name = "SystemError")]
+		SYSTEM_ERROR,
+		[DBus (name = "Unsupported")]
+		UNSUPPORTED,
 	}
 
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
@@ -469,6 +469,14 @@ namespace FreeSmartphone {
 		public abstract async void start_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
 
 		public abstract async void stop_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
+
+		public abstract async void set_connection_preferences(string[] types) throws FreeSmartphone.Error, DBus.Error;
+
+		public abstract async void connect(string type) throws FreeSmartphone.Error, DBus.Error;
+
+		public abstract async void disconnect() throws FreeSmartphone.Error, DBus.Error;
+
+		public signal void online_status(bool online, GLib.HashTable<string, GLib.Value?> properties);
 	}
 
 	//Proxy class for interface Network
@@ -486,6 +494,18 @@ namespace FreeSmartphone {
 
 		public async void stop_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error { 
 			yield network.stop_connection_sharing_with_interface(interface);
+		}
+
+		public async void set_connection_preferences(string[] types) throws FreeSmartphone.Error, DBus.Error { 
+			yield network.set_connection_preferences(types);
+		}
+
+		public async void connect(string type) throws FreeSmartphone.Error, DBus.Error { 
+			yield network.connect(type);
+		}
+
+		public async void disconnect() throws FreeSmartphone.Error, DBus.Error { 
+			yield network.disconnect();
 		}
 	}
 	[DBus (name = "org.freesmartphone.Usage")]
@@ -597,19 +617,6 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-	}
-
-	//Proxy class for interface PreferencesService
-	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
-	
-		private PreferencesService preferences_service;
-		
-		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-			preferences_service = con.get_object (bus_name,path) as PreferencesService;
-		}
-	}
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -736,6 +743,19 @@ namespace FreeSmartphone {
 
 		public async void set_mode(FreeSmartphone.MusicPlayerPlaylistMode mode) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error { 
 			yield music_player_playlist.set_mode(mode);
+		}
+	}
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+	}
+
+	//Proxy class for interface PreferencesService
+	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
+	
+		private PreferencesService preferences_service;
+		
+		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+			preferences_service = con.get_object (bus_name,path) as PreferencesService;
 		}
 	}
 	[DBus (name = "org.freesmartphone.Resource")]
