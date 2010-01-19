@@ -472,9 +472,9 @@ namespace FreeSmartphone {
 
 		public abstract async void set_connection_preferences(string[] types) throws FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void connect(string type) throws FreeSmartphone.Error, DBus.Error;
+		public abstract async void start_connection(string type) throws FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void disconnect() throws FreeSmartphone.Error, DBus.Error;
+		public abstract async void stop_connection() throws FreeSmartphone.Error, DBus.Error;
 
 		public signal void online_status(bool online, GLib.HashTable<string, GLib.Value?> properties);
 	}
@@ -500,12 +500,12 @@ namespace FreeSmartphone {
 			yield network.set_connection_preferences(types);
 		}
 
-		public async void connect(string type) throws FreeSmartphone.Error, DBus.Error { 
-			yield network.connect(type);
+		public async void start_connection(string type) throws FreeSmartphone.Error, DBus.Error { 
+			yield network.start_connection(type);
 		}
 
-		public async void disconnect() throws FreeSmartphone.Error, DBus.Error { 
-			yield network.disconnect();
+		public async void stop_connection() throws FreeSmartphone.Error, DBus.Error { 
+			yield network.stop_connection();
 		}
 	}
 	[DBus (name = "org.freesmartphone.Usage")]
