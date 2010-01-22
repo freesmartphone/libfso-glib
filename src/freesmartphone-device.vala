@@ -25,32 +25,6 @@ namespace FreeSmartphone {
 			DEVICE_FAILED,
 		}
 
-		[DBus (use_string_marshalling = true)]
-		public enum SoundState {
-			[DBus (value="playing")]
-			PLAYING,
-			[DBus (value="stopped")]
-			STOPPED,
-		}
-
-		[DBus (use_string_marshalling = true)]
-		public enum IdleState {
-			[DBus (value="busy")]
-			BUSY,
-			[DBus (value="idle")]
-			IDLE,
-			[DBus (value="idle_dim")]
-			IDLE_DIM,
-			[DBus (value="idle_prelock")]
-			IDLE_PRELOCK,
-			[DBus (value="lock")]
-			LOCK,
-			[DBus (value="suspend")]
-			SUSPEND,
-			[DBus (value="awake")]
-			AWAKE,
-		}
-
 		[DBus (name = "org.freesmartphone.Device.Input")]
 		public interface Input : GLib.Object {
 
@@ -100,6 +74,32 @@ namespace FreeSmartphone {
 			OFFLINE,
 			[DBus (value="ac")]
 			AC,
+		}
+
+		[DBus (use_string_marshalling = true)]
+		public enum SoundState {
+			[DBus (value="playing")]
+			PLAYING,
+			[DBus (value="stopped")]
+			STOPPED,
+		}
+
+		[DBus (use_string_marshalling = true)]
+		public enum IdleState {
+			[DBus (value="busy")]
+			BUSY,
+			[DBus (value="idle")]
+			IDLE,
+			[DBus (value="idle_dim")]
+			IDLE_DIM,
+			[DBus (value="idle_prelock")]
+			IDLE_PRELOCK,
+			[DBus (value="lock")]
+			LOCK,
+			[DBus (value="suspend")]
+			SUSPEND,
+			[DBus (value="awake")]
+			AWAKE,
 		}
 
 		[DBus (name = "org.freesmartphone.Device.LED")]
@@ -166,35 +166,31 @@ namespace FreeSmartphone {
 				return yield orientation.get_orientation();
 			}
 		}
-		[DBus (name = "org.freesmartphone.Device.Info")]
-		public interface Info : GLib.Object {
+		[DBus (name = "org.freesmartphone.Device.Vibrator")]
+		public interface Vibrator : GLib.Object {
 
-			public abstract async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error;
+			public abstract async void vibrate_pattern(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void vibrate(int seconds) throws FreeSmartphone.Error, DBus.Error;
 		}
 
-		//Proxy class for interface Info
-		public class InfoProxy: GLib.Object, Info {
+		//Proxy class for interface Vibrator
+		public class VibratorProxy: GLib.Object, Vibrator {
 		
-			private Info info;
+			private Vibrator vibrator;
 			
-			public InfoProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				info = con.get_object (bus_name,path) as Info;
+			public VibratorProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				vibrator = con.get_object (bus_name,path) as Vibrator;
 			}
 
-			public async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error { 
-				return yield info.get_cpu_info();
+			public async void vibrate_pattern(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error { 
+				yield vibrator.vibrate_pattern(seconds, on_duration, off_duration);
+			}
+
+			public async void vibrate(int seconds) throws FreeSmartphone.Error, DBus.Error { 
+				yield vibrator.vibrate(seconds);
 			}
 		}
-		[DBus (use_string_marshalling = true)]
-		public enum InputState {
-			[DBus (value="pressed")]
-			PRESSED,
-			[DBus (value="held")]
-			HELD,
-			[DBus (value="released")]
-			RELEASED,
-		}
-
 		[DBus (name = "org.freesmartphone.Device.PowerControl")]
 		public interface PowerControl : GLib.Object {
 
@@ -222,6 +218,16 @@ namespace FreeSmartphone {
 				yield power_control.set_power(on);
 			}
 		}
+		[DBus (use_string_marshalling = true)]
+		public enum InputState {
+			[DBus (value="pressed")]
+			PRESSED,
+			[DBus (value="held")]
+			HELD,
+			[DBus (value="released")]
+			RELEASED,
+		}
+
 		[DBus (name = "org.freesmartphone.Device.PowerSupply")]
 		public interface PowerSupply : GLib.Object {
 
@@ -255,6 +261,25 @@ namespace FreeSmartphone {
 
 			public async FreeSmartphone.Device.PowerStatus get_power_status() throws DBus.Error { 
 				return yield power_supply.get_power_status();
+			}
+		}
+		[DBus (name = "org.freesmartphone.Device.Info")]
+		public interface Info : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error;
+		}
+
+		//Proxy class for interface Info
+		public class InfoProxy: GLib.Object, Info {
+		
+			private Info info;
+			
+			public InfoProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				info = con.get_object (bus_name,path) as Info;
+			}
+
+			public async GLib.HashTable<string, GLib.Value?> get_cpu_info() throws DBus.Error { 
+				return yield info.get_cpu_info();
 			}
 		}
 		[DBus (name = "org.freesmartphone.Device.Display")]
