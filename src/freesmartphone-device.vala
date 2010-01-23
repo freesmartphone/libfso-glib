@@ -169,9 +169,11 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.Device.Vibrator")]
 		public interface Vibrator : GLib.Object {
 
-			public abstract async void vibrate_pattern(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error;
+			public abstract async void vibrate_pattern(uint pulses, uint on_duration, uint off_duration, uint strength) throws FreeSmartphone.Error, DBus.Error;
 
-			public abstract async void vibrate(int seconds) throws FreeSmartphone.Error, DBus.Error;
+			public abstract async void vibrate(uint seconds, uint strength) throws FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void stop() throws FreeSmartphone.Error, DBus.Error;
 		}
 
 		//Proxy class for interface Vibrator
@@ -183,12 +185,16 @@ namespace FreeSmartphone {
 				vibrator = con.get_object (bus_name,path) as Vibrator;
 			}
 
-			public async void vibrate_pattern(int seconds, int on_duration, int off_duration) throws FreeSmartphone.Error, DBus.Error { 
-				yield vibrator.vibrate_pattern(seconds, on_duration, off_duration);
+			public async void vibrate_pattern(uint pulses, uint on_duration, uint off_duration, uint strength) throws FreeSmartphone.Error, DBus.Error { 
+				yield vibrator.vibrate_pattern(pulses, on_duration, off_duration, strength);
 			}
 
-			public async void vibrate(int seconds) throws FreeSmartphone.Error, DBus.Error { 
-				yield vibrator.vibrate(seconds);
+			public async void vibrate(uint seconds, uint strength) throws FreeSmartphone.Error, DBus.Error { 
+				yield vibrator.vibrate(seconds, strength);
+			}
+
+			public async void stop() throws FreeSmartphone.Error, DBus.Error { 
+				yield vibrator.stop();
 			}
 		}
 		[DBus (name = "org.freesmartphone.Device.PowerControl")]
