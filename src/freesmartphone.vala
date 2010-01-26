@@ -31,6 +31,18 @@ namespace FreeSmartphone {
 		ENDLESS,
 	}
 
+	[DBus (name = "org.freesmartphone")]
+	public errordomain Error {
+		[DBus (name = "InvalidParameter")]
+		INVALID_PARAMETER,
+		[DBus (name = "InternalError")]
+		INTERNAL_ERROR,
+		[DBus (name = "SystemError")]
+		SYSTEM_ERROR,
+		[DBus (name = "Unsupported")]
+		UNSUPPORTED,
+	}
+
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerStreamError {
 		[DBus (value="failed")]
@@ -61,18 +73,6 @@ namespace FreeSmartphone {
 		WRONG_TYPE,
 		[DBus (value="codec_not_found")]
 		CODEC_NOT_FOUND,
-	}
-
-	[DBus (name = "org.freesmartphone")]
-	public errordomain Error {
-		[DBus (name = "InvalidParameter")]
-		INVALID_PARAMETER,
-		[DBus (name = "InternalError")]
-		INTERNAL_ERROR,
-		[DBus (name = "SystemError")]
-		SYSTEM_ERROR,
-		[DBus (name = "Unsupported")]
-		UNSUPPORTED,
 	}
 
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
@@ -323,6 +323,8 @@ namespace FreeSmartphone {
 	}
 	[DBus (use_string_marshalling = true)]
 	public enum UsageSystemAction {
+		[DBus (value="alive")]
+		ALIVE,
 		[DBus (value="suspend")]
 		SUSPEND,
 		[DBus (value="resume")]
@@ -511,29 +513,29 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Usage")]
 	public interface Usage : GLib.Object {
 
-		public abstract async void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void unregister_resource(string name) throws DBus.Error;
+		public abstract async void unregister_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async string[] list_resources() throws DBus.Error;
+		public abstract async string[] list_resources() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async bool get_resource_state(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async string[] get_resource_users(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void request_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error;
+		public abstract async void release_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void suspend() throws DBus.Error;
+		public abstract async void suspend() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void shutdown() throws DBus.Error;
+		public abstract async void shutdown() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void reboot() throws DBus.Error;
+		public abstract async void reboot() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error;
 
 		public signal void resource_available(string name, bool availability);
 
@@ -551,51 +553,51 @@ namespace FreeSmartphone {
 			usage = con.get_object (bus_name,path) as Usage;
 		}
 
-		public async void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async void register_resource(string name, ObjectPath path) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.register_resource(name, path);
 		}
 
-		public async void unregister_resource(string name) throws DBus.Error { 
+		public async void unregister_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.unregister_resource(name);
 		}
 
-		public async string[] list_resources() throws DBus.Error { 
+		public async string[] list_resources() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			return yield usage.list_resources();
 		}
 
-		public async FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async FreeSmartphone.UsageResourcePolicy get_resource_policy(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			return yield usage.get_resource_policy(name);
 		}
 
-		public async void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async void set_resource_policy(string name, FreeSmartphone.UsageResourcePolicy policy) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.set_resource_policy(name, policy);
 		}
 
-		public async bool get_resource_state(string name) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async bool get_resource_state(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			return yield usage.get_resource_state(name);
 		}
 
-		public async string[] get_resource_users(string name) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async string[] get_resource_users(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			return yield usage.get_resource_users(name);
 		}
 
-		public async void request_resource(string name) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async void request_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.request_resource(name);
 		}
 
-		public async void release_resource(string name) throws FreeSmartphone.UsageError, DBus.Error { 
+		public async void release_resource(string name) throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.release_resource(name);
 		}
 
-		public async void suspend() throws DBus.Error { 
+		public async void suspend() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.suspend();
 		}
 
-		public async void shutdown() throws DBus.Error { 
+		public async void shutdown() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.shutdown();
 		}
 
-		public async void reboot() throws DBus.Error { 
+		public async void reboot() throws FreeSmartphone.UsageError, FreeSmartphone.Error, DBus.Error { 
 			yield usage.reboot();
 		}
 	}
@@ -617,6 +619,19 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+	}
+
+	//Proxy class for interface PreferencesService
+	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
+	
+		private PreferencesService preferences_service;
+		
+		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+			preferences_service = con.get_object (bus_name,path) as PreferencesService;
+		}
+	}
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -743,19 +758,6 @@ namespace FreeSmartphone {
 
 		public async void set_mode(FreeSmartphone.MusicPlayerPlaylistMode mode) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error { 
 			yield music_player_playlist.set_mode(mode);
-		}
-	}
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-	}
-
-	//Proxy class for interface PreferencesService
-	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
-	
-		private PreferencesService preferences_service;
-		
-		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-			preferences_service = con.get_object (bus_name,path) as PreferencesService;
 		}
 	}
 	[DBus (name = "org.freesmartphone.Resource")]
