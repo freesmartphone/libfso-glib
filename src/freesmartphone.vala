@@ -472,13 +472,7 @@ namespace FreeSmartphone {
 
 		public abstract async void stop_connection_sharing_with_interface(string interface) throws FreeSmartphone.Error, DBus.Error;
 
-		public abstract async void set_connection_preferences(string[] types) throws FreeSmartphone.Error, DBus.Error;
-
-		public abstract async void start_connection(string type) throws FreeSmartphone.Error, DBus.Error;
-
-		public abstract async void stop_connection() throws FreeSmartphone.Error, DBus.Error;
-
-		public signal void online_status(bool online, GLib.HashTable<string, GLib.Value?> properties);
+		public abstract async void offer_default_route(string technology, string interface, string ipv4address, string ipv4mask, string ipv4gateway, string dns1, string dns2) throws FreeSmartphone.Error, DBus.Error;
 	}
 
 	//Proxy class for interface Network
@@ -498,16 +492,8 @@ namespace FreeSmartphone {
 			yield network.stop_connection_sharing_with_interface(interface);
 		}
 
-		public async void set_connection_preferences(string[] types) throws FreeSmartphone.Error, DBus.Error { 
-			yield network.set_connection_preferences(types);
-		}
-
-		public async void start_connection(string type) throws FreeSmartphone.Error, DBus.Error { 
-			yield network.start_connection(type);
-		}
-
-		public async void stop_connection() throws FreeSmartphone.Error, DBus.Error { 
-			yield network.stop_connection();
+		public async void offer_default_route(string technology, string interface, string ipv4address, string ipv4mask, string ipv4gateway, string dns1, string dns2) throws FreeSmartphone.Error, DBus.Error { 
+			yield network.offer_default_route(technology, interface, ipv4address, ipv4mask, ipv4gateway, dns1, dns2);
 		}
 	}
 	[DBus (name = "org.freesmartphone.Usage")]

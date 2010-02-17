@@ -439,6 +439,10 @@ namespace FreeSmartphone {
 			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
 
 			public signal void new_contact(string contact_path);
+
+			public signal void updated_contact(string contact_path, GLib.HashTable<string, GLib.Value?> contact_data);
+
+			public signal void deleted_contact(string contact_path);
 		}
 
 		//Proxy class for interface Contacts
