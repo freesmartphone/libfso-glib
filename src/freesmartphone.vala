@@ -287,7 +287,7 @@ namespace FreeSmartphone {
 	[DBus (name = "org.freesmartphone.Resource")]
 	public interface Resource : GLib.Object {
 
-		public abstract async void enable() throws DBus.Error;
+		public abstract async void enable() throws FreeSmartphone.ResourceError, DBus.Error;
 
 		public abstract async void disable() throws FreeSmartphone.ResourceError, DBus.Error;
 
@@ -305,7 +305,7 @@ namespace FreeSmartphone {
 			resource = con.get_object (bus_name,path) as Resource;
 		}
 
-		public async void enable() throws DBus.Error { 
+		public async void enable() throws FreeSmartphone.ResourceError, DBus.Error { 
 			yield resource.enable();
 		}
 
