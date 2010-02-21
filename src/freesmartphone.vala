@@ -750,5 +750,7 @@ namespace FreeSmartphone {
 	public errordomain ResourceError {
 		[DBus (name = "NotEnabled")]
 		NOT_ENABLED,
+		[DBus (name = "UnableToEnable")]
+		UNABLE_TO_ENABLE,
 	}
 }
