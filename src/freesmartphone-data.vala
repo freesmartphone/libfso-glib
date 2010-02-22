@@ -11,7 +11,7 @@ namespace FreeSmartphone {
 			public string code;
 			public string name;
 
-			public WorldCountry (string code, string nam ) {
+			public WorldCountry (string code, string name ) {
 				this.code = code;
 				this.name = name;
 			}

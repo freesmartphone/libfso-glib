@@ -41,6 +41,8 @@ namespace FreeSmartphone {
 		SYSTEM_ERROR,
 		[DBus (name = "Unsupported")]
 		UNSUPPORTED,
+		[DBus (name = "Unavailable")]
+		UNAVAILABLE,
 	}
 
 	[DBus (use_string_marshalling = true)]

@@ -48,7 +48,7 @@ namespace FreeSmartphone {
 			public string busname;
 			public int timestamp;
 
-			public WakeupAlarm (string busname, int timestam ) {
+			public WakeupAlarm (string busname, int timestamp ) {
 				this.busname = busname;
 				this.timestamp = timestamp;
 			}

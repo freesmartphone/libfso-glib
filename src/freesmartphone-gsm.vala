@@ -183,10 +183,10 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_serving_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async MonitorNeighbourCell[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async MonitorNeighbourCellStruct[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 		}
 
-		public struct MonitorNeighbourCell {
+		public struct MonitorNeighbourCellStruct {
 			public GLib.HashTable<string, GLib.Value?> attr1;
 		}
 
@@ -203,7 +203,7 @@ namespace FreeSmartphone {
 				return yield monitor.get_serving_cell_information();
 			}
 
-			public async MonitorNeighbourCell[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async MonitorNeighbourCellStruct[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield monitor.get_neighbour_cell_information();
 			}
 		}
@@ -368,7 +368,7 @@ namespace FreeSmartphone {
 			public string contents;
 			public GLib.HashTable<string, GLib.Value?> properties;
 
-			public SIMMessage (int index, string status, string number, string contents, GLib.HashTable<string, GLib.Value?> propertie ) {
+			public SIMMessage (int index, string status, string number, string contents, GLib.HashTable<string, GLib.Value?> properties ) {
 				this.index = index;
 				this.status = status;
 				this.number = number;
@@ -392,7 +392,7 @@ namespace FreeSmartphone {
 
 			public signal void signal_strength(int signal_strength);
 
-			public abstract async NetworkProvider[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async NetworkProviderStruct[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void register_with_provider(string operator_code) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -413,6 +413,14 @@ namespace FreeSmartphone {
 			public signal void incoming_ussd(string mode, string message_);
 
 			public signal void cipher_status(string gsm, string gprs);
+		}
+
+		public struct NetworkProviderStruct {
+			public string attr1;
+			public string attr2;
+			public string attr3;
+			public string attr4;
+			public string attr5;
 		}
 
 		//Proxy class for interface Network
@@ -440,7 +448,7 @@ namespace FreeSmartphone {
 				return yield network.get_signal_strength();
 			}
 
-			public async NetworkProvider[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async NetworkProviderStruct[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield network.list_providers();
 			}
 
@@ -481,7 +489,7 @@ namespace FreeSmartphone {
 			public int y;
 			public int radius;
 
-			public SIMHomezone (int x, int y, int radiu ) {
+			public SIMHomezone (int x, int y, int radius ) {
 				this.x = x;
 				this.y = y;
 				this.radius = radius;
@@ -560,9 +568,15 @@ namespace FreeSmartphone {
 
 			public abstract async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async CallDetail[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+		}
+
+		public struct CallDetailStruct {
+			public int attr1;
+			public string attr2;
+			public GLib.HashTable<string, GLib.Value?> attr3;
 		}
 
 		//Proxy class for interface Call
@@ -614,7 +628,7 @@ namespace FreeSmartphone {
 				return yield call.initiate(number, type);
 			}
 
-			public async CallDetail[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield call.list_calls();
 			}
 
@@ -654,7 +668,7 @@ namespace FreeSmartphone {
 			public string name;
 			public string number;
 
-			public SIMEntry (int index, string name, string numbe ) {
+			public SIMEntry (int index, string name, string number ) {
 				this.index = index;
 				this.name = name;
 				this.number = number;
@@ -666,7 +680,7 @@ namespace FreeSmartphone {
 			public FreeSmartphone.GSM.CallStatus status;
 			public GLib.HashTable<string, GLib.Value?> properties;
 
-			public CallDetail (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> propertie ) {
+			public CallDetail (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties ) {
 				this.id = id;
 				this.status = status;
 				this.properties = properties;
@@ -680,7 +694,7 @@ namespace FreeSmartphone {
 			public string mccmnc;
 			public string act;
 
-			public NetworkProvider (string status, string shortname, string longname, string mccmnc, string ac ) {
+			public NetworkProvider (string status, string shortname, string longname, string mccmnc, string act ) {
 				this.status = status;
 				this.shortname = shortname;
 				this.longname = longname;
@@ -716,7 +730,7 @@ namespace FreeSmartphone {
 
 			public abstract async string send_restricted_sim_command(int command, int fileid, int p1, int p2, int p3, string data) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async SIMHomezone[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async SIMHomezoneStruct[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async string get_issuer() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -726,7 +740,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_phonebook_info(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async SIMEntry[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async SIMEntryStruct[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void delete_entry(string category, int index) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -736,7 +750,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_messagebook_info() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async SIMMessage[] retrieve_messagebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async SIMMessageStruct[] retrieve_messagebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async string get_service_center_number() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -751,6 +765,27 @@ namespace FreeSmartphone {
 			public abstract async void send_stored_message(int index, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void retrieve_message(int index, out string status, out string sender_number, out string contents, out GLib.HashTable<string, GLib.Value?> properties) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+		}
+
+		public struct SIMMessageStruct {
+			public int attr1;
+			public string attr2;
+			public string attr3;
+			public string attr4;
+			public GLib.HashTable<string, GLib.Value?> attr5;
+		}
+
+		public struct SIMEntryStruct {
+			public int attr1;
+			public string attr2;
+			public string attr3;
+		}
+
+		public struct SIMHomezoneStruct {
+			public string attr1;
+			public int attr2;
+			public int attr3;
+			public int attr4;
 		}
 
 		//Proxy class for interface SIM
@@ -802,7 +837,7 @@ namespace FreeSmartphone {
 				return yield s_i_m.send_restricted_sim_command(command, fileid, p1, p2, p3, data);
 			}
 
-			public async SIMHomezone[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async SIMHomezoneStruct[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.get_home_zones();
 			}
 
@@ -822,7 +857,7 @@ namespace FreeSmartphone {
 				return yield s_i_m.get_phonebook_info(category);
 			}
 
-			public async SIMEntry[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async SIMEntryStruct[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.retrieve_phonebook(category);
 			}
 
@@ -842,7 +877,7 @@ namespace FreeSmartphone {
 				return yield s_i_m.get_messagebook_info();
 			}
 
-			public async SIMMessage[] retrieve_messagebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async SIMMessageStruct[] retrieve_messagebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.retrieve_messagebook(category);
 			}
 
