@@ -485,11 +485,13 @@ namespace FreeSmartphone {
 			}
 		}
 		public struct SIMHomezone {
+			public string name;
 			public int x;
 			public int y;
 			public int radius;
 
-			public SIMHomezone (int x, int y, int radius ) {
+			public SIMHomezone (string name, int x, int y, int radius ) {
+				this.name = name;
 				this.x = x;
 				this.y = y;
 				this.radius = radius;
