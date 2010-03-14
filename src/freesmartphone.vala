@@ -31,6 +31,20 @@ namespace FreeSmartphone {
 		ENDLESS,
 	}
 
+	[DBus (name = "org.freesmartphone")]
+	public errordomain Error {
+		[DBus (name = "InvalidParameter")]
+		INVALID_PARAMETER,
+		[DBus (name = "InternalError")]
+		INTERNAL_ERROR,
+		[DBus (name = "SystemError")]
+		SYSTEM_ERROR,
+		[DBus (name = "Unsupported")]
+		UNSUPPORTED,
+		[DBus (name = "Unavailable")]
+		UNAVAILABLE,
+	}
+
 	[DBus (use_string_marshalling = true)]
 	public enum MusicPlayerStreamError {
 		[DBus (value="failed")]
@@ -61,20 +75,6 @@ namespace FreeSmartphone {
 		WRONG_TYPE,
 		[DBus (value="codec_not_found")]
 		CODEC_NOT_FOUND,
-	}
-
-	[DBus (name = "org.freesmartphone")]
-	public errordomain Error {
-		[DBus (name = "InvalidParameter")]
-		INVALID_PARAMETER,
-		[DBus (name = "InternalError")]
-		INTERNAL_ERROR,
-		[DBus (name = "SystemError")]
-		SYSTEM_ERROR,
-		[DBus (name = "Unsupported")]
-		UNSUPPORTED,
-		[DBus (name = "Unavailable")]
-		UNAVAILABLE,
 	}
 
 	[DBus (name = "org.freesmartphone.MusicPlayer")]
@@ -607,6 +607,19 @@ namespace FreeSmartphone {
 		USER_UNKNOWN,
 	}
 
+	[DBus (name = "org.freesmartphone.Preferences.Service")]
+	public interface PreferencesService : GLib.Object {
+	}
+
+	//Proxy class for interface PreferencesService
+	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
+	
+		private PreferencesService preferences_service;
+		
+		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+			preferences_service = con.get_object (bus_name,path) as PreferencesService;
+		}
+	}
 	[DBus (name = "org.freesmartphone.Events")]
 	public interface Events : GLib.Object {
 
@@ -733,19 +746,6 @@ namespace FreeSmartphone {
 
 		public async void set_mode(FreeSmartphone.MusicPlayerPlaylistMode mode) throws FreeSmartphone.MusicPlayerPlaylistError, DBus.Error { 
 			yield music_player_playlist.set_mode(mode);
-		}
-	}
-	[DBus (name = "org.freesmartphone.Preferences.Service")]
-	public interface PreferencesService : GLib.Object {
-	}
-
-	//Proxy class for interface PreferencesService
-	public class PreferencesServiceProxy: GLib.Object, PreferencesService {
-	
-		private PreferencesService preferences_service;
-		
-		public PreferencesServiceProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-			preferences_service = con.get_object (bus_name,path) as PreferencesService;
 		}
 	}
 	[DBus (name = "org.freesmartphone.Resource")]

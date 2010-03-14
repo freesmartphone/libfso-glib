@@ -139,20 +139,6 @@ namespace FreeSmartphone {
 			CONTEXT_NOT_FOUND,
 		}
 
-		[DBus (use_string_marshalling = true)]
-		public enum CallStatus {
-			[DBus (value="INCOMING")]
-			INCOMING,
-			[DBus (value="OUTGOING")]
-			OUTGOING,
-			[DBus (value="ACTIVE")]
-			ACTIVE,
-			[DBus (value="HELD")]
-			HELD,
-			[DBus (value="RELEASE")]
-			RELEASE,
-		}
-
 		[DBus (name = "org.freesmartphone.GSM.Debug")]
 		public interface Debug : GLib.Object {
 
@@ -184,6 +170,20 @@ namespace FreeSmartphone {
 				yield debug.debug_ping();
 			}
 		}
+		[DBus (use_string_marshalling = true)]
+		public enum CallStatus {
+			[DBus (value="INCOMING")]
+			INCOMING,
+			[DBus (value="OUTGOING")]
+			OUTGOING,
+			[DBus (value="ACTIVE")]
+			ACTIVE,
+			[DBus (value="HELD")]
+			HELD,
+			[DBus (value="RELEASE")]
+			RELEASE,
+		}
+
 		[DBus (name = "org.freesmartphone.GSM.Monitor")]
 		public interface Monitor : GLib.Object {
 
@@ -227,6 +227,34 @@ namespace FreeSmartphone {
 			PIN2_REQUIRED,
 			[DBus (value="SIM PUK2")]
 			PUK2_REQUIRED,
+		}
+
+		[DBus (use_string_marshalling = true)]
+		public enum DeviceStatus {
+			[DBus (value="CLOSED")]
+			CLOSED,
+			[DBus (value="INITIALIZING")]
+			INITIALIZING,
+			[DBus (value="ALIVE_NO_SIM")]
+			ALIVE_NO_SIM,
+			[DBus (value="ALIVE_SIM_LOCKED")]
+			ALIVE_SIM_LOCKED,
+			[DBus (value="ALIVE_SIM_UNLOCKED")]
+			ALIVE_SIM_UNLOCKED,
+			[DBus (value="ALIVE_SIM_READY")]
+			ALIVE_SIM_READY,
+			[DBus (value="ALIVE_REGISTERED")]
+			ALIVE_REGISTERED,
+			[DBus (value="SUSPENDING")]
+			SUSPENDING,
+			[DBus (value="SUSPENDED")]
+			SUSPENDED,
+			[DBus (value="RESUMING")]
+			RESUMING,
+			[DBus (value="CLOSING")]
+			CLOSING,
+			[DBus (value="UNKNOWN")]
+			UNKNOWN,
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.MUX")]
@@ -301,9 +329,9 @@ namespace FreeSmartphone {
 
 			public signal void keypad_event(string name, bool pressed);
 
-			public abstract async bool get_sim_buffers_sms() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async FreeSmartphone.GSM.DeviceStatus get_device_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async void set_sim_buffers_sms(bool sim_buffers_sms) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public signal void device_status(FreeSmartphone.GSM.DeviceStatus status);
 		}
 
 		//Proxy class for interface Device
@@ -359,12 +387,8 @@ namespace FreeSmartphone {
 				yield device.get_power_status(out status, out level);
 			}
 
-			public async bool get_sim_buffers_sms() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield device.get_sim_buffers_sms();
-			}
-
-			public async void set_sim_buffers_sms(bool sim_buffers_sms) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield device.set_sim_buffers_sms(sim_buffers_sms);
+			public async FreeSmartphone.GSM.DeviceStatus get_device_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				return yield device.get_device_status();
 			}
 		}
 		public struct SIMMessage {
@@ -383,99 +407,6 @@ namespace FreeSmartphone {
 			}
 		}
 
-		[DBus (name = "org.freesmartphone.GSM.Call")]
-		public interface Call : GLib.Object {
-
-			public abstract async void emergency(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public signal void call_status(int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties);
-
-			public abstract async void activate(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void activate_conference(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void release(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void hold_active() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void join() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void transfer(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void release_held() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void release_all() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-		}
-
-		public struct CallDetailStruct {
-			public int attr1;
-			public string attr2;
-			public GLib.HashTable<string, GLib.Value?> attr3;
-		}
-
-		//Proxy class for interface Call
-		public class CallProxy: GLib.Object, Call {
-		
-			private Call call;
-			
-			public CallProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				call = con.get_object (bus_name,path) as Call;
-			}
-
-			public async void emergency(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.emergency(number);
-			}
-
-			public async void activate(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.activate(id);
-			}
-
-			public async void activate_conference(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.activate_conference(id);
-			}
-
-			public async void release(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.release(id);
-			}
-
-			public async void hold_active() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.hold_active();
-			}
-
-			public async void join() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.join();
-			}
-
-			public async void transfer(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.transfer(number);
-			}
-
-			public async void release_held() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.release_held();
-			}
-
-			public async void release_all() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.release_all();
-			}
-
-			public async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield call.initiate(number, type);
-			}
-
-			public async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield call.list_calls();
-			}
-
-			public async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield call.send_dtmf(tones);
-			}
-		}
 		[DBus (name = "org.freesmartphone.GSM.Network")]
 		public interface Network : GLib.Object {
 
@@ -644,6 +575,99 @@ namespace FreeSmartphone {
 				yield s_m_s.nack_message(contents, properties);
 			}
 		}
+		[DBus (name = "org.freesmartphone.GSM.Call")]
+		public interface Call : GLib.Object {
+
+			public abstract async void emergency(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public signal void call_status(int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties);
+
+			public abstract async void activate(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void activate_conference(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void release(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void hold_active() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void join() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void transfer(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void release_held() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void release_all() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public abstract async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+		}
+
+		public struct CallDetailStruct {
+			public int attr1;
+			public string attr2;
+			public GLib.HashTable<string, GLib.Value?> attr3;
+		}
+
+		//Proxy class for interface Call
+		public class CallProxy: GLib.Object, Call {
+		
+			private Call call;
+			
+			public CallProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				call = con.get_object (bus_name,path) as Call;
+			}
+
+			public async void emergency(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.emergency(number);
+			}
+
+			public async void activate(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.activate(id);
+			}
+
+			public async void activate_conference(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.activate_conference(id);
+			}
+
+			public async void release(int id) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.release(id);
+			}
+
+			public async void hold_active() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.hold_active();
+			}
+
+			public async void join() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.join();
+			}
+
+			public async void transfer(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.transfer(number);
+			}
+
+			public async void release_held() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.release_held();
+			}
+
+			public async void release_all() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.release_all();
+			}
+
+			public async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				return yield call.initiate(number, type);
+			}
+
+			public async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				return yield call.list_calls();
+			}
+
+			public async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+				yield call.send_dtmf(tones);
+			}
+		}
 		[DBus (name = "org.freesmartphone.GSM.CB")]
 		public interface CB : GLib.Object {
 
@@ -671,18 +695,6 @@ namespace FreeSmartphone {
 				yield c_b.set_cell_broadcast_subscriptions(channels);
 			}
 		}
-		public struct CallDetail {
-			public int id;
-			public FreeSmartphone.GSM.CallStatus status;
-			public GLib.HashTable<string, GLib.Value?> properties;
-
-			public CallDetail (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties ) {
-				this.id = id;
-				this.status = status;
-				this.properties = properties;
-			}
-		}
-
 		public struct SIMEntry {
 			public int index;
 			public string name;
@@ -692,6 +704,18 @@ namespace FreeSmartphone {
 				this.index = index;
 				this.name = name;
 				this.number = number;
+			}
+		}
+
+		public struct CallDetail {
+			public int id;
+			public FreeSmartphone.GSM.CallStatus status;
+			public GLib.HashTable<string, GLib.Value?> properties;
+
+			public CallDetail (int id, FreeSmartphone.GSM.CallStatus status, GLib.HashTable<string, GLib.Value?> properties ) {
+				this.id = id;
+				this.status = status;
+				this.properties = properties;
 			}
 		}
 

@@ -7,47 +7,66 @@ namespace FreeSmartphone {
 
 	namespace PIM {
 
-		[DBus (name = "org.freesmartphone.PIM.Calls")]
-		public interface Calls : GLib.Object {
+		[DBus (name = "org.freesmartphone.PIM.Task")]
+		public interface Task : GLib.Object {
 
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
 
-			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
 
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+			public abstract  string[] get_used_backends() throws DBus.Error;
 
-			public abstract async int get_new_missed_calls() throws DBus.Error;
+			public abstract async void update(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error;
 
-			public signal void new_call(string call_path);
-
-			public signal void incoming_call(string call_path);
-
-			public signal void new_missed_calls(int amount);
+			public abstract async void delete() throws DBus.Error;
 		}
 
-		//Proxy class for interface Calls
-		public class CallsProxy: GLib.Object, Calls {
+		//Proxy class for interface Task
+		public class TaskProxy: GLib.Object, Task {
 		
-			private Calls calls;
+			private Task task;
 			
-			public CallsProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				calls = con.get_object (bus_name,path) as Calls;
+			public TaskProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				task = con.get_object (bus_name,path) as Task;
 			}
 
-			public async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error { 
-				return yield calls.add(call_data);
+			public async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error { 
+				return yield task.get_content();
 			}
 
-			public async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
-				return yield calls.get_single_entry_single_field(query, field);
+			public async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error { 
+				return yield task.get_multiple_fields(field_list);
 			}
 
-			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
-				return yield calls.query(query);
+			public  string[] get_used_backends() throws DBus.Error { 
+				return  task.get_used_backends();
 			}
 
-			public async int get_new_missed_calls() throws DBus.Error { 
-				return yield calls.get_new_missed_calls();
+			public async void update(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error { 
+				yield task.update(task_data);
+			}
+
+			public async void delete() throws DBus.Error { 
+				yield task.delete();
+			}
+		}
+		[DBus (name = "org.freesmartphone.PIM.Types")]
+		public interface Types : GLib.Object {
+
+			public abstract async string[] list() throws DBus.Error;
+		}
+
+		//Proxy class for interface Types
+		public class TypesProxy: GLib.Object, Types {
+		
+			private Types types;
+			
+			public TypesProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				types = con.get_object (bus_name,path) as Types;
+			}
+
+			public async string[] list() throws DBus.Error { 
+				return yield types.list();
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.MessageQuery")]
@@ -150,66 +169,74 @@ namespace FreeSmartphone {
 				return yield notes.query(query);
 			}
 		}
-		[DBus (name = "org.freesmartphone.PIM.Task")]
-		public interface Task : GLib.Object {
+		[DBus (name = "org.freesmartphone.PIM.Calls")]
+		public interface Calls : GLib.Object {
 
-			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error;
 
-			public abstract async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error;
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
 
-			public abstract  string[] get_used_backends() throws DBus.Error;
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
 
-			public abstract async void update(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error;
+			public abstract async int get_new_missed_calls() throws DBus.Error;
 
-			public abstract async void delete() throws DBus.Error;
+			public signal void new_call(string call_path);
+
+			public signal void incoming_call(string call_path);
+
+			public signal void new_missed_calls(int amount);
 		}
 
-		//Proxy class for interface Task
-		public class TaskProxy: GLib.Object, Task {
+		//Proxy class for interface Calls
+		public class CallsProxy: GLib.Object, Calls {
 		
-			private Task task;
+			private Calls calls;
 			
-			public TaskProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				task = con.get_object (bus_name,path) as Task;
+			public CallsProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				calls = con.get_object (bus_name,path) as Calls;
 			}
 
-			public async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error { 
-				return yield task.get_content();
+			public async string add(GLib.HashTable<string, GLib.Value?> call_data) throws DBus.Error { 
+				return yield calls.add(call_data);
 			}
 
-			public async GLib.HashTable<string, GLib.Value?> get_multiple_fields(string field_list) throws DBus.Error { 
-				return yield task.get_multiple_fields(field_list);
+			public async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
+				return yield calls.get_single_entry_single_field(query, field);
 			}
 
-			public  string[] get_used_backends() throws DBus.Error { 
-				return  task.get_used_backends();
+			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
+				return yield calls.query(query);
 			}
 
-			public async void update(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error { 
-				yield task.update(task_data);
-			}
-
-			public async void delete() throws DBus.Error { 
-				yield task.delete();
+			public async int get_new_missed_calls() throws DBus.Error { 
+				return yield calls.get_new_missed_calls();
 			}
 		}
-		[DBus (name = "org.freesmartphone.PIM.Types")]
-		public interface Types : GLib.Object {
+		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
+		public interface MessageFolder : GLib.Object {
 
-			public abstract async string[] list() throws DBus.Error;
+			public abstract async int get_message_count() throws DBus.Error;
+
+			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
+
+			public signal void message_moved(string message_path, string new_folder);
 		}
 
-		//Proxy class for interface Types
-		public class TypesProxy: GLib.Object, Types {
+		//Proxy class for interface MessageFolder
+		public class MessageFolderProxy: GLib.Object, MessageFolder {
 		
-			private Types types;
+			private MessageFolder message_folder;
 			
-			public TypesProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				types = con.get_object (bus_name,path) as Types;
+			public MessageFolderProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				message_folder = con.get_object (bus_name,path) as MessageFolder;
 			}
 
-			public async string[] list() throws DBus.Error { 
-				return yield types.list();
+			public async int get_message_count() throws DBus.Error { 
+				return yield message_folder.get_message_count();
+			}
+
+			public async string[] get_message_paths(int first, int count) throws DBus.Error { 
+				return yield message_folder.get_message_paths(first, count);
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.CallQuery")]
@@ -267,33 +294,6 @@ namespace FreeSmartphone {
 
 			public async void dispose_() throws DBus.Error { 
 				yield call_query.dispose_();
-			}
-		}
-		[DBus (name = "org.freesmartphone.PIM.MessageFolder")]
-		public interface MessageFolder : GLib.Object {
-
-			public abstract async int get_message_count() throws DBus.Error;
-
-			public abstract async string[] get_message_paths(int first, int count) throws DBus.Error;
-
-			public signal void message_moved(string message_path, string new_folder);
-		}
-
-		//Proxy class for interface MessageFolder
-		public class MessageFolderProxy: GLib.Object, MessageFolder {
-		
-			private MessageFolder message_folder;
-			
-			public MessageFolderProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				message_folder = con.get_object (bus_name,path) as MessageFolder;
-			}
-
-			public async int get_message_count() throws DBus.Error { 
-				return yield message_folder.get_message_count();
-			}
-
-			public async string[] get_message_paths(int first, int count) throws DBus.Error { 
-				return yield message_folder.get_message_paths(first, count);
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.Fields")]
@@ -429,6 +429,43 @@ namespace FreeSmartphone {
 				yield contact.delete();
 			}
 		}
+		[DBus (name = "org.freesmartphone.PIM.Contacts")]
+		public interface Contacts : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
+
+			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_contact(string contact_path);
+
+			public signal void updated_contact(string contact_path, GLib.HashTable<string, GLib.Value?> contact_data);
+
+			public signal void deleted_contact(string contact_path);
+		}
+
+		//Proxy class for interface Contacts
+		public class ContactsProxy: GLib.Object, Contacts {
+		
+			private Contacts contacts;
+			
+			public ContactsProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				contacts = con.get_object (bus_name,path) as Contacts;
+			}
+
+			public async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error { 
+				return yield contacts.add(contact_data);
+			}
+
+			public async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
+				return yield contacts.get_single_entry_single_field(query, field);
+			}
+
+			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
+				return yield contacts.query(query);
+			}
+		}
 		[DBus (name = "org.freesmartphone.PIM.ContactQuery")]
 		public interface ContactQuery : GLib.Object {
 
@@ -486,43 +523,6 @@ namespace FreeSmartphone {
 				yield contact_query.dispose_();
 			}
 		}
-		[DBus (name = "org.freesmartphone.PIM.Contacts")]
-		public interface Contacts : GLib.Object {
-
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error;
-
-			public abstract async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_contact(string contact_path);
-
-			public signal void updated_contact(string contact_path, GLib.HashTable<string, GLib.Value?> contact_data);
-
-			public signal void deleted_contact(string contact_path);
-		}
-
-		//Proxy class for interface Contacts
-		public class ContactsProxy: GLib.Object, Contacts {
-		
-			private Contacts contacts;
-			
-			public ContactsProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				contacts = con.get_object (bus_name,path) as Contacts;
-			}
-
-			public async string add(GLib.HashTable<string, GLib.Value?> contact_data) throws DBus.Error { 
-				return yield contacts.add(contact_data);
-			}
-
-			public async string get_single_entry_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
-				return yield contacts.get_single_entry_single_field(query, field);
-			}
-
-			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
-				return yield contacts.query(query);
-			}
-		}
 		[DBus (name = "org.freesmartphone.PIM.TaskQuery")]
 		public interface TaskQuery : GLib.Object {
 
@@ -576,6 +576,41 @@ namespace FreeSmartphone {
 
 			public async void dispose_() throws DBus.Error { 
 				yield task_query.dispose_();
+			}
+		}
+		[DBus (name = "org.freesmartphone.PIM.Tasks")]
+		public interface Tasks : GLib.Object {
+
+			public abstract async string add(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error;
+
+			public abstract async string get_single_task_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
+
+			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
+
+			public signal void new_task(string task_path);
+
+			public signal void unfinished_tasks(int amount);
+		}
+
+		//Proxy class for interface Tasks
+		public class TasksProxy: GLib.Object, Tasks {
+		
+			private Tasks tasks;
+			
+			public TasksProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				tasks = con.get_object (bus_name,path) as Tasks;
+			}
+
+			public async string add(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error { 
+				return yield tasks.add(task_data);
+			}
+
+			public async string get_single_task_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
+				return yield tasks.get_single_task_single_field(query, field);
+			}
+
+			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
+				return yield tasks.query(query);
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.Messages")]
@@ -637,98 +672,6 @@ namespace FreeSmartphone {
 
 			public async int get_unread_messages() throws DBus.Error { 
 				return yield messages.get_unread_messages();
-			}
-		}
-		[DBus (name = "org.freesmartphone.PIM.Tasks")]
-		public interface Tasks : GLib.Object {
-
-			public abstract async string add(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error;
-
-			public abstract async string get_single_task_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error;
-
-			public abstract async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error;
-
-			public signal void new_task(string task_path);
-
-			public signal void unfinished_tasks(int amount);
-		}
-
-		//Proxy class for interface Tasks
-		public class TasksProxy: GLib.Object, Tasks {
-		
-			private Tasks tasks;
-			
-			public TasksProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				tasks = con.get_object (bus_name,path) as Tasks;
-			}
-
-			public async string add(GLib.HashTable<string, GLib.Value?> task_data) throws DBus.Error { 
-				return yield tasks.add(task_data);
-			}
-
-			public async string get_single_task_single_field(GLib.HashTable<string, GLib.Value?> query, string field) throws DBus.Error { 
-				return yield tasks.get_single_task_single_field(query, field);
-			}
-
-			public async string query(GLib.HashTable<string, GLib.Value?> query) throws DBus.Error { 
-				return yield tasks.query(query);
-			}
-		}
-		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
-		public interface DateQuery : GLib.Object {
-
-			public abstract async int get_result_count() throws DBus.Error;
-
-			public abstract async void rewind() throws DBus.Error;
-
-			public abstract async void skip(int count) throws DBus.Error;
-
-			public abstract async string get_date_path() throws DBus.Error;
-
-			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
-
-			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
-
-			public abstract async void dispose_() throws DBus.Error;
-
-			public signal void date_added(string date_path);
-		}
-
-		//Proxy class for interface DateQuery
-		public class DateQueryProxy: GLib.Object, DateQuery {
-		
-			private DateQuery date_query;
-			
-			public DateQueryProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				date_query = con.get_object (bus_name,path) as DateQuery;
-			}
-
-			public async int get_result_count() throws DBus.Error { 
-				return yield date_query.get_result_count();
-			}
-
-			public async void rewind() throws DBus.Error { 
-				yield date_query.rewind();
-			}
-
-			public async void skip(int count) throws DBus.Error { 
-				yield date_query.skip(count);
-			}
-
-			public async string get_date_path() throws DBus.Error { 
-				return yield date_query.get_date_path();
-			}
-
-			public async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error { 
-				return yield date_query.get_result();
-			}
-
-			public async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error { 
-				return yield date_query.get_multiple_results(count);
-			}
-
-			public async void dispose_() throws DBus.Error { 
-				yield date_query.dispose_();
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.Source")]
@@ -802,6 +745,63 @@ namespace FreeSmartphone {
 
 			public async bool synchronize() throws DBus.Error { 
 				return yield source.synchronize();
+			}
+		}
+		[DBus (name = "org.freesmartphone.PIM.DateQuery")]
+		public interface DateQuery : GLib.Object {
+
+			public abstract async int get_result_count() throws DBus.Error;
+
+			public abstract async void rewind() throws DBus.Error;
+
+			public abstract async void skip(int count) throws DBus.Error;
+
+			public abstract async string get_date_path() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error;
+
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error;
+
+			public abstract async void dispose_() throws DBus.Error;
+
+			public signal void date_added(string date_path);
+		}
+
+		//Proxy class for interface DateQuery
+		public class DateQueryProxy: GLib.Object, DateQuery {
+		
+			private DateQuery date_query;
+			
+			public DateQueryProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				date_query = con.get_object (bus_name,path) as DateQuery;
+			}
+
+			public async int get_result_count() throws DBus.Error { 
+				return yield date_query.get_result_count();
+			}
+
+			public async void rewind() throws DBus.Error { 
+				yield date_query.rewind();
+			}
+
+			public async void skip(int count) throws DBus.Error { 
+				yield date_query.skip(count);
+			}
+
+			public async string get_date_path() throws DBus.Error { 
+				return yield date_query.get_date_path();
+			}
+
+			public async GLib.HashTable<string, GLib.Value?> get_result() throws DBus.Error { 
+				return yield date_query.get_result();
+			}
+
+			public async GLib.HashTable<string, GLib.Value?>[] get_multiple_results(int count) throws DBus.Error { 
+				return yield date_query.get_multiple_results(count);
+			}
+
+			public async void dispose_() throws DBus.Error { 
+				yield date_query.dispose_();
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.Dates")]
@@ -884,53 +884,6 @@ namespace FreeSmartphone {
 				yield call.delete();
 			}
 		}
-		[DBus (name = "org.freesmartphone.PIM.Message")]
-		public interface Message : GLib.Object {
-
-			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
-
-			public abstract async void get_multiple_fields(string field_list) throws DBus.Error;
-
-			public abstract async void move_to_folder(string folder_name) throws DBus.Error;
-
-			public abstract async void update(GLib.HashTable<string, GLib.Value?> message_data) throws DBus.Error;
-
-			public abstract async void delete() throws DBus.Error;
-
-			public signal void message_deleted();
-
-			public signal void message_updated(GLib.HashTable<string, GLib.Value?> data);
-		}
-
-		//Proxy class for interface Message
-		public class MessageProxy: GLib.Object, Message {
-		
-			private Message message_;
-			
-			public MessageProxy (DBus.Connection con, string bus_name, ObjectPath path) {
-				message_ = con.get_object (bus_name,path) as Message;
-			}
-
-			public async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error { 
-				return yield message_.get_content();
-			}
-
-			public async void get_multiple_fields(string field_list) throws DBus.Error { 
-				yield message_.get_multiple_fields(field_list);
-			}
-
-			public async void move_to_folder(string folder_name) throws DBus.Error { 
-				yield message_.move_to_folder(folder_name);
-			}
-
-			public async void update(GLib.HashTable<string, GLib.Value?> message_data) throws DBus.Error { 
-				yield message_.update(message_data);
-			}
-
-			public async void delete() throws DBus.Error { 
-				yield message_.delete();
-			}
-		}
 		[DBus (name = "org.freesmartphone.PIM.Note")]
 		public interface Note : GLib.Object {
 
@@ -976,6 +929,53 @@ namespace FreeSmartphone {
 
 			public async void delete() throws DBus.Error { 
 				yield note.delete();
+			}
+		}
+		[DBus (name = "org.freesmartphone.PIM.Message")]
+		public interface Message : GLib.Object {
+
+			public abstract async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error;
+
+			public abstract async void get_multiple_fields(string field_list) throws DBus.Error;
+
+			public abstract async void move_to_folder(string folder_name) throws DBus.Error;
+
+			public abstract async void update(GLib.HashTable<string, GLib.Value?> message_data) throws DBus.Error;
+
+			public abstract async void delete() throws DBus.Error;
+
+			public signal void message_deleted();
+
+			public signal void message_updated(GLib.HashTable<string, GLib.Value?> data);
+		}
+
+		//Proxy class for interface Message
+		public class MessageProxy: GLib.Object, Message {
+		
+			private Message message_;
+			
+			public MessageProxy (DBus.Connection con, string bus_name, ObjectPath path) {
+				message_ = con.get_object (bus_name,path) as Message;
+			}
+
+			public async GLib.HashTable<string, GLib.Value?> get_content() throws DBus.Error { 
+				return yield message_.get_content();
+			}
+
+			public async void get_multiple_fields(string field_list) throws DBus.Error { 
+				yield message_.get_multiple_fields(field_list);
+			}
+
+			public async void move_to_folder(string folder_name) throws DBus.Error { 
+				yield message_.move_to_folder(folder_name);
+			}
+
+			public async void update(GLib.HashTable<string, GLib.Value?> message_data) throws DBus.Error { 
+				yield message_.update(message_data);
+			}
+
+			public async void delete() throws DBus.Error { 
+				yield message_.delete();
 			}
 		}
 		[DBus (name = "org.freesmartphone.PIM.NoteQuery")]
