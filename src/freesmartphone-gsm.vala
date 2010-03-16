@@ -231,30 +231,30 @@ namespace FreeSmartphone {
 
 		[DBus (use_string_marshalling = true)]
 		public enum DeviceStatus {
-			[DBus (value="CLOSED")]
-			CLOSED,
-			[DBus (value="INITIALIZING")]
-			INITIALIZING,
-			[DBus (value="ALIVE_NO_SIM")]
-			ALIVE_NO_SIM,
-			[DBus (value="ALIVE_SIM_LOCKED")]
-			ALIVE_SIM_LOCKED,
-			[DBus (value="ALIVE_SIM_UNLOCKED")]
-			ALIVE_SIM_UNLOCKED,
-			[DBus (value="ALIVE_SIM_READY")]
-			ALIVE_SIM_READY,
-			[DBus (value="ALIVE_REGISTERED")]
-			ALIVE_REGISTERED,
-			[DBus (value="SUSPENDING")]
-			SUSPENDING,
-			[DBus (value="SUSPENDED")]
-			SUSPENDED,
-			[DBus (value="RESUMING")]
-			RESUMING,
-			[DBus (value="CLOSING")]
-			CLOSING,
-			[DBus (value="UNKNOWN")]
+			[DBus (value="unknown")]
 			UNKNOWN,
+			[DBus (value="closed")]
+			CLOSED,
+			[DBus (value="initializing")]
+			INITIALIZING,
+			[DBus (value="alive-no-sim")]
+			ALIVE_NO_SIM,
+			[DBus (value="alive-sim-locked")]
+			ALIVE_SIM_LOCKED,
+			[DBus (value="alive-sim-unlocked")]
+			ALIVE_SIM_UNLOCKED,
+			[DBus (value="alive-sim-ready")]
+			ALIVE_SIM_READY,
+			[DBus (value="alive-registered")]
+			ALIVE_REGISTERED,
+			[DBus (value="suspending")]
+			SUSPENDING,
+			[DBus (value="suspended")]
+			SUSPENDED,
+			[DBus (value="resuming")]
+			RESUMING,
+			[DBus (value="closing")]
+			CLOSING,
 		}
 
 		[DBus (name = "org.freesmartphone.GSM.MUX")]
@@ -772,7 +772,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_phonebook_info(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async SIMEntryStruct[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMEntry[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void delete_entry(string category, int index) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -805,12 +805,6 @@ namespace FreeSmartphone {
 			public string attr3;
 			public string attr4;
 			public GLib.HashTable<string, GLib.Value?> attr5;
-		}
-
-		public struct SIMEntryStruct {
-			public int attr1;
-			public string attr2;
-			public string attr3;
 		}
 
 		public struct SIMHomezoneStruct {
@@ -889,7 +883,7 @@ namespace FreeSmartphone {
 				return yield s_i_m.get_phonebook_info(category);
 			}
 
-			public async SIMEntryStruct[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
+			public async FreeSmartphone.GSM.SIMEntry[] retrieve_phonebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.retrieve_phonebook(category);
 			}
 
