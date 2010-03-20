@@ -307,10 +307,6 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_info() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async bool get_antenna_power() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void set_antenna_power(bool antenna_power) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
 			public abstract async void get_functionality(out string level, out bool autoregister, out string pin) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void set_functionality(string level, bool autoregister, string pin) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
@@ -345,14 +341,6 @@ namespace FreeSmartphone {
 
 			public async GLib.HashTable<string, GLib.Value?> get_info() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield device.get_info();
-			}
-
-			public async bool get_antenna_power() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield device.get_antenna_power();
-			}
-
-			public async void set_antenna_power(bool antenna_power) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				yield device.set_antenna_power(antenna_power);
 			}
 
 			public async void get_functionality(out string level, out bool autoregister, out string pin) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
@@ -752,10 +740,6 @@ namespace FreeSmartphone {
 
 			public abstract async bool get_auth_code_required() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async bool get_sim_ready() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public signal void ready_status(bool status);
-
 			public abstract async GLib.HashTable<string, GLib.Value?> get_sim_info() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async string send_generic_sim_command(string command) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
@@ -763,8 +747,6 @@ namespace FreeSmartphone {
 			public abstract async string send_restricted_sim_command(int command, int fileid, int p1, int p2, int p3, string data) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async FreeSmartphone.GSM.SIMHomezone[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async string get_issuer() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async GLib.HashTable<string, string> get_provider_list() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -832,10 +814,6 @@ namespace FreeSmartphone {
 				return yield s_i_m.get_auth_code_required();
 			}
 
-			public async bool get_sim_ready() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield s_i_m.get_sim_ready();
-			}
-
 			public async GLib.HashTable<string, GLib.Value?> get_sim_info() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.get_sim_info();
 			}
@@ -850,10 +828,6 @@ namespace FreeSmartphone {
 
 			public async FreeSmartphone.GSM.SIMHomezone[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
 				return yield s_i_m.get_home_zones();
-			}
-
-			public async string get_issuer() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
-				return yield s_i_m.get_issuer();
 			}
 
 			public async GLib.HashTable<string, string> get_provider_list() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error { 
