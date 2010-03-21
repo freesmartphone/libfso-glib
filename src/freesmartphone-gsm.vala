@@ -266,15 +266,9 @@ namespace FreeSmartphone {
 
 			public abstract async int initiate(string number, string type) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async CallDetailStruct[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async FreeSmartphone.GSM.CallDetail[] list_calls() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void send_dtmf(string tones) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-		}
-
-		public struct CallDetailStruct {
-			public int attr1;
-			public string attr2;
-			public GLib.HashTable<string, GLib.Value?> attr3;
 		}
 
 		public Call get_call_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
@@ -295,7 +289,7 @@ namespace FreeSmartphone {
 
 			public signal void signal_strength(int signal_strength);
 
-			public abstract async NetworkProviderStruct[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async FreeSmartphone.GSM.NetworkProvider[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void register_with_provider(string operator_code) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
@@ -316,14 +310,6 @@ namespace FreeSmartphone {
 			public signal void incoming_ussd(string mode, string message_);
 
 			public signal void cipher_status(string gsm, string gprs);
-		}
-
-		public struct NetworkProviderStruct {
-			public string attr1;
-			public string attr2;
-			public string attr3;
-			public string attr4;
-			public string attr5;
 		}
 
 		public Network get_network_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
