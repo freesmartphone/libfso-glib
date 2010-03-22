@@ -32,6 +32,20 @@ namespace FreeSmartphone {
 		public PDP get_p_d_p_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
 			return con.get_object(busname, path) as PDP;
 		}
+		public struct SIMHomeZone {
+			public string name;
+			public int x;
+			public int y;
+			public int radius;
+
+			public SIMHomeZone (string name, int x, int y, int radius ) {
+				this.name = name;
+				this.x = x;
+				this.y = y;
+				this.radius = radius;
+			}
+		}
+
 		[DBus (name = "org.freesmartphone.GSM.HZ")]
 		public interface HZ : GLib.Object {
 
@@ -113,6 +127,8 @@ namespace FreeSmartphone {
 			public abstract async void debug_inject_response(string response, string channel) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void debug_ping() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
+			public signal void debug_status(GLib.HashTable<string, string> channels);
 		}
 
 		public Debug get_debug_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
@@ -123,11 +139,7 @@ namespace FreeSmartphone {
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_serving_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async MonitorNeighbourCellStruct[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-		}
-
-		public struct MonitorNeighbourCellStruct {
-			public GLib.HashTable<string, GLib.Value?> attr1;
+			public abstract async GLib.HashTable<string, GLib.Value?>[] get_neighbour_cell_information() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 		}
 
 		public Monitor get_monitor_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
@@ -315,20 +327,6 @@ namespace FreeSmartphone {
 		public Network get_network_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
 			return con.get_object(busname, path) as Network;
 		}
-		public struct SIMHomezone {
-			public string name;
-			public int x;
-			public int y;
-			public int radius;
-
-			public SIMHomezone (string name, int x, int y, int radius ) {
-				this.name = name;
-				this.x = x;
-				this.y = y;
-				this.radius = radius;
-			}
-		}
-
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
 		public interface SMS : GLib.Object {
 
@@ -426,7 +424,7 @@ namespace FreeSmartphone {
 
 			public abstract async string send_restricted_sim_command(int command, int fileid, int p1, int p2, int p3, string data) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async FreeSmartphone.GSM.SIMHomezone[] get_home_zones() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async FreeSmartphone.GSM.SIMHomeZone[] get_home_zone_parameters() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async GLib.HashTable<string, string> get_provider_list() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
