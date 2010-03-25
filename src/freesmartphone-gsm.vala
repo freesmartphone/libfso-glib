@@ -246,13 +246,15 @@ namespace FreeSmartphone {
 			public int index;
 			public string status;
 			public string number;
+			public string timestamp;
 			public string contents;
 			public GLib.HashTable<string, GLib.Value?> properties;
 
-			public SIMMessage (int index, string status, string number, string contents, GLib.HashTable<string, GLib.Value?> properties ) {
+			public SIMMessage (int index, string status, string number, string timestamp, string contents, GLib.HashTable<string, GLib.Value?> properties ) {
 				this.index = index;
 				this.status = status;
 				this.number = number;
+				this.timestamp = timestamp;
 				this.contents = contents;
 				this.properties = properties;
 			}
@@ -335,19 +337,15 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.GSM.SMS")]
 		public interface SMS : GLib.Object {
 
+			public abstract async FreeSmartphone.GSM.SIMMessage[] retrieve_text_messages() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+
 			public abstract async uint get_size_for_text_message(string contents) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async void send_text_message(string recipient_number, string contents, bool want_report, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public abstract async void send_text_message(string recipient_number, string contents, bool report, out int reference, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async void send_message(string recipient_number, string contents, GLib.HashTable<string, GLib.Value?> properties, out int transaction_index, out string timestamp) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
+			public signal void incoming_text_message(string number, string timestamp, string contents);
 
-			public abstract async void ack_message(string contents, GLib.HashTable<string, GLib.Value?> properties) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void nack_message(string contents, GLib.HashTable<string, GLib.Value?> properties) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public signal void incoming_message(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
-
-			public signal void incoming_message_receipt(string sender_number, string contents, GLib.HashTable<string, GLib.Value?> properties);
+			public signal void incoming_message_receipt(string sender_number, string contents);
 		}
 
 		public SMS get_s_m_s_proxy(DBus.Connection con, string busname, DBus.ObjectPath path) {
@@ -439,13 +437,11 @@ namespace FreeSmartphone {
 
 			public abstract async FreeSmartphone.GSM.SIMEntry[] retrieve_phonebook(string category, int mindex, int maxdex) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public abstract async FreeSmartphone.GSM.SIMMessage[] retrieve_messagebook(string category) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
 			public abstract async string get_service_center_number() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void set_service_center_number(string number) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
-			public signal void incoming_stored_message(int index);
+			public signal void incoming_message(int index);
 
 			public abstract async void delete_message(int index) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
