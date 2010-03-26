@@ -10,10 +10,6 @@ namespace FreeSmartphone {
 		[DBus (name = "org.freesmartphone.GSM.PDP")]
 		public interface PDP : GLib.Object {
 
-			public abstract async GLib.HashTable<string, GLib.Value?> get_network_status() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public signal void network_status(GLib.HashTable<string, GLib.Value?> status);
-
 			public abstract async void set_credentials(string apn, string username, string password) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void get_credentials(out string apn, out string username, out string password) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
@@ -311,8 +307,6 @@ namespace FreeSmartphone {
 			public abstract async FreeSmartphone.GSM.NetworkProvider[] list_providers() throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async void register_with_provider(string operator_code) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
-
-			public abstract async void get_network_country_code(out string dial_code, out string country_name) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
 			public abstract async GLib.HashTable<string, GLib.Value?> get_call_forwarding(string reason) throws FreeSmartphone.GSM.Error, FreeSmartphone.Error, DBus.Error;
 
