@@ -22,8 +22,7 @@ libfso_glib_la_VALASOURCES = \
 	freesmartphone-device.vala \
 	freesmartphone-gsm.vala \
 	freesmartphone-time.vala \
-	freesmartphone-pim.vala \
-	freesmartphone-utils.vala
+	freesmartphone-pim.vala
 
 libfso_glibdir = $(includedir)/fso-glib
 libfso_glib_HEADERS = \
@@ -77,4 +76,3 @@ CLEANFILES = \
 
 DISTCLEANFILES = \
 		 Makefile.in 
-
