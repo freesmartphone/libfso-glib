@@ -1,8 +1,7 @@
 AUTOMAKE_OPTIONS =
 
 AM_CFLAGS = \
-	$(GLIB_CFLAGS) \
-	$(DBUS_CFLAGS) \
+	$(DEPS_CFLAGS) \
 	-include $(CONFIG_HEADER)
 
 VALACFLAGS = \
@@ -13,7 +12,7 @@ VALACFLAGS = \
 	--gir FreeSmartphone-1.0.gir
 
 DBUSBINDINGTOOLFLAGS = \
-	--api-path=$(SPECS_PATH) \
+	--api-path=$(FSO_SPECS_DIR) \
 	--directory=./ --strip-namespace=org \
 	--rename-namespace=freedesktop:FreeDesktop \
 	--rename-namespace=freesmartphone:FreeSmartphone
@@ -50,7 +49,7 @@ libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
 	touch $@
 
 gen-bindings:
-	$(DBUSBINDINGTOOL) $(DBUSBINDINGTOOLFLAGS)
+	vala-dbus-binding-tool $(DBUSBINDINGTOOLFLAGS)
 
 if TYPELIB
 typelibdir = $(libdir)/girepository-1.0
@@ -61,8 +60,7 @@ FreeSmartphone-1.0.typelib:FreeSmartphone-1.0.gir
 endif
 
 libfso_glib_la_LIBADD = \
-	$(GLIB_LIBS) \
-	$(DBUS_LIBS)
+	$(DEPS_LIBS)
 
 EXTRA_DIST = \
 	$(libfso_glib_la_VALASOURCES) \
