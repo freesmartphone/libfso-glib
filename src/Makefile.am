@@ -1,4 +1,4 @@
-AUTOMAKE_OPTIONS = 
+AUTOMAKE_OPTIONS =
 
 AM_CFLAGS = \
 	$(GLIB_CFLAGS) \
@@ -11,6 +11,12 @@ VALACFLAGS = \
 	--header freesmartphone.h \
 	--library fso-glib-1.0 \
 	--gir FreeSmartphone-1.0.gir
+
+DBUSBINDINGTOOLFLAGS = \
+	--api-path=$(SPECS_PATH) \
+	--directory=./ --strip-namespace=org \
+	--rename-namespace=freedesktop:FreeDesktop \
+	--rename-namespace=freesmartphone:FreeSmartphone
 
 BUILT_SOURCES = libfso_glib_la.vala.stamp
 
@@ -29,8 +35,9 @@ libfso_glib_HEADERS = \
 	freesmartphone.h
 
 vapidir = $(datadir)/vala/vapi
-vapi_DATA = fso-glib-1.0.vapi \
-	    fso-glib-1.0.deps
+vapi_DATA = \
+	fso-glib-1.0.vapi \
+	fso-glib-1.0.deps
 
 girdir = $(datadir)/gir-1.0
 gir_DATA = FreeSmartphone-1.0.gir
@@ -42,13 +49,8 @@ libfso_glib_la.vala.stamp: gen-bindings $(libfso_glib_la_VALASOURCES)
 	$(VALAC) -C ${VALACFLAGS} --basedir . $(libfso_glib_la_VALASOURCES)
 	touch $@
 
-if GENERATE_BINDINGS
 gen-bindings:
-	$(DBUSBINDINGTOOL) --api-path=$(SPECS_PATH) --directory=./ --strip-namespace=org --rename-namespace=freedesktop:FreeDesktop --rename-namespace=freesmartphone:FreeSmartphone
-else
-gen-bindings:
-	
-endif
+	$(DBUSBINDINGTOOL) $(DBUSBINDINGTOOLFLAGS)
 
 if TYPELIB
 typelibdir = $(libdir)/girepository-1.0
@@ -75,4 +77,4 @@ CLEANFILES = \
 	libfso_glib_la.vala.stamp
 
 DISTCLEANFILES = \
-		 Makefile.in 
+	Makefile.in

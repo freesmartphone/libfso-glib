@@ -1,4 +1,4 @@
-AC_INIT([libfso-glib], [0.2.2], [ptitjes@free.fr], [libfso-glib])
+AC_INIT([libfso-glib], [0.2.2], [smartphones-standards@linuxtogo.org], [libfso-glib])
 AC_CONFIG_SRCDIR([src/Makefile.am])
 AC_CONFIG_HEADERS(config.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -8,18 +8,6 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
-
-AC_SUBST(SPECS_PATH)
-AC_ARG_VAR(SPECS_PATH, [path to XML specs])
-AM_CONDITIONAL([GENERATE_BINDINGS], [test x$SPECS_PATH != x])
-
-AS_IF([test "x$SPECS_PATH" != x],
-   [AC_PATH_PROG(DBUSBINDINGTOOL, vala-dbus-binding-tool, :)
-    AC_SUBST(DBUSBINDINGTOOL)
-    AS_IF([test "$DBUSBINDINGTOOL" = :],
-           [AC_MSG_ERROR([vala-dbus-binding-tool not found])])])
-
-
 
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
@@ -45,23 +33,25 @@ VALA_REQUIRED=0.7.9
 VDBT_REQUIRED=0.1.3
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
+SPECS_REQUIRED=20100101
 
 PKG_CHECK_MODULES(VALA,
 	vala-1.0 >= $VALA_REQUIRED)
 PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
 	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
 
-PKG_CHECK_MODULES(GLIB,
+PKG_CHECK_MODULE(SPECS,
+	fso-specs >= SPECS_REQUIRED)
+
+PKG_CHECK_MODULES(DEPS,
 	glib-2.0 >= $GLIB_REQUIRED
 	gobject-2.0 >= $GLIB_REQUIRED
 	gio-2.0 >= $GLIB_REQUIRED
-	gthread-2.0 >= $GLIB_REQUIRED)
-AC_SUBST(GLIB_CFLAGS)
-AC_SUBST(GLIB_LIBS)
-
-PKG_CHECK_MODULES(DBUS, dbus-glib-1 >= $DBUS_REQUIRED dbus-1 >= $DBUS_REQUIRED)
-AC_SUBST(DBUS_CFLAGS)
-AC_SUBST(DBUS_LIBS)
+	gthread-2.0 >= $GLIB_REQUIRED
+	dbus-glib-1 >= $DBUS_REQUIRED
+	dbus-1 >= $DBUS_REQUIRED)
+AC_SUBST(DEPS_CFLAGS)
+AC_SUBST(DEPS_LIBS)
 
 AC_CONFIG_FILES([
 	Makefile
