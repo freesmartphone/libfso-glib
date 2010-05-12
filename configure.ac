@@ -1,4 +1,4 @@
-AC_INIT([libfso-glib], [0.2.2], [smartphones-standards@linuxtogo.org], [libfso-glib])
+AC_INIT([libfso-glib], [2010.05.11.2], [smartphones-standards@linuxtogo.org], [libfso-glib])
 AC_CONFIG_SRCDIR([src/Makefile.am])
 AC_CONFIG_HEADERS(config.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -33,7 +33,7 @@ VALA_REQUIRED=0.7.9
 VDBT_REQUIRED=0.1.3
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
-SPECS_REQUIRED=2010.05.11.2
+SPECS_REQUIRED=$PACKAGE_VERSION
 
 # binding tools
 PKG_CHECK_MODULES(VALA,
