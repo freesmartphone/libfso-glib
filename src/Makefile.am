@@ -8,8 +8,7 @@ VALACFLAGS = \
 	--pkg gio-2.0 \
 	--pkg dbus-glib-1 \
 	--header freesmartphone.h \
-	--library fso-glib-1.0 \
-	--gir FreeSmartphone-1.0.gir
+	--library fso-glib-1.0
 
 DBUSBINDINGTOOLFLAGS = \
 	--api-path=$(FSO_SPECS_DIR) \
@@ -38,9 +37,6 @@ vapi_DATA = \
 	fso-glib-1.0.vapi \
 	fso-glib-1.0.deps
 
-girdir = $(datadir)/gir-1.0
-gir_DATA = FreeSmartphone-1.0.gir
-
 libfso_glib_la_SOURCES = \
 	$(libfso_glib_la_VALASOURCES:.vala=.c)
 
@@ -52,8 +48,11 @@ gen-bindings:
 	vala-dbus-binding-tool $(DBUSBINDINGTOOLFLAGS)
 
 if TYPELIB
+girdir = $(datadir)/gir-1.0
+gir_DATA = FreeSmartphone-1.0.gir
 typelibdir = $(libdir)/girepository-1.0
 typelib_DATA = FreeSmartphone-1.0.typelib
+VALACFLAGS += --gir FreeSmartphone-1.0.gir
 
 FreeSmartphone-1.0.typelib:FreeSmartphone-1.0.gir
 	$(GIR_COMPILER) --includedir /usr/share/gir-1.0/ FreeSmartphone-1.0.gir -o FreeSmartphone-1.0.typelib
