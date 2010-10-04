@@ -1,4 +1,4 @@
-AC_INIT([libfso-glib], [2010.09.30.1], [smartphones-standards@linuxtogo.org], [libfso-glib])
+AC_INIT([libfso-glib], [2010.10.04.1], [smartphones-standards@linuxtogo.org], [libfso-glib])
 AC_CONFIG_SRCDIR([src/Makefile.am])
 AC_CONFIG_HEADERS(config.h)
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -9,8 +9,10 @@ AM_PROG_CC_C_O
 AC_DISABLE_STATIC
 AC_PROG_LIBTOOL
 
+VALA_REQUIRED=0.9.7
 AC_PATH_PROG(VALAC, valac, valac)
 AC_SUBST(VALAC)
+m4_ifdef([AM_PROG_VALAC], [AM_PROG_VALAC([$VALA_REQUIRED])])
 
 AC_ARG_ENABLE(typelib,
 	[AS_HELP_STRING([--enable-typelib],
@@ -29,15 +31,12 @@ AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
-VALA_REQUIRED=0.9.6.1
 VDBT_REQUIRED=0.1.3
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
 SPECS_REQUIRED=$PACKAGE_VERSION
 
 # binding tools
-PKG_CHECK_MODULES(VALA,
-	vala-0.10 >= $VALA_REQUIRED)
 PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
 	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
 PKG_CHECK_MODULES(SPECS,
