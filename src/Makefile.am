@@ -6,7 +6,6 @@ AM_CFLAGS = \
 
 VALACFLAGS = \
 	--pkg gio-2.0 \
-	--pkg dbus-glib-1 \
 	--header freesmartphone.h \
 	--library fso-glib-1.0
 
@@ -15,6 +14,12 @@ DBUSBINDINGTOOLFLAGS = \
 	--directory=./ --strip-namespace=org \
 	--rename-namespace=freedesktop:FreeDesktop \
 	--rename-namespace=freesmartphone:FreeSmartphone
+
+if WANT_GDBUS
+DBUSBINDINGTOOLFLAGS += --gdbus
+else
+VALACFLAGS += --pkg dbus-glib-1
+endif
 
 BUILT_SOURCES = libfso_glib_la.vala.stamp
 

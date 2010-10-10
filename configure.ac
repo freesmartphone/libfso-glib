@@ -16,7 +16,7 @@ m4_ifdef([AM_PROG_VALAC], [AM_PROG_VALAC([$VALA_REQUIRED])])
 
 AC_ARG_ENABLE(typelib,
 	[AS_HELP_STRING([--enable-typelib],
-		[enable typelib generation (default is no)])],
+		[Enable typelib generation (default=no)])],
 	[ ],
 	[enable_typelib=no])
 AM_CONDITIONAL([TYPELIB], [test x$enable_typelib != xno])
@@ -36,6 +36,7 @@ GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
 SPECS_REQUIRED=$PACKAGE_VERSION
 
+##############################################################################
 # binding tools
 PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
 	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
@@ -45,14 +46,31 @@ PKG_CHECK_MODULES(SPECS,
 FSO_SPECS_DIR="`$PKG_CONFIG --variable=specsdir fso-specs`"
 AC_SUBST(FSO_SPECS_DIR)
 
-# build time specs
-PKG_CHECK_MODULES(DEPS,
+##############################################################################
+# gdbus?
+AC_ARG_ENABLE(gdbus,
+  AS_HELP_STRING([--enable-gdbus],[Build code for gdbus as found in glib >= 2.26 (default=no)]),
+  [gdbus=$enableval],
+  [gdbus="no"])
+
+if test x$gdbus = x"yes"; then
+    GLIB_REQUIRED=2.26.0
+    PKG_CHECK_MODULES(DEPS,
+	glib-2.0 >= $GLIB_REQUIRED
+	gobject-2.0 >= $GLIB_REQUIRED
+	gio-2.0 >= $GLIB_REQUIRED
+	gthread-2.0 >= $GLIB_REQUIRED)
+else
+    PKG_CHECK_MODULES(DEPS,
 	glib-2.0 >= $GLIB_REQUIRED
 	gobject-2.0 >= $GLIB_REQUIRED
 	gio-2.0 >= $GLIB_REQUIRED
 	gthread-2.0 >= $GLIB_REQUIRED
 	dbus-glib-1 >= $DBUS_REQUIRED
 	dbus-1 >= $DBUS_REQUIRED)
+fi
+AM_CONDITIONAL( [WANT_GDBUS], [test x"$gdbus" = x"yes"])
+
 AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LIBS)
 
