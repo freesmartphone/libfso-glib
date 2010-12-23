@@ -9,3 +9,6 @@ The gdbus branch compiles the bindings against
 glib. You will need at least version 2.26.1 for this to work.
 
 There is no master branch.
+
+<THIS IS THE DBUS-GLIB BRANCH>
+
