@@ -2,7 +2,7 @@ GLib-based DBus bindings for freesmartphone.org - Vala implementation
 
 We provide two branches for you, dbus-glib and gdbus.
 
-The master branch compiles the bindings against
+The dbus-glib branch compiles the bindings against
 libdbus and libdbus-glib.
 
 The gdbus branch compiles the bindings against
