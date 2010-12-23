@@ -49,9 +49,9 @@ AC_SUBST(FSO_SPECS_DIR)
 ##############################################################################
 # gdbus?
 AC_ARG_ENABLE(gdbus,
-  AS_HELP_STRING([--enable-gdbus],[Build code for gdbus as found in glib >= 2.26 (default=no)]),
+  AS_HELP_STRING([--enable-gdbus],[Build code for gdbus as found in glib >= 2.26 (default=yes)]),
   [gdbus=$enableval],
-  [gdbus="no"])
+  [gdbus="yes"])
 
 if test x$gdbus = x"yes"; then
     GLIB_REQUIRED=2.26.0
@@ -80,3 +80,25 @@ AC_CONFIG_FILES([
 	fso-glib-1.0.pc
 ])
 AC_OUTPUT
+#
+# Info
+#
+echo
+echo
+echo
+echo "------------------------------------------------------------------------"
+echo "$PACKAGE_NAME $PACKAGE_VERSION-$GITV"
+echo "------------------------------------------------------------------------"
+echo
+echo "Configuration Options:"
+echo
+echo "  gdbus ...............................: $gdbus"
+echo
+echo "  debug build..........................: $debug"
+echo
+echo "  prefix...............................: $prefix"
+echo
+echo "------------------------------------------------------------------------"
+echo
+echo "Now type 'make' to compile and 'make install' to install this package."
+
