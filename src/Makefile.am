@@ -13,8 +13,7 @@ DBUSBINDINGTOOLFLAGS = \
 	--api-path=$(FSO_SPECS_DIR) \
 	--directory=./ --strip-namespace=org \
 	--rename-namespace=freedesktop:FreeDesktop \
-	--rename-namespace=freesmartphone:FreeSmartphone \
-	--rename-namespace=sflphone:SFLPhone
+	--rename-namespace=freesmartphone:FreeSmartphone
 
 if WANT_GDBUS
 DBUSBINDINGTOOLFLAGS += --gdbus
