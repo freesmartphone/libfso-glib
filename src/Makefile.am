@@ -13,7 +13,8 @@ DBUSBINDINGTOOLFLAGS = \
 	--api-path=$(FSO_SPECS_DIR) \
 	--directory=./ --strip-namespace=org \
 	--rename-namespace=freedesktop:FreeDesktop \
-	--rename-namespace=freesmartphone:FreeSmartphone
+	--rename-namespace=freesmartphone:FreeSmartphone \
+	--rename-namespace=sflphone:SFLPhone
 
 if WANT_GDBUS
 DBUSBINDINGTOOLFLAGS += --gdbus
@@ -32,7 +33,9 @@ libfso_glib_la_VALASOURCES = \
 	freesmartphone-device.vala \
 	freesmartphone-gsm.vala \
 	freesmartphone-time.vala \
-	freesmartphone-pim.vala
+	freesmartphone-pim.vala \
+	\
+	sflphone-sflphone.vala
 
 libfso_glibdir = $(includedir)/fso-glib
 libfso_glib_HEADERS = \
