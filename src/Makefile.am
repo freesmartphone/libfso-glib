@@ -33,6 +33,7 @@ libfso_glib_la_VALASOURCES = \
 	freesmartphone-gsm.vala \
 	freesmartphone-time.vala \
 	freesmartphone-pim.vala \
+	freesmartphone-audio.vala \
 	\
 	sflphone-sflphone.vala
 
