@@ -35,7 +35,9 @@ libfso_glib_la_VALASOURCES = \
 	freesmartphone-pim.vala \
 	freesmartphone-audio.vala \
 	\
-	sflphone-sflphone.vala
+	sflphone-sflphone.vala \
+	\
+	net-connman.vala
 
 libfso_glibdir = $(includedir)/fso-glib
 libfso_glib_HEADERS = \
