@@ -37,7 +37,9 @@ libfso_glib_la_VALASOURCES = \
 	\
 	sflphone-sflphone.vala \
 	\
-	net-connman.vala
+	net-connman.vala \
+	\
+	bluez.vala
 
 libfso_glibdir = $(includedir)/fso-glib
 libfso_glib_HEADERS = \
