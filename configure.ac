@@ -74,6 +74,14 @@ AM_CONDITIONAL( [WANT_GDBUS], [test x"$gdbus" = x"yes"])
 AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LIBS)
 
+##############################################################################
+# check for debugging
+AC_ARG_ENABLE(debug,
+  [  --enable-debug            Enable debug build (default=disabled)],
+  [debug=$enableval],
+  [debug="no"])
+AM_CONDITIONAL( [WANT_DEBUG], [test x"$debug" = x"yes"])
+
 AC_CONFIG_FILES([
 	Makefile
 	src/Makefile

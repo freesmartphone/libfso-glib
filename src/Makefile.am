@@ -21,6 +21,11 @@ else
 VALACFLAGS += --pkg dbus-glib-1
 endif
 
+if WANT_DEBUG
+VALACFLAGS += -g -D DEBUG
+AM_CFLAGS += -ggdb -O0
+endif
+
 BUILT_SOURCES = libfso_glib_la.vala.stamp
 
 lib_LTLIBRARIES = libfso-glib.la
