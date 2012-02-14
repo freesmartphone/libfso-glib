@@ -88,14 +88,12 @@ AC_CONFIG_FILES([
 	fso-glib-1.0.pc
 ])
 AC_OUTPUT
-#
-# Info
-#
-echo
-echo
+
+##############################################################################
+# info
 echo
 echo "------------------------------------------------------------------------"
-echo "$PACKAGE_NAME $PACKAGE_VERSION-$GITV"
+echo "$PACKAGE_NAME $PACKAGE_VERSION"
 echo "------------------------------------------------------------------------"
 echo
 echo "Configuration Options:"
