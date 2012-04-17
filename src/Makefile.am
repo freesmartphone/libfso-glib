@@ -75,9 +75,12 @@ libfso_glib_la_LIBADD = \
 
 EXTRA_DIST = \
 	$(libfso_glib_la_VALASOURCES) \
+	fso-glib-1.0.deps \
+	fso-glib-1.0.vapi \
 	libfso_glib_la.vala.stamp
 
 CLEANFILES = \
+	*.vala \
 	*.c \
 	*.h \
 	*.vapi \
