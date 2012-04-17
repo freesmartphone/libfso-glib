@@ -89,4 +89,5 @@ CLEANFILES = \
 	libfso_glib_la.vala.stamp
 
 DISTCLEANFILES = \
+	$(CLEANFILES) \
 	Makefile.in
