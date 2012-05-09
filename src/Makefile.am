@@ -47,6 +47,10 @@ libfso_glib_la_CFLAGS = \
 	$(NULL)
 libfso_glib_la_LIBADD = \
 	$(DEPS_LIBS)
+libfso_glib_la_LDFLAGS = \
+	$(AM_LDFLAGS) \
+	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)" \
+	$(NULL)
 
 $(libfso_glib_la_SOURCES):
 	vala-dbus-binding-tool $(DBUSBINDINGTOOLFLAGS)

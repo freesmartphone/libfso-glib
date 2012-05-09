@@ -1,7 +1,16 @@
-m4_define([libfso_glib_released], [0])
-m4_define([libfso_glib_version], [2012.04.20.1])
+m4_define([fso_glib_released], [0])
+m4_define([fso_glib_version], [2012.04.20.1])
 
-AC_INIT([libfso-glib], libfso_glib_version, [smartphones-standards@linuxtogo.org], [libfso-glib])
+# If library source has changed since last release, increment revision
+# If public symbols have been added, removed or changed since last release,
+#  increment current and set revision to 0
+# If public symbols have been added since last release, increment age
+# If public symbols have been removed since last release, set age to 0
+m4_define([fso_glib_lt_current], [0])
+m4_define([fso_glib_lt_revision], [0])
+m4_define([fso_glib_lt_age], [0])
+
+AC_INIT([libfso-glib], fso_glib_version, [smartphones-standards@linuxtogo.org], [libfso-glib])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([Makefile.am])
@@ -21,6 +30,13 @@ AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
 
+LT_CURRENT=fso_glib_lt_current
+LT_REVISION=fso_glib_lt_revision
+LT_AGE=fso_glib_lt_age
+AC_SUBST([LT_CURRENT])
+AC_SUBST([LT_REVISION])
+AC_SUBST([LT_AGE])
+
 #########################################################################################
 # Vala building options -- allows tarball builds without installing vala
 #########################################################################################
@@ -31,7 +47,7 @@ AC_ARG_ENABLE([vala], AS_HELP_STRING([--enable-vala],[Enable building from Vala 
               [enable_vala=$enableval], [enable_vala=no])
 
 # Force Vala for non-release builds
-m4_if(libfso_glib_released, [1], [],
+m4_if(fso_glib_released, [1], [],
       [
         enable_vala=yes
         echo "Vala compiler required for non-release builds; requiring Vala..."
