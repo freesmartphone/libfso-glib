@@ -6,7 +6,7 @@ m4_define([fso_glib_version], [2012.04.20.1])
 #  increment current and set revision to 0
 # If public symbols have been added since last release, increment age
 # If public symbols have been removed since last release, set age to 0
-m4_define([fso_glib_lt_current], [0])
+m4_define([fso_glib_lt_current], [1])
 m4_define([fso_glib_lt_revision], [0])
 m4_define([fso_glib_lt_age], [0])
 
