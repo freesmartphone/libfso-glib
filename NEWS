@@ -1,1 +1,7 @@
+libfso-glib 2012.xx.xx (UNRELEASED)
+===================================
 
+Enhancements:
+
+* Reworked autoconf/automake configuration
+* We will now ship a reliable ABI version
