@@ -1,4 +1,4 @@
-m4_define([fso_glib_released], [0])
+m4_define([fso_glib_released], [1])
 m4_define([fso_glib_version], [2012.04.20.1])
 
 # If library source has changed since last release, increment revision
