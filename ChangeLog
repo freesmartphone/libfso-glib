@@ -1,4 +1,36 @@
+2012-05-24  Simon Busch  <morphis@gravedo.de>
+
+	Bump version to 2012.05.24.1 for release
+
+2012-05-22  Simon Busch  <morphis@gravedo.de>
+
+	Enter release mode for 0.11
+
+2012-05-15  Simon Busch  <morphis@gravedo.de>
+
+	Update NEWS file
+
+2012-05-11  Simon Busch  <morphis@gravedo.de>
+
+	Bump ABI to keep up with Debian folks; after 0.11 we're really using the ABI number
+
+2012-05-10  Simon Busch  <morphis@gravedo.de>
+
+	Remove TODO entry which is already done (e.g. make distcheck works)
+
+2012-05-09  Simon Busch  <morphis@gravedo.de>
+
+	Make shared library ABI version configurable
+
+	Rework autoconf/automake configuration
+
+2012-04-20  Simon Busch  <morphis@gravedo.de>
+
+	Bump version to keep up with fso-specs
+
 2012-04-18  Simon Busch  <morphis@gravedo.de>
+
+	Release version 2012.04.18.1
 
 	Bump version to reflect last changes to autoconf/automake environment
 
@@ -75,7 +107,15 @@
 
 2011-04-15  Simon Busch  <morphis@gravedo.de>
 
+	Merge remote-tracking branch 'origin/gdbus' into gdbus
+	Conflicts:
+		configure.ac
+
 	Bump version according to fso-specs
+
+2011-04-13  Michael 'Mickey' Lauer  <mickey@vanille-media.de>
+
+	sync w/ fso-specs
 
 2011-04-12  Simon Busch  <morphis@gravedo.de>
 
