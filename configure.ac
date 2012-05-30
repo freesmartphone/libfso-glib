@@ -83,7 +83,7 @@ AS_IF([test "x$enable_typelib" != xno],
 # Check for various dependencies
 #########################################################################################
 
-VDBT_REQUIRED=0.1.3
+VDBT_REQUIRED=0.4.0
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
 SPECS_REQUIRED=$PACKAGE_VERSION
