@@ -1,5 +1,5 @@
 m4_define([fso_glib_released], [0])
-m4_define([fso_glib_version], [2012.06.06.1])
+m4_define([fso_glib_version], [2012.06.08.1])
 
 # If library source has changed since last release, increment revision
 # If public symbols have been added, removed or changed since last release,
