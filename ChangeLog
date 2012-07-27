@@ -1,4 +1,42 @@
+2012-07-27  Simon Busch  <morphis@gravedo.de>
+
+	Keep version in sync with specs
+
+2012-07-15  Simon Busch  <morphis@gravedo.de>
+
+	Keep version in sync with fso-specs
+
+2012-06-14  Simon Busch  <morphis@gravedo.de>
+
+	Keep up with fso-specs version
+
+2012-06-08  Simon Busch  <morphis@gravedo.de>
+
+	Keep up with fso-specs version
+
+2012-06-06  Simon Busch  <morphis@gravedo.de>
+
+	Keep up with fso-specs version
+
+2012-06-05  Simon Busch  <morphis@gravedo.de>
+
+	Keep up with version of fso-specs
+
+2012-06-01  Simon Busch  <morphis@gravedo.de>
+
+	Keep version in sync with fso-specs
+
+2012-05-30  Simon Busch  <morphis@gravedo.de>
+
+	We need at least version 0.4.0 of vala-dbus-binding-tool (includes property support)
+
+	Bump version to 2012.05.30.1
+
 2012-05-24  Simon Busch  <morphis@gravedo.de>
+
+	Bump version for next release and leave release mode
+
+	Update changelog for the next release
 
 	Bump version to 2012.05.24.1 for release
 
@@ -107,15 +145,7 @@
 
 2011-04-15  Simon Busch  <morphis@gravedo.de>
 
-	Merge remote-tracking branch 'origin/gdbus' into gdbus
-	Conflicts:
-		configure.ac
-
 	Bump version according to fso-specs
-
-2011-04-13  Michael 'Mickey' Lauer  <mickey@vanille-media.de>
-
-	sync w/ fso-specs
 
 2011-04-12  Simon Busch  <morphis@gravedo.de>
 
