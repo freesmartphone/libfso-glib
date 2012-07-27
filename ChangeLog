@@ -1,5 +1,9 @@
 2012-07-27  Simon Busch  <morphis@gravedo.de>
 
+	Bump ABI to 2.0.0
+
+	Update changelog
+
 	Keep version in sync with specs
 
 2012-07-15  Simon Busch  <morphis@gravedo.de>
