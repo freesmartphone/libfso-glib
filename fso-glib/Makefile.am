@@ -52,7 +52,7 @@ libfso_glib_la_LDFLAGS = \
 	-version-info "$(LT_CURRENT)":"$(LT_REVISION)":"$(LT_AGE)" \
 	$(NULL)
 
-$(libfso_glib_la_SOURCES):
+$(libfso_glib_la_SOURCES): $(top_srcdir)/specs/*.xml
 	vala-dbus-binding-tool $(DBUSBINDINGTOOLFLAGS)
 
 libfso_glibdir = $(includedir)/fso-glib

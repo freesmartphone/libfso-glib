@@ -72,13 +72,19 @@ XSLT = xsltproc $(XSLT_FLAGS)
 docbook_xml_files = $(addprefix docbook-, $(files))
 pydoc_html_files = $(files:.xml=.html)
 
+EXTRA_DIST = \
+	$(files) \
+	$(files:.xml=.xml.in)
+
 all: pydocs xml
 
 xml: $(files)
 
 pydocs: $(pydoc_html_files)
 
-$(pydoc_html_files): %.html: %.xml.in
+$(pydoc_html_files): %.html: $(top_srcdir)/docs/%.html
+
+$(top_srcdir)/docs/%.html: %.xml.in
 	@echo calling pydoc on $@
 	$(top_srcdir)/tools/makedoc.py $(top_srcdir)/docs $< >/dev/null
 
@@ -108,7 +114,4 @@ install-data-local:
 	for i in $(top_srcdir)/specs/*.xml; do $(INSTALL) -m 0644 $$i $(DESTDIR)/$(datadir)/freesmartphone/$$i; done
 
 MAINTAINERCLEANFILES = \
-  aclocal.m4 compile config.guess config.sub \
-  configure depcomp install-sh ltmain.sh     \
-  Makefile.in missing config.h.in            \
-  mkinstalldirs
+	Makefile.in
