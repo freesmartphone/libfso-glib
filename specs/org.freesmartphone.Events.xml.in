@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-events-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Events Interface</doc:summary>
+  <doc:version>0.1.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Events">
+
+  <doc:doc>
+    <doc:para>
+      The Events interface provides access to the rules.
+      All the rules are specified into the rule file : /etc/freesmartphone/oevents/rules.yaml.
+      See the file itself for more information about the syntax of the rules.
+    </doc:para>
+  </doc:doc>
+
+  <!-- Methods -->
+  <method name="AddRule">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Parse a rule string and add it into the rule list.</doc:description>
+    </doc:doc>
+    <arg type="s" name="rule" direction="in">
+        <doc:doc>
+            <doc:summary>The rule in the same format used by the rules file.</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="RemoveRule">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Remove a rule by name.</doc:description>
+    </doc:doc>
+    <arg type="s" name="name" direction="in">
+        <doc:doc>
+            <doc:summary>The name of the rule, as specified by the 'name' attribute of the rule.</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="TriggerTest">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Trigger or untrigger all the 'Test' triggers with matching names.</doc:description>
+    </doc:doc>
+    <arg type="s" name="name" direction="in">
+        <doc:doc>
+            <doc:summary>the name of the Test triggers to trigger/untrigger.</doc:summary>
+        </doc:doc>
+    </arg>
+    <arg type="b" name="value" direction="in">
+        <doc:doc>
+            <doc:summary>True to trigger, False to untrigger.</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+</interface>
+</node>

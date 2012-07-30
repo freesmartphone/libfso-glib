@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-device-idlenotifier-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Idle Notification Interface</doc:summary>
+  <doc:version>0.4.3</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Device.IdleNotifier">
+
+  <doc:doc>
+    <doc:para>
+      The Idle Notification Interface provides information about a device's idleness state.
+    </doc:para>
+  </doc:doc>
+
+  <method name="GetState">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the current idleness status.</doc:description>
+    </doc:doc>
+    <arg direction="out" type="s" name="status" fso:type="org.freesmartphone.Device.IdleState">
+      <doc:doc>
+        <doc:summary>
+          The idleness status. Expected values are:
+          [ul]
+            [li]"busy"[/li]
+            [li]"idle"[/li]
+            [li]"idle_dim"[/li]
+            [li]"idle_prelock"[/li]
+            [li]"lock"[/li]
+            [li]"suspend"[/li]
+            [li]"awake"[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetTimeouts">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Gets a list of all the idle states and their correspondent timeouts.</doc:description>
+    </doc:doc>
+    <arg direction="out" type="a{si}" name="status">
+      <doc:doc>
+        <doc:summary>
+          The list of the idle states, and their correspondent timeouts.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="SetTimeout">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Sets a timeout value for a given state.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="status" fso:type="org.freesmartphone.Device.IdleState">
+      <doc:doc>
+        <doc:summary>
+          The idle status. See org.freesmartphone.Device.IdleNotifier.GetState for a list of valid values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="in" type="i" name="timeout">
+      <doc:doc>
+        <doc:summary>
+          The timeout value. Set to -1 to disable the state.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="SetState">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Forces a new idleness status.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="status" fso:type="org.freesmartphone.Device.IdleState">
+      <doc:doc>
+        <doc:summary>
+          The idle status. See org.freesmartphone.Device.IdleNotifier.GetState for valid values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <signal name="State">
+    <doc:doc>
+      <doc:description>
+        Sent, when the idleness status has changed.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="status" fso:type="org.freesmartphone.Device.IdleState">
+      <doc:doc>
+        <doc:summary>
+          The idle status. See org.freesmartphone.Device.IdleNotifier.GetState for a list of expected values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+<fso:enumeration name="org.freesmartphone.Device.IdleState" type="s">
+  <fso:member name="busy" value="busy"/>
+  <fso:member name="idle" value="idle"/>
+  <fso:member name="idle-dim" value="idle_dim"/>
+  <fso:member name="idle-prelock" value="idle_prelock"/>
+  <fso:member name="lock" value="lock"/>
+  <fso:member name="suspend" value="suspend"/>
+  <fso:member name="awake" value="awake"/>
+</fso:enumeration>
+</node>

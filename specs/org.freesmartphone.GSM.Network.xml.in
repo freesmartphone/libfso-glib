@@ -1,0 +1,394 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-network-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org GSM Network Interface</doc:summary>
+  <doc:version>1.0.3</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.GSM.Network">
+
+  <doc:doc>
+    <doc:para>
+    The Network interface is used to give information about the GSM
+    service providers and this device's status with regards to
+    to network registration and connectivity.
+
+    Taxonomy note: We think in terms of (service) providers
+    rather than (network) operators, since multiple (service)
+    providers can use the networks from operators, however
+    what actually matters most is the provider name, not the
+    actual network operator the provider is using.
+    </doc:para>
+  </doc:doc>
+
+  <method name="Register">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+        <doc:description>Register with any available service provider.</doc:description>
+        <doc:inote>This maps to the GSM 07.07 command +COPS=0, see 3GPP TS 07.07 Chapter 7.3.</doc:inote>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Unregister">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+        <doc:description>Unregister from service provider.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetStatus">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+      <doc:description>Get Network Status.</doc:description>
+    </doc:doc>
+    <arg type="a{sv}" name="status" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Network status information. Mandatory tuples are:
+          [ul]
+            [li]( "registration", string ):
+            [ul] The telephony registration status. Expected values are:
+              [li]"unregistered" = not registered, not trying,[/li]
+              [li]"home" = registered to home network,[/li]
+              [li]"busy" = not registered, but currently trying,[/li]
+              [li]"denied" = no permitted network available,[/li]
+              [li]"unknown" = no idea,[/li]
+              [li]"roaming" = registered to foreign network.[/li]
+            [/ul][/li]
+            [li]( "mode", string ):
+            [ul]
+              The registration mode. Expected values are:
+              [li]"automatic" = automatic selection,[/li]
+              [li]"manual" = manual selection,[/li]
+              [li]"manual;automatic" = manual first, then automatic,[/li]
+              [li]"unregister" = manual unregister,[/li]
+              [li]"unknown" = unknown (this should never occur in production).[/li]
+            [/ul][/li]
+            [li]( "act", string ):
+            [ul]
+              The network access type. Will default to "GSM" if a modem doesn't support reporting. Expected values are:
+              [li]"GSM" = GPRS access[/li]
+              [li]"Compact GSM" = [/li]
+              [li]"UMTS" = UMTS access[/li]
+              [li]"EDGE" = Enhanced Data Rates for GSM Evolution [/li]
+              [li]"HSDPA" = High Speed Downlink Packet Access[/li]
+              [li]"HSUPA" = High Speed Uplink Packet Access[/li]
+              [li]"HSDPA/HSUPA" = High Speed Packet Access (both downlink and uplink)[/li]
+            [/ul][/li]
+          [/ul]
+          Optional tuples are:
+          [ul]
+            [li]( "display", string ): The display name of the network provider (if registered or roaming).[/li]
+            [li]( "provider", string ): The full name of the network provider (if registered or roaming).[/li]
+            [li]( "code", string ): MCC and MNC of the network provider (if registered or roaming).[/li]
+            [ul]
+              [li]MCC: first three characters starting from the left.[/li]
+              [li]MNC: remaining characters.[/li]
+            [/ul]
+            [li]( "strength", int ): The signal strength in percentage (0-100).[/li]
+            [li]( "lac", string ): The location area code string (if available).[/li]
+            [li]( "cid", string ): The cell id string (if available).[/li]
+            [li]( "pdp.registration", string ): The PDP access registration; values same as telephony registration.
+            [li]( "pdp.lac", string ): The PDP location area code string (if available).[/li]
+            [li]( "pdp.cid", string ): The PDP cell id string (if available).[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="Status">
+    <doc:doc>
+      <doc:description>
+        Sent, when the network registration status changes.
+      </doc:description>
+    </doc:doc>
+    <arg type="a{sv}" name="status">
+      <doc:doc>
+        <doc:summary>
+          The registration status. See org.freesmartphone.GSM.Network.GetStatus for expected values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <method name="GetSignalStrength">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+      <doc:description>Query the current signal strength, if registered with a service provider.</doc:description>
+    </doc:doc>
+    <arg type="i" name="signal_strength" direction="out">
+      <doc:doc>
+        <doc:summary>The signal strength in percent (0-100).</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="SignalStrength">
+    <doc:doc>
+      <doc:description>
+        (OPTIONAL) Sent, when registered with a service provider and the network signal strength changes.
+      </doc:description>
+    </doc:doc>
+    <arg type="i" name="signal_strength">
+      <doc:doc>
+        <doc:summary>The signal strength in percent (0-100).</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <method name="GetTimeReport">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+      <doc:description>Query the last received time report.</doc:description>
+    </doc:doc>
+    <arg type="i" name="time" direction="out">
+      <doc:doc>
+        <doc:summary>
+          The current time in seconds since UNIX epoch.
+          0, if no time has been received.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="timestamp" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Timestamp indicating when the time report has been received from the network.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="zone" direction="out">
+      <doc:doc>
+        <doc:summary>
+          The time zone offset in minutes based on UTC.
+          This value is only valid, if within the interval ( -1440, 1440 ).
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="zonestamp" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Timestamp indicating when the time report has been received from the network.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="TimeReport">
+    <doc:doc>
+      <doc:description>
+        Sent upon receiving a network time and/or zone report.
+      </doc:description>
+      <doc:inote>
+        Very few providers / networks are supporting this.
+      </doc:inote>
+    </doc:doc>
+    <arg type="i" name="time">
+      <doc:doc>
+        <doc:summary>
+          The current time in seconds since UNIX epoch.
+          0, if no time has been received.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="zone">
+      <doc:doc>
+        <doc:summary>
+          The time zone offset in minutes based on UTC.
+          This value is only valid, if within the interval ( -1440, 1440 ).
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <method name="ListProviders">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoNetworkProviderList" />
+      <doc:doc>
+        <doc:description>List available service providers.</doc:description>
+      </doc:doc>
+    <arg type="a(sssss)" name="providers" direction="out" fso:type="org.freesmartphone.GSM.NetworkProvider">
+      <doc:doc>
+        <doc:summary>
+          An array of four-tuples with the following structure:
+          [ul]
+            [li]Unique operator code,[/li]
+            [li]Status ("unknown", "available", "current", "forbidden"),[/li]
+            [li]Long Name,[/li]
+            [li]Short Name (optional, may be empty).[/li]
+            [li]Network access type (defaults to "GSM").[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="RegisterWithProvider">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>Register to a dedicated service provider.</doc:description>
+      </doc:doc>
+    <arg type="s" name="operator_code" direction="in">
+      <doc:doc>
+        <doc:summary>The operator code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SetCallingIdentification">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Set whether your subscriber number is visible during a call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" fso:type="org.freesmartphone.GSM.CallingIdentificationStatus" direction="in">
+      <doc:doc>
+        <doc:summary>
+          One of the following values:
+          [ul]
+            [li]"on", if your subscriber number should always be visible to other parties.[/li]
+            [li]"off", if your subscriber number should never be visible to other parties.[/li]
+            [li]"network", if you want to use the network default.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetCallingIdentification">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get whether your subscriber number is visible during a call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" fso:type="org.freesmartphone.GSM.CallingIdentificationStatus" direction="out">
+      <doc:doc>
+        <doc:summary>
+          One of the following values:
+          [ul]
+            [li]"on", if your subscriber number is always visible to other parties.[/li]
+            [li]"off", if your subscriber number is never visible to other parties.[/li]
+            [li]"network", if visibility depends on the network settings.[/li]
+          [/ul]
+      </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SendUssdRequest">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Send an Unstructured Supplementary Service Data (USSD) request to the network.
+        Responses will be delivered via the signal org.freesmartphone.GSM.Network.IncomingUssd.
+      </doc:description>
+      <doc:inote>This can map to the GSM 07.07 command +CUSD=1,"(request)",(code), see 3GPP TS 07.07 Chapter 7.14.</doc:inote>
+    </doc:doc>
+    <arg type="s" name="request" direction="in">
+      <doc:doc>
+        <doc:summary>The request to be sent to the network.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="IncomingUssd">
+    <doc:doc>
+      <doc:description>
+        Sent, when an USSD result or a network initiated request arrives. This signal is usually
+        sent in response to the method org.freesmartphone.GSM.Network.SendUssdRequest.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="mode" fso:type="org.freesmartphone.GSM.UssdStatus">
+      <doc:doc>
+        <doc:summary>
+          The message mode. Valid values are:
+          [ul]
+            [li]"completed", if the last user-initiated request has been successfully completed,[/li]
+            [li]"useraction", if this is a network-initiated request and further user action is necessary,[/li]
+            [li]"terminated", if the network terminated the request,[/li]
+            [li]"localclient", if another local client on the network has responded,[/li]
+            [li]"unsupported", if the last user-inititated request is unsupported,[/li]
+            [li]"timeout", if the network has not answered in time.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="message">
+      <doc:doc>
+        <doc:summary>
+          The message. Only set if mode is "completed" or "useraction". "", otherwise.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="CipherStatus">
+    <doc:doc>
+      <doc:description>
+        Sent, when the network reports a change in telephony or PDP cipher indication.
+      </doc:description>
+      <doc:inote>
+        Very few modems support this on the command layer.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="telephony" fso:type="org.freesmartphone.GSM.CipherStatus">
+      <doc:doc>
+        <doc:summary>The telephony cipher: "enabled", "disabled", or "unknown"</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="pdp" fso:type="org.freesmartphone.GSM.CipherStatus">
+      <doc:doc>
+        <doc:summary>The PDP cipher cipher: "enabled", "disabled", or "unknown"</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+<fso:struct name="org.freesmartphone.GSM.NetworkProvider">
+  <fso:field name="status" type="s" />
+  <fso:field name="shortname" type="s" />
+  <fso:field name="longname" type="s" />
+  <fso:field name="mccmnc" type="s" />
+  <fso:field name="act" type="s" />
+</fso:struct>
+
+<fso:enumeration type="s" name="org.freesmartphone.GSM.UssdStatus">
+  <fso:member name="completed"      value="completed"/>
+  <fso:member name="useraction"     value="useraction"/>
+  <fso:member name="terminated"     value="terminated"/>
+  <fso:member name="localclient"    value="localclient"/>
+  <fso:member name="unsupported"    value="unsupported"/>
+  <fso:member name="timeout"        value="timeout"/>
+</fso:enumeration>
+
+<fso:enumeration type="s" name="org.freesmartphone.GSM.CipherStatus">
+  <fso:member name="disabled"       value="disabled"/>
+  <fso:member name="enabled"        value="enabled"/>
+  <fso:member name="unknown"        value="unknown"/>
+</fso:enumeration>
+
+<fso:enumeration type="s" name="org.freesmartphone.GSM.CallingIdentificationStatus">
+  <fso:member name="network"       value="network"/>
+  <fso:member name="off"           value="off"/>
+  <fso:member name="on"            value="on"/>
+</fso:enumeration>
+
+</node>

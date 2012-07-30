@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-device-powersupply-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org PowerSupply Interface</doc:summary>
+  <doc:version>0.3.9</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Device.PowerSupply">
+
+  <doc:doc>
+    <doc:para>
+      This interface provides access to a power supply device.
+    </doc:para>
+  </doc:doc>
+
+  <method name="GetCapacity">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve the capacity of this power supply.</doc:description>
+      <doc:inote>A wall power supply will always return 100.</doc:inote>
+    </doc:doc>
+    <arg direction="out" type="i" name="energy">
+      <doc:doc>
+        <doc:summary>The capacity in percent (0-100).</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone"/>
+  </method>
+
+  <method name="GetPowerStatus">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve the power status for this power supply.</doc:description>
+      <doc:inote>A wall power supply will always return "full".</doc:inote>
+    </doc:doc>
+    <arg direction="out" type="s" name="status" fso:type="org.freesmartphone.Device.PowerStatus">
+      <doc:doc>
+        <doc:summary>
+          The power status. Expected values for a battery are:
+          [ul]
+            [li]"charging"[/li]
+            [li]"discharging"[/li]
+            [li]"full"[/li]
+            [li]"empty"[/li]
+            [li]"critical"[/li]
+            [li]"removed"[/li]
+            [li]"unknown"[/li]
+          [/ul]
+          Additional values for an ac adapter are:
+          [ul]
+            [li]"online"[/li]
+            [li]"offline"[/li]
+          [/ul]
+          Additional values for an aggregated supply are:
+          [ul]
+            [li]"ac"[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone"/>
+  </method>
+
+  <signal name="PowerStatus">
+    <doc:doc>
+      <doc:description>Sent, when the power status changes significantly.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" fso:type="org.freesmartphone.Device.PowerStatus">
+      <doc:doc>
+        <doc:summary>The power status. See org.freesmartphone.PowerSupply.GetPowerStatus for a list of expected values.</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="Capacity">
+    <doc:doc>
+      <doc:description>Sent, when the capacity changes.</doc:description>
+    </doc:doc>
+    <arg type="i" name="energy">
+      <doc:doc>
+        <doc:summary>The capacity in percent (0-100).</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+<fso:enumeration name="org.freesmartphone.Device.PowerStatus" type="s">
+  <fso:member name="charging" value="charging"/>
+  <fso:member name="discharging" value="discharging"/>
+  <fso:member name="full" value="full"/>
+  <fso:member name="empty" value="empty"/>
+  <fso:member name="critical" value="critical"/>
+  <fso:member name="removed" value="critical"/>
+  <fso:member name="unknown" value="unknown"/>
+  <fso:member name="online" value="online"/>
+  <fso:member name="offline" value="offline"/>
+  <fso:member name="ac" value="ac"/>
+</fso:enumeration>
+</node>

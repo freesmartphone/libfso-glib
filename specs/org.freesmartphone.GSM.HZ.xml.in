@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-homezone-interface">
+
+  <doc:doc>
+    <doc:summary>freesmartphone.org GSM Home Zone Interface</doc:summary>
+  </doc:doc>
+
+<interface name="org.freesmartphone.GSM.HZ">
+
+  <doc:doc>
+    <doc:para>
+      The Home Zone interface allows you to be informed about the home zone status.
+
+      Home Zone is a marketing instrument that is used by several operators.
+      By defining so called 'home zones' on your SIM card, they adjust how much
+      they charge for your phone calls.
+    </doc:para>
+  </doc:doc>
+
+  <method name="GetKnownHomeZones">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the names of known home zones as stored on your SIM card.</doc:description>
+    </doc:doc>
+    <arg type="as" name="zones" direction="out">
+      <doc:doc>
+        <doc:summary>The home zone names.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetHomeZoneStatus">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get current zone name.</doc:description>
+    </doc:doc>
+    <arg type="s" name="zone" direction="out">
+      <doc:doc>
+        <doc:summary>The home zone you are currently on. An empty string denotes
+          that you are out of all home zones. "unknown" indicates that the system
+          has not processed the necessary data to compute this information.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="HomeZoneStatus">
+    <doc:doc>
+      <doc:description>Sent, when the home zone status has changed.</doc:description>
+    </doc:doc>
+    <arg name="name" type="s">
+      <doc:doc>
+        <doc:summary>The home zone you are currently on. See org.freesmartphone.GSM.HZ.GetHomeZoneStatus.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </signal>
+
+</interface>
+</node>

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-network-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Network Interface</doc:summary>
+  <doc:version>0.3.0</doc:version>
+  <doc:maintainer>Michael 'Mickey' Lauer</doc:maintainer>
+  <doc:status>unstable</doc:status>
+</doc:doc>
+
+<interface name="org.freesmartphone.Network">
+
+  <doc:doc>
+    <doc:para>
+      The Network interface provides access to high level networking functions.
+      Please see org.moblin.connman and org.bluez for low level networking functions.
+    </doc:para>
+  </doc:doc>
+
+  <method name="StartConnectionSharingWithInterface">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Start sharing the internet connection of this device with any clients
+        connected to the specified network interface via DHCP.
+      </doc:description>
+      <doc:inote>
+        Might launch a dhcp server process and adjust IP tables.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="interface" direction="in">
+      <doc:doc>
+        <doc:summary>The network interface to start sharing the connectivity with.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="StopConnectionSharingWithInterface">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Stop sharing the internet connection of this device with any clients
+        connected to the specified network interface via DHCP.
+      </doc:description>
+      <doc:inote>
+        Might stop a dhcp server process and adjust IP tables.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="interface" direction="in">
+      <doc:doc>
+        <doc:summary>The network interface to stop sharing the connectivity with.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="OfferDefaultRoute">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Offer a default route to the internet.
+      </doc:description>
+      <doc:inote>
+        NOTE that this method is for TESTING purposes only. Eventually connman will be used for that.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="technology" direction="in">
+      <doc:doc>
+        <doc:summary>The technology offering the default route.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="interface" direction="in">
+      <doc:doc>
+        <doc:summary>The network interface offering the default route.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="ipv4address" direction="in">
+      <doc:doc>
+        <doc:summary>The network address to configure the interface with.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="ipv4mask" direction="in">
+      <doc:doc>
+        <doc:summary>The network mask to configure the interface with.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="ipv4gateway" direction="in">
+      <doc:doc>
+        <doc:summary>The network gateway address for the default route.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="dns1" direction="in">
+      <doc:doc>
+        <doc:summary>The first DNS address.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="dns2" direction="in">
+      <doc:doc>
+        <doc:summary>The second DNS address.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+</interface>
+
+</node>

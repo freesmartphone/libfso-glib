@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-data-world-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Data World Interface</doc:summary>
+  <doc:version>0.1.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Data.World">
+
+  <doc:doc>
+    <doc:para>
+      The World interface is used to query (more or less static) information about
+      the communication world, such as countries and their timezones, mobile broadband
+      provider apns, etc.
+     </doc:para>
+  </doc:doc>
+
+  <method name="GetAllCountries">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoWorldCountryList" />
+    <doc:doc>
+      <doc:description>Retrieves all known country codes and their (english) name.</doc:description>
+    </doc:doc>
+    <arg type="a(ss)" name="countries" fso:type="org.freesmartphone.Data.WorldCountry" direction="out">
+      <doc:doc>
+        <doc:summary>A list of country codes and their (english) names.</doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetCountryCodeForMccMnc">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Retrieve a country code for MCC or concatenated MCC and MNC.
+        Raises org.freesmartphone.Error.InvalidParameter, if not found.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="mcc_mnc" direction="in">
+      <doc:doc>
+        <doc:summary>MCC or concatenated MCC and MNC.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="country_code" direction="out">
+      <doc:doc>
+        <doc:summary>The country code that owns the specified MCC (and MNC).</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetTimezonesForCountryCode">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Retrieves the list of timezones given a country code.
+        Raises org.freesmartphone.Error.InvalidParameter, if not found.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="country_code" direction="in">
+      <doc:doc>
+        <doc:summary>The country code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a{ss}" name="timezones" direction="out">
+      <doc:doc>
+        <doc:summary>A dictionary of coordinates and timezone names.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetApnsForMccMnc">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoWorldConnectivityAccessPointList" />
+    <doc:doc>
+      <doc:description>
+        Retrieves a list of data connectivity (GPRS, EDGE, 3G)
+        access point names for MCC or concatenated MCC and MNC.
+        Raises org.freesmartphone.Error.InvalidParameter, if not found.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="mcc_mnc" direction="in">
+      <doc:doc>
+        <doc:summary>MCC or concatenated MCC and MNC.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a(ssssss)" name="apns" direction="out" fso:type="org.freesmartphone.Data.WorldConnectivityAccessPoint">
+      <doc:doc>
+        <doc:summary>A list of six-tuples descriping a connectivity access point. Structure is:</doc:summary>
+          [ul]
+            [li]Description,[/li]
+            [li]Access point name,[/li]
+            [li]Username (might be empty),[/li]
+            [li]Password (might be empty),[/li]
+            [li]DNS1 (might be empty),[/li]
+            [li]DNS2 (might be empty).[/li]
+          [/ul]
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetProviderNameForMccMnc">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+    <doc:doc>
+        <doc:description>
+            Retrieves the name of a provider for a supplied concatenated MCC and MNC.
+            Raises org.freesmartphone.Error.InvalidParameter, if not found.
+        </doc:description>
+    </doc:doc>
+    <arg type="s" name="mcc_mnc" direction="in">
+        <doc:doc>
+            <doc:summary>MCC or concatenated MCC and MNC.</doc:summary>
+        </doc:doc>
+    </arg>
+    <arg type="s" name="provider" direction="out">
+        <doc:doc>
+            <doc:summary>Name of the provider.</doc:summary>
+        </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+</interface>
+
+<fso:struct name="org.freesmartphone.Data.WorldCountry">
+  <fso:field name="code" type="s" />
+  <fso:field name="name" type="s" />
+</fso:struct>
+
+<fso:struct name="org.freesmartphone.Data.WorldConnectivityAccessPoint">
+  <fso:field name="description" type="s" />
+  <fso:field name="apn" type="s" />
+  <fso:field name="username" type="s" />
+  <fso:field name="password" type="s" />
+  <fso:field name="dns1" type="s" />
+  <fso:field name="dns2" type="s" />
+</fso:struct>
+
+</node>

@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-pim-message-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org PIM.Message Interface</doc:summary>
+</doc:doc>
+
+<interface name="org.freesmartphone.PIM.Message">
+
+  <doc:doc>
+    <doc:para>
+      This interface provides access to one message.
+    </doc:para>
+  </doc:doc>
+
+  <method name="GetContent">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Get the content of one message.
+      </doc:description>
+    </doc:doc>
+    <arg direction="out" type="a{sv}" name="content">
+      <doc:doc>
+        <doc:summary>
+          The content of the message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetMultipleFields">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Get the content for a list of fields from the message.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="field_list">
+      <doc:doc>
+        <doc:summary>
+          The list of fields to get the content for.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="a{sv}" name="field_data">
+      <doc:doc>
+        <doc:summary>
+          The data of the requested fields.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="MoveToFolder">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Move this message to a different folder.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="folder_name">
+      <doc:doc>
+        <doc:summary>
+          The name of the folder to move the message to.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Update">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Update one or more fields of this message.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="message_data">
+      <doc:doc>
+        <doc:summary>
+          The list of fields/values to update for this message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Delete">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Delete this message.
+      </doc:description>
+    </doc:doc>
+  </method>
+
+  <signal name="MessageDeleted">
+    <doc:doc>
+      <doc:description>
+        Sent when message is deleted.
+      </doc:description>
+    </doc:doc>
+  </signal>
+
+  <signal name="MessageUpdated">
+    <doc:doc>
+      <doc:description>
+        Sent when message is updated.
+      </doc:description>
+    </doc:doc>
+    <arg type="a{sv}" name="data">
+      <doc:doc>
+        <doc:summary>
+          Data used to update message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+</node>
+

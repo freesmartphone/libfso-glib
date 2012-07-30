@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-context-manager-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Context Manager Interface</doc:summary>
+  <doc:version>0.0.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Context.Manager">
+
+    <doc:doc>
+      <doc:para>
+        The Context Manager interface allows you to register for environmental
+        context updates, such as geolocation updates, region monitoring, etc.
+      </doc:para>
+    </doc:doc>
+
+    <method name="SubscribeLocationUpdates">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>Subscribe for receiving location updates.</doc:description>
+        <doc:inote>To receive location updates, clients need to implement the org.freesmartphone.Context.Client interface</doc:inote>
+      </doc:doc>
+      <arg type="s" name="desired_accuracy" direction="in" fso:type="org.freesmartphone.Context.LocationUpdateAccuracy">
+        <doc:doc>
+          <doc:summary>
+            The desired accuracy. Valid values are: navigation, best, nearest-ten-meters, hundred-meters, one-kilometer, three-kilometers, hundred-kilometers.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <method name="UnsubscribeLocationUpdates">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>Unsubscribe from receiving location updates.</doc:description>
+      </doc:doc>
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+</interface>
+
+<fso:enumeration type="s" name="org.freesmartphone.Context.LocationUpdateAccuracy">
+  <fso:member name="INVALID" value="invalid"/>
+  <fso:member name="NAVI"    value="navigation"/>
+  <fso:member name="BEST"    value="best"/>
+  <fso:member name="10M"     value="nearest-ten-meters"/>
+  <fso:member name="100M"    value="hundred-meters"/>
+  <fso:member name="1KM"     value="one-kilometer"/>
+  <fso:member name="3KM"     value="three-kilometers"/>
+  <fso:member name="100KM"   value="hundred-kilometers"/>
+</fso:enumeration>
+
+</node>

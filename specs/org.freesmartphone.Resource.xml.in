@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-resource-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Resource Interface</doc:summary>
+  <doc:version>0.6.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Resource">
+
+  <doc:doc>
+    <doc:para>
+      The Resource interface provides access to a resource as visible from the FSO usage subsystem.
+      Every resource provider has to implement this interface.
+      Applications other than FSO usage are not allowed to use this interface, they have to
+      use the org.freesmartphone.Usage API.
+    </doc:para>
+  </doc:doc>
+
+  <!-- Methods -->
+
+  <method name="Enable">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Enable the resource.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Resource" />
+  </method>
+
+  <method name="Disable">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Disable the resource.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Resource" />
+  </method>
+
+  <method name="Suspend">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Suspend the resource.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Resource" />
+  </method>
+
+  <method name="Resume">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Resume the resource.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Resource" />
+  </method>
+
+  <method name="GetDependencies">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        The resource is able to lists its dependencies.
+
+        For example a resource can depend on another resource. If this resource
+        is enabled the dependency resource will be enabled first.
+      </doc:description>
+    </doc:doc>
+    <arg type="a{sv}" name="dependencies" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Dependencies required for resource operation. Expected values are:
+          [ul]
+            [li]"services": A comma-separated string of service names[/li]
+            [li]"processes": A comma-separated string of process names[/li]
+          [/ul]
+          Dependencies are being activated / deactivated as defined by the resource lifecycle.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Resource" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetDefaultPolicy">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+        <doc:description>
+            The resource is able to provide the default policy to use.
+        </doc:description>
+    </doc:doc>
+    <arg type="s" name="policy" direction="out" fso:type="org.freesmartphone.Usage.ResourcePolicy">
+        <doc:doc>
+            <doc:summary>
+                The default policy to use for this resource. See
+                org.freesmartphone.Usage.GetResourcePolicy for a list of possible values.
+            </doc:summary>
+        </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Resource" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+</interface>
+
+<!-- Errors -->
+
+<fso:errordomain name="org.freesmartphone.Resource" fso:no-container="true">
+  <error name="NotEnabled">
+    <doc:doc>
+      <doc:description>
+        Raised, if the resource is not enabled.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="UnableToEnable">
+    <doc:doc>
+      <doc:description>
+        Raised, if the resource can not be enabled.
+      </doc:description>
+    </doc:doc>
+  </error>
+</fso:errordomain>
+
+</node>

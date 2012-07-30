@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-phone-call-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Phone Call Interface</doc:summary>
+  <doc:version>0.1.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Phone.Call">
+
+  <doc:doc>
+    <doc:para>
+      The Call Interface is used to represent a communication channel.
+    </doc:para>
+  </doc:doc>
+
+  <!-- Errors -->
+
+  <error name="Unauthorized">
+    <doc:doc>
+      <doc:description>
+        Raised, if registering with the specified network is not possible.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <!-- Methods -->
+
+  <method name="GetPeer">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Return the number of the peer (usually the number of the call).</doc:description>
+    </doc:doc>
+    <arg type="s" name="peer" direction="out">
+        <doc:doc>
+            <doc:summary>The number of the peer.</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Initiate">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Initiate the call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" direction="out">
+        <doc:doc>
+            <doc:summary>The new status of the Call (should be 'Initiating').</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Activate">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Accept the call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" direction="out">
+        <doc:doc>
+            <doc:summary>The new status of the Call (should be 'Activating').</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Release">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Release the call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" direction="out">
+        <doc:doc>
+            <doc:summary>The new status of the Call (should be 'Releasing').</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetStatus">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Return the current status of the call.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" direction="out">
+        <doc:doc>
+            <doc:summary>The current status of the Call.</doc:summary>
+        </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Remove">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Remove the call object when it is not needed anymore.</doc:description>
+    </doc:doc>
+  </method>
+
+  <!-- Signals -->
+
+  <signal name="Incoming">
+    <doc:doc>
+      <doc:description>
+        Emitted when the call status changes to Incoming.
+      </doc:description>
+    </doc:doc>
+  </signal>
+
+  <signal name="Outgoing">
+    <doc:doc>
+      <doc:description>
+        Emitted when the call status changes to Outgoing.
+      </doc:description>
+    </doc:doc>
+  </signal>
+
+  <signal name="Released">
+    <doc:doc>
+      <doc:description>
+        Emitted when the call status changes to Released.
+      </doc:description>
+    </doc:doc>
+  </signal>
+
+  <signal name="Activated">
+    <doc:doc>
+      <doc:description>
+        Emitted when the call status changes to Active.
+      </doc:description>
+    </doc:doc>
+  </signal>
+
+</interface>
+</node>

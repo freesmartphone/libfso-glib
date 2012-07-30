@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-pim-messages-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org PIM.Messages Interface</doc:summary>
+</doc:doc>
+
+<interface name="org.freesmartphone.PIM.Messages">
+
+  <doc:doc>
+    <doc:para>
+      This interface provides access to the list of messages.
+    </doc:para>
+  </doc:doc>
+
+  <method name="Add">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Add a new message to the default message backend.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="message_data">
+      <doc:doc>
+        <doc:summary>
+          The data of the message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="message_path">
+      <doc:doc>
+        <doc:summary>
+          The path of the newly added message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="AddIncoming">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Add a new message to the default message backend and notify client about incoming message.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="message_data">
+      <doc:doc>
+        <doc:summary>
+          The data of the message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="message_path">
+      <doc:doc>
+        <doc:summary>
+          The path of the newly added message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetSingleEntrySingleField">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Query the content of a single field of one message.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="query">
+      <doc:doc>
+        <doc:summary>
+          The query.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="in" type="s" name="field">
+      <doc:doc>
+        <doc:summary>
+          The name of the field to return the value for.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="value">
+      <doc:doc>
+        <doc:summary>
+          The value of the queried field.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="Query">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Query a list of messages.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="query">
+      <doc:doc>
+        <doc:summary>
+          The query.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="query_path">
+      <doc:doc>
+        <doc:summary>
+          The path for the started query.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="QueryThreads">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Query a list of message threads.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="a{sv}" name="query">
+      <doc:doc>
+        <doc:summary>
+          The query.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="query_path">
+      <doc:doc>
+        <doc:summary>
+          The path for the started query.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetUnreadMessages">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Get the amount of unread incoming messages.
+      </doc:description>
+    </doc:doc>
+    <arg direction="out" type="i" name="amount">
+      <doc:doc>
+        <doc:summary>
+          Amount of unread messages
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <signal name="NewMessage">
+    <doc:doc>
+      <doc:description>
+        Sent when a new message is loaded.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="message_path">
+      <doc:doc>
+        <doc:summary>
+          The path of the newly loaded message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="IncomingMessage">
+    <doc:doc>
+      <doc:description>
+        Sent when a incoming message arrives.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="message_path">
+      <doc:doc>
+        <doc:summary>
+          The path of the newly arrived incoming message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="UnreadMessages">
+    <doc:doc>
+      <doc:description>
+        Sent when amount of unread incoming messages changes.
+      </doc:description>
+    </doc:doc>
+    <arg type="i" name="amount">
+      <doc:doc>
+        <doc:summary>
+          Amount of unread incoming messages.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="UpdatedMessage">
+    <doc:doc>
+      <doc:description>
+        Sent whenever a message has been updated.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="message_path">
+      <doc:doc>
+        <doc:summary>
+          The DBus path of the message that was updated.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a{sv}" name="message_data">
+      <doc:doc>
+        <doc:summary>
+          The data that was changed for the message.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="DeletedMessage">
+    <doc:doc>
+      <doc:description>
+	Sent whenever a message has been deleted.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="message_path">
+      <doc:doc>
+	<doc:summary>
+	  The DBus path of the message that has been deleted.
+	</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+</node>

@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-debug-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org GSM Debug Interface</doc:summary>
+  <doc:version>1.0.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.GSM.Debug">
+
+  <doc:doc>
+    <doc:para>
+      The Debug interface is used to debug (sic!). You can ping the device,
+      execute test commands, inject unsolicited responses, or be updated
+      about the detailed modem status.
+    </doc:para>
+  </doc:doc>
+
+  <method name="DebugCommand">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Sends a debug command.</doc:description>
+      <doc:inote>
+        WARNING: Only use this, if you know what you are doing.
+        You may crash the device or the service, if you send bogus commands.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="command" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The command to send. Note that the validity of commands depends
+          on the actual modem channel. Not all modem channels are AT channels!
+          It is recommended to implement a 'help' command that returns a
+          list of valid commands.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="channel" direction="in">
+      <doc:doc>
+        <doc:summary>The channel to send this command on. Set to "" to use the default one.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="result" direction="out">
+      <doc:doc>
+        <doc:summary>The result of the command</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="DebugInjectResponse">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Injects an unsolicited response into the command queue.</doc:description>
+      <doc:inote>
+        WARNING: Only use this, if you know what you are doing.
+        You may crash the device or the service, if you inject bogus responses.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="response" direction="in">
+      <doc:doc>
+        <doc:summary>The response to inject.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="channel" direction="in">
+      <doc:doc>
+        <doc:summary>The channel to inject this command on. Set to "" to use the default one.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="DebugPing">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Ping the device.</doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="DebugStatus">
+    <doc:doc>
+      <doc:description>Sent, when the modem status changes.</doc:description>
+    </doc:doc>
+    <arg name="channels" type="a{ss}">
+    </arg>
+  </signal>
+
+</interface>
+</node>

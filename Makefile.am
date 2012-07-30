@@ -4,6 +4,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = fso-glib-1.0.pc
 
 SUBDIRS = \
+	specs \
 	fso-glib
 
 dist-hook: gen-ChangeLog

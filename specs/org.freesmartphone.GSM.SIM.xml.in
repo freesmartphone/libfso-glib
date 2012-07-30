@@ -1,0 +1,595 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-sim-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org GSM SIM Interface</doc:summary>
+  <doc:version>1.0.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.GSM.SIM">
+
+  <doc:doc>
+    <doc:para>
+      The SIM interface is used to access the Subscriber Identification Module (SIM)
+      plugged as a card into a GSM device. Use it to authenticate yourself
+      against the GSM network and read/store data from/to the embedded SIM card memory.
+      Support for accessing the on-card phonebooks and messagebook is also provided.
+    </doc:para>
+  </doc:doc>
+
+  <!-- AUTHENTICATION -->
+
+  <method name="GetAuthStatus">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve the authentication status for the SIM card.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" direction="out" fso:type="org.freesmartphone.GSM.SIMAuthStatus">
+      <doc:doc>
+        <doc:summary>
+          The authentication status for the SIM card. Values to expect:
+          [ul]
+            [li]"UNKNOWN" = unknown (possibly due to SIM communication error or SIM not inserted)[/li]
+            [li]"READY" = not waiting for any PIN or PUK,[/li]
+            [li]"SIM PIN" = waiting for SIM PIN to be given,[/li]
+            [li]"SIM PUK" = waiting for SIM PUK to be given,[/li]
+            [li]"SIM PIN2" = waiting for SIM PIN 2 to be given,[/li]
+            [li]"SIM PUK2" = waiting for SIM PUK 2 to be given.[/li]
+          [/ul]
+          <!-- 07.07 8.3 shows many more here, but we will add these
+               when we actually encounter them in the field -->
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="AuthStatus">
+    <doc:doc>
+      <doc:description>Sent, when the authentication status for the SIM card changes.</doc:description>
+    </doc:doc>
+    <arg type="s" name="status" fso:type="org.freesmartphone.GSM.SIMAuthStatus">
+      <doc:doc>
+        <doc:summary>
+          The authentication status for the SIM card. See org.freesmartphone.GSM.SIM.GetAuthStatus for a list of expected values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <method name="SendAuthCode">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Send authentication code (PIN) for the SIM card.</doc:description>
+    </doc:doc>
+    <arg type="s" name="pin" direction="in">
+      <doc:doc>
+        <doc:summary>The authentication code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetUnlockCounters">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve the unlock counters for the SIM card.</doc:description>
+      <doc:inote>This is outside the GSM standard and only supported on some devices.</doc:inote>
+    </doc:doc>
+    <arg type="a{sv}" name="counters" direction="out">
+      <doc:doc>
+        <doc:summary>
+          The unlock counters for the SIM card.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Unlock">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Send unlock code (PUK) and new authentication code (PIN).</doc:description>
+    </doc:doc>
+    <arg type="s" name="puk" direction="in">
+      <doc:doc>
+        <doc:summary>The unlock code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="new_pin" direction="in">
+      <doc:doc>
+        <doc:summary>The new authentication code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="ChangeAuthCode">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Change the authentication code.</doc:description>
+    </doc:doc>
+    <arg type="s" name="old_pin" direction="in">
+      <doc:doc>
+        <doc:summary>The old authentication code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="new_pin" direction="in">
+      <doc:doc>
+        <doc:summary>The new authentication code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SetAuthCodeRequired">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Enable or disable checking for the SIM card authentification on startup.</doc:description>
+    </doc:doc>
+    <arg type="b" name="check" direction="in">
+      <doc:doc>
+        <doc:summary>True, to turn SIM card authentification on. False, to turn it off.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="pin" direction="in">
+      <doc:doc>
+        <doc:summary>A valid authentication code.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetAuthCodeRequired">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve whether the SIM card checks for authentification on startup.</doc:description>
+    </doc:doc>
+    <arg type="b" name="check" direction="out">
+      <doc:doc>
+        <doc:summary>True, if SIM card authentification is turned on. False, otherwise.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <!-- INFO & LOW-LEVEL ACCESS -->
+
+  <method name="GetSimInfo">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Get information stored on the SIM card.
+      </doc:description>
+    </doc:doc>
+    <arg type="a{sv}" name="info" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Information about the SIM card. Possible tuples are:
+          [ul]
+            [li]("imsi", string) = The unique subscriber identification stored on your SIM.[/li]
+            [li]("issuer", string) = The unique subscriber identification stored on your SIM.[/li]
+            [li]("phonebooks", space-separated string) = The phonebooks stored on this SIM.
+            Expected values are "contacts", "dialed", "received", "own", "missed", "emergency".
+            Other phonebooks are named included with their native code and prefixed "aux:".[/li]
+            [li]("slots") = The capacity of the messagebook[/li]
+            [li]("messages") = The messages in the messagebook[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SendGenericSimCommand">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Send a generic SIM command to the SIM card.</doc:description>
+    </doc:doc>
+    <arg type="s" name="command" direction="in">
+      <doc:doc>
+        <doc:summary>The command to send, encoded as described in GSM 11.11.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="result" direction="out">
+      <doc:doc>
+        <doc:summary>The result of the command, encoded as described in GSM 11.11.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SendRestrictedSimCommand">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Send a restricted SIM command to the SIM card.</doc:description>
+    </doc:doc>
+    <arg type="i" name="command" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The command to send. Valid values are:
+          [ul]
+            [li]176 = READ BINARY,[/li]
+            [li]178 = READ RECORD,[/li]
+            [li]192 = GET RESPONSE,[/li]
+            [li]214 = UPDATE BINARY,[/li]
+            [li]220 = UPDATE RECORD,[/li]
+            [li]242 = STATUS.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="fileid" direction="in">
+      <doc:doc>
+        <doc:summary>The identifier of an elementary datafile on SIM. Mandatory for every command except STATUS.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="p1" direction="in">
+      <doc:doc>
+        <doc:summary>Parameter 1 passed to the SIM. Mandatory for every command except STATUS and GET RESPONSE.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="p2" direction="in">
+      <doc:doc>
+        <doc:summary>Parameter 1 passed to the SIM. Mandatory for every command except STATUS and GET RESPONSE.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="p3" direction="in">
+      <doc:doc>
+        <doc:summary>Parameter 1 passed to the SIM. Mandatory for every command except STATUS and GET RESPONSE.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="data" direction="in">
+      <doc:doc>
+        <doc:summary>The command data to the SIM, encoded as described in GSM 11.11.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="result" direction="out">
+      <doc:doc>
+        <doc:summary>The result of the command, encoded as described in GSM 11.11.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetHomeZoneParameters">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoSIMHomeZoneList" />
+    <doc:doc>
+      <doc:description>Retrieve the homezones coordinates, if stored on the SIM.</doc:description>
+    </doc:doc>
+    <arg type="a(siii)" name="homezones" direction="out" fso:type="org.freesmartphone.GSM.SIMHomeZone">
+      <doc:doc>
+        <doc:summary>
+          An array containing up to four homezones in Gauss-Krueger coordinates. The array contains of four-tuples with the following format:
+          [ol]
+            [li](name:string), the name of the zone,[/li]
+            [li](x:int), the X value of the zone center in Gauss-Krueger format,[/li]
+            [li](y:int), the Y value of the zone center in Gauss-Krueger format,[/li]
+            [li](r:radius), the R*R value of the zone dimension in meters.[/li]
+          [/ol]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <!-- PHONEBOOK -->
+
+  <method name="GetPhonebookInfo">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Request information about a phonebook.</doc:description>
+    </doc:doc>
+    <arg type="s" name="category" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The phonebook storage category.
+          See org.freesmartphone.GSM.SIM.GetSimInfo for valid categories.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="slots" direction="out">
+      <doc:doc>
+        <doc:summary>Capacity of the phonebook.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="numberlength" direction="out">
+      <doc:doc>
+        <doc:summary>Maximum length for the phone number.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="namelength" direction="out">
+      <doc:doc>
+        <doc:summary>Maximum length for the associated name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="DeleteEntry">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Delete an entry in the SIM phonebook.</doc:description>
+    </doc:doc>
+    <arg type="s" name="category" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The phonebook storage category. See org.freesmartphone.GSM.SIM.GetSimInfo
+          for a list of valid categories.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="index" direction="in">
+      <doc:doc>
+        <doc:summary>Index of entry to delete.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="StoreEntry">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Store an entry in the SIM phonebook.</doc:description>
+    </doc:doc>
+    <arg type="s" name="category" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The phonebook storage category. See org.freesmartphone.GSM.SIM.GetSimInfo
+          for a list of valid categories.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="index" direction="in">
+      <doc:doc>
+        <doc:summary>The index of the entry to store.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="name" direction="in">
+      <doc:doc>
+        <doc:summary>The name corresponding to the number.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="number" direction="in">
+      <doc:doc>
+        <doc:summary>The number corresponding to the name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="RetrievePhonebook">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+	<annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoSIMEntryList" />
+    <doc:doc>
+      <doc:description>Retrieve (parts of) a SIM phonebook.</doc:description>
+    </doc:doc>
+    <arg type="s" name="category" direction="in">
+      <doc:doc>
+        <doc:summary>
+          The phonebook storage category.
+          Use org.freesmartphone.GSM.SIM.GetSimInfo to gather the list of valid categories.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="mindex" direction="in">
+      <doc:doc>
+        <doc:summary>The minimum index of the entry to retrieve.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="maxdex" direction="in">
+      <doc:doc>
+        <doc:summary>The maximum index of entries to receive.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a(iss)" name="entries" direction="out" fso:type="org.freesmartphone.GSM.SIMEntry">
+      <doc:doc>
+        <doc:summary>
+          The phonebook entries. This is an array of three-tuples. Every entry has the following structure:
+          [ul]
+            [li](int:index) = storage index.[/li]
+            [li](string:name) = name.[/li]
+            [li](string:number) = number.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <!-- SHORT MESSAGE SERVICE -->
+
+  <method name="GetServiceCenterNumber">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve phone number of SMS Center.</doc:description>
+    </doc:doc>
+    <arg type="s" name="number" direction="out">
+      <doc:doc>
+        <doc:summary>The SMS Center Number.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SetServiceCenterNumber">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Set phone number of SMS Center.</doc:description>
+    </doc:doc>
+    <arg type="s" name="number" direction="in">
+      <doc:doc>
+        <doc:summary>The SMS Center Number.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="IncomingMessage">
+    <doc:doc>
+      <doc:description>Sent, when a new message has been received and stored on the SIM card.</doc:description>
+    </doc:doc>
+    <arg type="i" name="index">
+      <doc:doc>
+        <doc:summary>The storage index of the new message.</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <method name="DeleteMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Delete a message in the SIM messagebook.</doc:description>
+    </doc:doc>
+    <arg type="i" name="index" direction="in">
+      <doc:doc>
+        <doc:summary>The storage index of the message to delete.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="StoreMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Store a message in the SIM messagebook.</doc:description>
+    </doc:doc>
+    <arg type="s" name="recipient_number" direction="in">
+      <doc:doc>
+        <doc:summary>The number of the recipient.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="contents" direction="in">
+      <doc:doc>
+        <doc:summary>The contents of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a{sv}" name="properties" direction="in">
+      <doc:doc>
+        <doc:summary>
+          For a list of valid properties see org.freesmartphone.GSM.SMS.SendMessage().
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="index" direction="out">
+      <doc:doc>
+        <doc:summary>The index of the new message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SendStoredMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Sends a message stored in the SIM messagebook.</doc:description>
+    </doc:doc>
+    <arg type="i" name="index" direction="in">
+      <doc:doc>
+        <doc:summary>The index of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="transaction_index" direction="out">
+      <doc:doc>
+        <doc:summary>The given transaction index for this message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="timestamp" direction="out">
+      <doc:doc>
+        <doc:summary>The timestamp this message was received by the SMSC</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="RetrieveMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Retrieve a message from the SIM messagebook.</doc:description>
+    </doc:doc>
+    <arg type="i" name="index" direction="in">
+      <doc:doc>
+        <doc:summary>The index of the message to retrieve.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="status" direction="out">
+      <doc:doc>
+        <doc:summary>The category the message is in, one of ("read", "sent", "unread", "unsent").</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="sender_number" direction="out">
+      <doc:doc>
+        <doc:summary>The number of the sender.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="contents" direction="out">
+      <doc:doc>
+        <doc:summary>The contents of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a{sv}" name="properties" direction="out">
+      <doc:doc>
+        <doc:summary>
+          Additional properties (TBD).
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+</interface>
+
+<fso:enumeration type="s" name="org.freesmartphone.GSM.SIMAuthStatus">
+  <fso:member name="unknown" value="UNKNOWN" />
+  <fso:member name="ready" value="READY" />
+  <fso:member name="pin-required" value="SIM PIN" />
+  <fso:member name="puk-required" value="SIM PUK" />
+  <fso:member name="pin2-required" value="SIM PIN2" />
+  <fso:member name="puk2-required" value="SIM PUK2" />
+</fso:enumeration>
+
+<fso:struct name="org.freesmartphone.GSM.SIMEntry">
+  <fso:field name="index" type="i" />
+  <fso:field name="name" type="s" />
+  <fso:field name="number" type="s" />
+</fso:struct>
+
+<fso:struct name="org.freesmartphone.GSM.SIMHomeZone">
+  <fso:field name="name" type="s" />
+  <fso:field name="x" type="i" />
+  <fso:field name="y" type="i" />
+  <fso:field name="radius" type="i" />
+</fso:struct>
+
+<fso:struct name="org.freesmartphone.GSM.SIMMessage">
+  <fso:field name="index" type="i" />
+  <fso:field name="status" type="s" />
+  <fso:field name="number" type="s" />
+  <fso:field name="timestamp" type="s" />
+  <fso:field name="contents" type="s" />
+  <fso:field name="properties" type="a{sv}" />
+</fso:struct>
+
+</node>

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-device-orientation-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Orientation Interface</doc:summary>
+  <doc:version>0.1.0</doc:version>
+  <doc:source>git.freesmartphone.org</doc:source>
+  <doc:maintainer>Michael 'Mickey' Lauer</doc:maintainer>
+</doc:doc>
+
+<interface name="org.freesmartphone.Device.Orientation">
+
+  <doc:doc>
+    <doc:para>
+      This interface provides access to the device's physical orientation.
+    </doc:para>
+  </doc:doc>
+
+  <!-- SIMPLE ORIENTATION API -->
+
+  <method name="GetOrientation">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Returns the orientation of the device.
+      </doc:description>
+    </doc:doc>
+    <arg direction="out" type="s" name="orientation">
+      <doc:doc>
+        <doc:summary>
+          The orientation. Expected substrings are:
+          [ul]
+            [li]"flat" (Laying flat on a level surface, e.g. a table),[/li]
+            [li]"held" (Being held slightly tilt towards your face),[/li]
+            [li]"portrait" (Display held with the long side vertically),[/li]
+            [li]"landscape" (Display held with the long side horizontally,[/li]
+            [li]"faceup" (Display being oriented towards the sky),[/li]
+            [li]"facedown" (Display being oriented towards the floor),[/li]
+            [li]"normal", (Not rotated)[/li]
+            [li]"reverse", (180 degrees rotated)[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <signal name="OrientationChanged">
+    <doc:doc>
+      <doc:description>
+        Sent whenever there is a change of the device orientation.
+      </doc:description>
+    </doc:doc>
+    <arg type="s" name="orientation">
+      <doc:doc>
+        <doc:summary>
+          The new orientation. See org.freesmartphone.Device.Orientation.GetOrientation for supported values.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+</node>

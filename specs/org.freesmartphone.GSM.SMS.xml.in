@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-sms-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org GSM SMS Interface</doc:summary>
+  <doc:version>1.0.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.GSM.SMS">
+
+  <doc:doc>
+    <doc:para>
+      org.freesmartphone.GSM.SMS is a high level interface for
+      textual Short Message Service (SMS). If you have special
+      requirements or need direct access to individual messages,
+      you may use the corresponding SMS functions provided by
+      org.freesmartphone.GSM.SIM.
+    </doc:para>
+  </doc:doc>
+
+<!-- Not clear whether we want to have this
+  <method name="GetServiceBearer">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <arg type="s" name="mode" direction="out" />
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SetServiceBearer">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <arg type="s" name="mode" direction="in" />
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+  -->
+
+  <method name="RetrieveTextMessages">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <annotation name="com.trolltech.QtDBus.QtTypeName.Out0" value="QFsoSIMMessageList" />
+    <doc:doc>
+      <doc:description>Retrieve all text messages.</doc:description>
+    </doc:doc>
+    <arg type="a(issssa{sv})" name="messages" direction="out" fso:type="org.freesmartphone.GSM.SIMMessage">
+      <doc:doc>
+        <doc:summary>
+          Messages matching the given category. This is an array of four-tuples. Every entry has the following structure:
+          [ul]
+            [li](int:index) = storage index,[/li]
+            [li](string:status) = status of message, one of ("read", "unread", "sent", "unsent"),[/li]
+            [li](string:number) = sender number.[/li]
+            [li](string:timestamp) = timestamp.[/li]
+            [li](string:content) = contents of the message.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetSizeForTextMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Calculates the number of GSM Short Messages necessary to deliver a given text.</doc:description>
+    </doc:doc>
+    <arg type="s" name="contents" direction="in">
+      <doc:doc>
+        <doc:summary>The contents of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="u" name="messages" direction="out">
+      <doc:doc>
+        <doc:summary>
+          The number of SMS to be sent, if this message were to be delivered.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SendTextMessage">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Sends a text message via the GSM Short Message Service (SMS)</doc:description>
+      <doc:inote>
+        Text messages can be of unlimited length. They might get fragmented by the
+        underlying message transport layers though. This will happen transparently.
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="recipient_number" direction="in">
+      <doc:doc>
+        <doc:summary>The number of the recipient.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="contents" direction="in">
+      <doc:doc>
+        <doc:summary>The contents of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="b" name="report" direction="in">
+      <doc:doc>
+        <doc:summary>
+          If true, status reports (message receipts) will be sent by the
+          SMS Center, delivered via the org.freesmartphone.GSM.SMS.IncomingMessageReceipt signal.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="i" name="reference" direction="out">
+      <doc:doc>
+        <doc:summary>
+          This is the message-reference number of this message.
+          This can be used to identify status reports.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="timestamp" direction="out">
+      <doc:doc>
+        <doc:summary>
+        The timestamp this message was received by the SMSC.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.GSM" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <signal name="IncomingTextMessage">
+    <doc:doc>
+      <doc:description>
+        Sent, when a text message has been received.
+      </doc:description>
+      <doc:inote>
+      </doc:inote>
+    </doc:doc>
+    <arg type="s" name="number">
+      <doc:doc>
+        <doc:summary>The number of the sender.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="timestamp">
+      <doc:doc>
+        <doc:summary>The timestamp of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="contents">
+      <doc:doc>
+        <doc:summary>The contents of the message.</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="IncomingMessageReport">
+    <doc:doc>
+      <doc:description>
+        Sent when a status report for a message has been received.
+      </doc:description>
+      <doc:inote>
+        The signature of this signal is preliminary and is bound to change.
+      </doc:inote>
+    </doc:doc>
+    <arg type="i" name="reference">
+      <doc:doc>
+        <doc:summary>
+          The message-reference number as returned by org.freesmartphone.GSM.SMS.SendTextMessage
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="status">
+      <doc:doc>
+        <doc:summary>
+        The status. Expected values are:
+        [ul]
+            [li]COMPLETED_RECEIVED[/li]
+            [li]COMPLETED_UNABLE_TO_CONFIRM[/li]
+            [li]COMPLETED_REPLACED[/li]
+            [li]COMPLETED_LAST[/li]
+            [li]TEMPORARY_CONGESTION[/li]
+            [li]TEMPORARY_SME_BUSY[/li]
+            [li]TEMPORARY_NO_RESPONSE[/li]
+            [li]TEMPORARY_SERVICE_REJECTED[/li]
+            [li]TEMPORARY_QOS_UNAVAILABLE[/li]
+            [li]TEMPORARY_SME_ERROR[/li]
+            [li]TEMPORARY_LAST[/li]
+            [li]PERMANENT_RP_ERROR[/li]
+            [li]PERMANENT_INVALID_DESTINATION[/li]
+            [li]PERMANENT_CONNECTION_REJECTED[/li]
+            [li]PERMANENT_NOT_OBTAINABLE[/li]
+            [li]PERMANENT_QOS_UNAVAILABLE[/li]
+            [li]PERMANENT_INTERWORKING_UNAVAILABLE[/li]
+            [li]PERMANENT_VALIDITY_PERIOD_EXPIRED[/li]
+            [li]PERMANENT_DELETED[/li]
+            [li]PERMANENT_SC_ADMIN_DELETED[/li]
+            [li]PERMANENT_SM_DOES_NOT_EXIST[/li]
+            [li]PERMANENT_LAST[/li]
+            [li]TEMPFINAL_CONGESTION[/li]
+            [li]TEMPFINAL_SME_BUSY[/li]
+            [li]TEMPFINAL_NO_RESPONSE[/li]
+            [li]TEMPFINAL_SERVICE_REJECTED[/li]
+            [li]TEMPFINAL_QOS_UNAVAILABLE[/li]
+            [li]TEMPFINAL_SME_ERROR[/li]
+            [li]TEMPFINAL_LAST
+        [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="sender_number">
+      <doc:doc>
+        <doc:summary>The number of the sender.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="s" name="contents">
+      <doc:doc>
+        <doc:summary>Optional contents of the receipt. Will usually be empty.</doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+</node>

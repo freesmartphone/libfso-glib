@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-gsm-mux-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org GSM MUX Interface</doc:summary>
+  <doc:version>1.1.0</doc:version>
+</doc:doc>
+<interface name="org.freesmartphone.GSM.MUX">
+
+  <doc:doc>
+    <doc:para>
+      The MUX interface is used to manage and control virtual serial channels
+      (implemented through pseudo TTYs) which are multiplexed to one serial
+      line as described in 3GPP TS 07.10.
+    </doc:para>
+  </doc:doc>
+
+    <method name="OpenSession">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>Initiate a new multiplexing session.</doc:description>
+        <doc:inote>The device needs to support the +CMUX command.</doc:inote>
+      </doc:doc>
+      <arg name="advanced" type="b" direction="in">
+        <doc:doc>
+          <doc:summary>True, to use 07.10 Advanced Mode multiplexing, False to use 07.10 Basic Mode multiplexing.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="framesize" type="i" direction="in">
+        <doc:doc>
+          <doc:summary>The maximum framesize for 07.10 multiplexing frames.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="portname" type="s" direction="in">
+        <doc:doc>
+          <doc:summary>The port name to use.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="portspeed" type="i" direction="in">
+        <doc:doc>
+          <doc:summary>The port speed to use.</doc:summary>
+        </doc:doc>
+      </arg>
+      <fso:throws type="org.freesmartphone.GSM" />
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <method name="CloseSession">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>Closes a multiplexing session.</doc:description>
+        <doc:inote>The device will be left in AT command mode.</doc:inote>
+      </doc:doc>
+      <fso:throws type="org.freesmartphone.GSM" />
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <method name="AllocChannel">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>
+          Allocate a new virtual channel. Raises org.freesmartphone.GSM.MUX.NoChannel,
+          if the requested channel can not be allocated. Raises org.freesmartphone.GSM.MUX.ChannelTaken,
+          if the requested channel is already allocated.
+        </doc:description>
+      </doc:doc>
+      <arg name="origin" type="s" direction="in">
+        <doc:doc>
+          <doc:summary>A handle for channel user identification.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="channel" type="i" direction="in">
+        <doc:doc>
+          <doc:summary>The requested channel. Submit 0 to request the next free channel.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="path" type="s" direction="out">
+        <doc:doc>
+          <doc:summary>The pseudo tty connected to the virtual channel.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="allocated_channel" type="i" direction="out">
+        <doc:doc>
+          <doc:summary>The channel number that has been allocated.</doc:summary>
+        </doc:doc>
+      </arg>
+      <fso:throws type="org.freesmartphone.GSM" />
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <method name="ReleaseChannel">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>
+          Release all channels requested by a specified user.
+        </doc:description>
+      </doc:doc>
+      <arg name="origin" type="s" direction="in">
+        <doc:doc>
+          <doc:summary>A handle for channel user identification.</doc:summary>
+        </doc:doc>
+      </arg>
+      <fso:throws type="org.freesmartphone.GSM" />
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <method name="SetStatus">
+      <annotation name="org.freedesktop.DBus.GLib.Async" value="true"/>
+      <doc:doc>
+        <doc:description>
+          Modify the v24 status of a virtual channel.
+        </doc:description>
+      </doc:doc>
+      <arg name="channel" type="i" direction="in">
+        <doc:doc>
+          <doc:summary>The virtual channel you want to change the outgoing status for.</doc:summary>
+        </doc:doc>
+      </arg>
+      <arg name="status" type="s" direction="in">
+        <doc:doc>
+          <doc:summary>
+            The new v.24 status. See org.freesmartphone.GSM.MUX.Status for the format.
+          </doc:summary>
+        </doc:doc>
+      </arg>
+      <fso:throws type="org.freesmartphone.GSM" />
+      <fso:throws type="org.freesmartphone" />
+    </method>
+
+    <signal name="Status">
+      <doc:doc>
+        <doc:description>
+          Sent whenever there is v.24 incoming status change on a virtual channel.
+        </doc:description>
+      </doc:doc>
+      <arg type="s" name="status">
+        <doc:doc>
+          <doc:summary>
+            The new v.24 status, which is a string combined of elements that make up the status. Valid elements are:
+            [ul]
+              [li]...[/li]
+              [li]...[/li]
+            [/ul]
+          </doc:summary>
+        </doc:doc>
+      </arg>
+    </signal>
+
+  </interface>
+
+</node>
+

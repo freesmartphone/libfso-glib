@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-device-display-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Display Interface</doc:summary>
+  <doc:version>0.5.0</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Device.Display">
+
+  <doc:doc>
+    <doc:para>
+      This interface provides access to a display device.
+    </doc:para>
+  </doc:doc>
+
+  <method name="GetBrightness">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the current brightness level.</doc:description>
+    </doc:doc>
+    <arg direction="out" type="i" name="brightness">
+      <doc:doc>
+        <doc:summary>
+          The brightness level in percent (0-100).
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="SetBrightness">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Set the brightness level.</doc:description>
+      <doc:inote>A brightness level of 0 does not necessarily mean that the backlight power is off.</doc:inote>
+    </doc:doc>
+    <arg direction="in" type="i" name="brightness">
+      <doc:doc>
+        <doc:summary>
+          The brightness level in percent (0-100).
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="GetBacklightPower">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get whether the backlight is powered or not.</doc:description>
+    </doc:doc>
+    <arg direction="out" type="b" name="power">
+      <doc:doc>
+        <doc:summary>
+          True, if the backlight is powered. False, otherwise.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <method name="SetBacklightPower">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Set whether the backlight should be powered or not.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="b" name="power">
+      <doc:doc>
+        <doc:summary>
+          True, if the backlight should be powered. False, otherwise.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </method>
+
+  <signal name="BacklightPower">
+    <doc:doc>
+      <doc:description>Send when the backlight brightness (or power) moves to 0 or out of 0.</doc:description>
+    </doc:doc>
+    <arg type="b" name="power">
+      <doc:doc>
+        <doc:summary>
+          True, if the backlight has been turned on. False, otherwise.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+</node>

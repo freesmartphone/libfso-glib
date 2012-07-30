@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<node name="/" xmlns:fso="http://www.freesmartphone.org/schemas/DBusSpecExtension" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd" doc:id="freesmartphone-usage-interface">
+
+<doc:doc>
+  <doc:summary>freesmartphone.org Usage Interface</doc:summary>
+  <doc:version>0.9.2</doc:version>
+</doc:doc>
+
+<interface name="org.freesmartphone.Usage">
+
+  <doc:doc>
+    <doc:para>
+      The Usage interface provides access to subsystem resource management.
+      The usage manager keeps track of all users per resource and will enable or disable the
+      associated hardware/software as requested. Before an application can make use of a subsystem,
+      it needs to request the resource first and is only allowed to use it if the request
+      has been granted.
+    </doc:para>
+  </doc:doc>
+
+  <!-- Methods for providers -->
+
+  <method name="RegisterResource">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Register yourself as provider for a given resource.</doc:description>
+      <doc:inote>
+        Providers can chose the name of the resource freely, note that there are
+        some well known names such as:
+          [ul]
+            [li]"GSM",[/li]
+            [li]"GPS",[/li]
+            [li]"Bluetooth",[/li]
+            [li]"WiFi",[/li]
+            [li]"Display",[/li]
+            [li]"CPU".[/li]
+          [/ul]
+        In any case, only one provider per resource can be registered at a given time.
+      </doc:inote>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="in" type="o" name="path">
+      <doc:doc>
+        <doc:summary>The resource path.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="UnregisterResource">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Unregister yourself as provider for a given resource.</doc:description>
+      <doc:inote>Leaving the bus will automatically unregister yourself for all resources you are providing.</doc:inote>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <!-- Methods for consumers -->
+
+  <method name="ListResources">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>List available resources.</doc:description>
+    </doc:doc>
+    <arg direction="out" type="as" name="resources">
+      <doc:doc>
+        <doc:summary>An array of resource names.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetResourcePolicy">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the current resource policy for a given resource.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="s" name="policy" fso:type="org.freesmartphone.Usage.ResourcePolicy">
+      <doc:doc>
+        <doc:summary>
+          The resource policy. Expected values are:
+          [ul]
+            [li]"disabled" - using this resource is currently not allowed,[/li]
+            [li]"auto" - the resource is enabled as long as it is used by at least one client,[/li]
+            [li]"enabled" - the resource is enabled even without a client.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="SetResourcePolicy">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Set a new resource policy for a given resource.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="in" type="s" name="policy" fso:type="org.freesmartphone.Usage.ResourcePolicy">
+      <doc:doc>
+        <doc:summary>The new resource policy. See org.freesmartphone.Usage.GetResourcePolicy for a list of valid values.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetResourceState">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the current state for a given resource.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="b" name="state">
+      <doc:doc>
+        <doc:summary>
+          The resource state. True if the resource is currently enabled.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="GetResourceUsers">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Get the users which currently use a given resource.</doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="out" type="as" name="users">
+      <doc:doc>
+        <doc:summary>An array of bus names using the resource.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="RequestResource">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Request occupation of a given resource. An error is returned if the resource was not occupied sucessfully.
+      </doc:description>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="ReleaseResource">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>Release a given resource.</doc:description>
+      <doc:inote>Resources in use get autoreleased when a client leaves the bus.</doc:inote>
+    </doc:doc>
+    <arg direction="in" type="s" name="name">
+      <doc:doc>
+        <doc:summary>The resource name.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Suspend">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Triggers a suspend on all managed resources and puts the device into suspend mode.
+        When the device comes back from suspend, all resources are resumed.
+        All Resources need to implement org.freesmartphone.Resource.Suspend and
+        org.freesmartphone.Resource.Resume if they have anything to prepare / recover
+        on suspend and resume.
+      </doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Resume">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Triggers a resume on all managed resources and puts the device into normal mode.
+      </doc:description>
+      <doc:inote>
+        This method is only useful on systems where a suspend does not halt the main CPU.
+      </doc:inote>
+    </doc:doc>
+    <arg direction="in" type="s" name="source">
+      <doc:doc>
+        <doc:summary>The resume source.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg direction="in" type="s" name="reason">
+      <doc:doc>
+        <doc:summary>The resume reason.</doc:summary>
+      </doc:doc>
+    </arg>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Shutdown">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Triggers a shutdown of all managed resources and powers the device down.
+      </doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <method name="Reboot">
+    <annotation name="org.freedesktop.DBus.GLib.Async" value="true" />
+    <doc:doc>
+      <doc:description>
+        Triggers a reboot of the device.
+      </doc:description>
+    </doc:doc>
+    <fso:throws type="org.freesmartphone.Usage" />
+    <fso:throws type="org.freesmartphone" />
+  </method>
+
+  <!-- Signals -->
+
+  <signal name="ResourceAvailable">
+    <doc:doc>
+      <doc:description>Sent whenever a resource is added or removed.</doc:description>
+    </doc:doc>
+    <arg type="s" name="name">
+      <doc:doc>
+        <doc:summary>The name of the resource.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="b" name="availability">
+      <doc:doc>
+        <doc:summary>
+          The resource availability. True if the resource is currently available.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="ResourceChanged">
+    <annotation name="com.trolltech.QtDBus.QtTypeName.In2" value="QVariantMap"/>
+    <doc:doc>
+      <doc:description>Sent whenever a resource status changes.</doc:description>
+    </doc:doc>
+    <arg type="s" name="name">
+      <doc:doc>
+        <doc:summary>The name of the resource.</doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="b" name="state">
+      <doc:doc>
+        <doc:summary>
+          The resource state. True if the resource is currently enabled.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+    <arg type="a{sv}" name="attributes">
+      <doc:doc>
+        <doc:summary>
+          The new status of the resource. Expected values are:
+          [ul]
+            [li]"policy": The current resource policy[/li]
+            [li]"refcount": The count of clients that have requested the resource[/li]
+          [/ul]
+          Further information can be part of the properties.
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+  <signal name="SystemAction">
+    <doc:doc>
+      <doc:description>Sent whenever a system state action is performed.</doc:description>
+    </doc:doc>
+    <arg type="s" name="action" fso:type="org.freesmartphone.Usage.SystemAction">
+      <doc:doc>
+        <doc:summary>
+          The name of the action. Expected values are:
+          [ul]
+            [li]"suspend": The system is suspending.[/li]
+            [li]"resume": The system has resumed.[/li]
+            [li]"reboot": The system is rebooting.[/li]
+            [li]"shutdown": The system is shutting down.[/li]
+          [/ul]
+        </doc:summary>
+      </doc:doc>
+    </arg>
+  </signal>
+
+</interface>
+
+<!-- Errors -->
+
+<fso:errordomain name="org.freesmartphone.Usage" fso:no-container="true">
+  <error name="PolicyUnknown">
+    <doc:doc>
+      <doc:description>
+        Raised, if the requested policy is unknown.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="PolicyDisabled">
+    <doc:doc>
+      <doc:description>
+        Raised, if the requested resource is set to policy "disabled".
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="ResourceUnknown">
+    <doc:doc>
+      <doc:description>
+        Raised, if the requested resource is unknown.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="ResourceExists">
+    <doc:doc>
+      <doc:description>
+        Raised, if a (new) resource has already been registered.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="ResourceInUse">
+    <doc:doc>
+      <doc:description>
+        Raised, if the to-be-disabled (by policy) resource is still in use.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="UserExists">
+    <doc:doc>
+      <doc:description>
+        Raised, if the requested resource has already been requested by the same user.
+      </doc:description>
+    </doc:doc>
+  </error>
+
+  <error name="UserUnknown">
+    <doc:doc>
+      <doc:description>
+        Raised, if the to-be-released resource has never been requested by the user.
+      </doc:description>
+    </doc:doc>
+  </error>
+</fso:errordomain>
+
+<!-- Enums -->
+
+<fso:enumeration name="org.freesmartphone.Usage.ResourcePolicy" type="s">
+  <fso:member name="auto"     value="auto"/>
+  <fso:member name="disabled" value="disabled"/>
+  <fso:member name="enabled"  value="enabled"/>
+</fso:enumeration>
+
+<fso:enumeration name="org.freesmartphone.Usage.SystemAction" type="s">
+  <fso:member name="alive"    value="alive"/>
+  <fso:member name="suspend"  value="suspend"/>
+  <fso:member name="resume"   value="resume"/>
+  <fso:member name="shutdown" value="shutdown"/>
+  <fso:member name="reboot"   value="reboot"/>
+</fso:enumeration>
+
+</node>
+
