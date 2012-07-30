@@ -26,7 +26,7 @@ class Entity( object ):
         self.attrs = attrs
         self.title = "Untitled"
 
-    def output( self ):
+    def output( self, path ):
         pass
 
     def out( self ):
@@ -131,11 +131,10 @@ class Interface( Entity ):
         self.namespace = "Unknown"
         self.description = "Unknown"
 
-    def output( self ):
+    def output( self, path ):
         import os.path
         basename = os.path.basename( self.filename ).replace( ".xml.in", ".html" )
-        dirname = os.path.dirname( __file__ )
-        self.outfilename = "%s/../html/%s" % ( dirname, basename )
+        self.outfilename = "%s/%s" % ( path, basename )
         self.outfile = open( self.outfilename, "w" )
 
         text = self.outputHeader( __file__.replace( "makedoc.py", "style.xml" ) )
@@ -503,11 +502,12 @@ if __name__ == "__main__":
     import xml.sax
     print( "parsing..." )
     interfaces = []
-    for filename in sys.argv[1:]:
+    output_path = sys.argv[1]
+    for filename in sys.argv[2:]:
         interface = Interface( filename )
         interfaces.append( interface )
         handler = Handler( interface )
         xml.sax.parse( filename, handler )
     print( "creating..." )
     for iface in interfaces:
-        iface.output()
+        iface.output( output_path )
