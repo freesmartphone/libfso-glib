@@ -28,4 +28,5 @@ stamp-h1
 
 fso-glib/*.vala
 specs/*.xml
+docs/*.html
 
