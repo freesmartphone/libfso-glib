@@ -86,15 +86,9 @@ AS_IF([test "x$enable_typelib" != xno],
 VDBT_REQUIRED=0.4.0
 GLIB_REQUIRED=2.12.0
 DBUS_REQUIRED=0.70
-SPECS_REQUIRED=$PACKAGE_VERSION
 
 PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
 	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
-
-PKG_CHECK_MODULES(SPECS,
-	fso-specs >= $SPECS_REQUIRED)
-FSO_SPECS_DIR="`$PKG_CONFIG --variable=specsdir fso-specs`"
-AC_SUBST(FSO_SPECS_DIR)
 
 AC_ARG_ENABLE(gdbus,
   AS_HELP_STRING([--enable-gdbus],[Build code for gdbus as found in glib >= 2.26 (default=yes)]),

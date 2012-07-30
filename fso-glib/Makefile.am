@@ -8,7 +8,7 @@ AM_CFLAGS = \
 AM_VALAFLAGS =
 
 DBUSBINDINGTOOLFLAGS = \
-	--api-path=$(FSO_SPECS_DIR) \
+	--api-path=$(top_srcdir)/specs \
 	--directory=$(top_builddir)/fso-glib --strip-namespace=org \
 	--rename-namespace=freedesktop:FreeDesktop \
 	--rename-namespace=freesmartphone:FreeSmartphone \
