@@ -26,5 +26,6 @@ stamp-h1
 *.service
 *.vapi
 
-src/*.vala
+fso-glib/*.vala
+specs/*.xml
 
