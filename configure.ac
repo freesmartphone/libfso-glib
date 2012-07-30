@@ -138,7 +138,7 @@ AM_CONDITIONAL( [WANT_DEBUG], [test x"$debug" = x"yes"])
 
 AC_CONFIG_FILES([
 	Makefile
-	src/Makefile
+	fso-glib/Makefile
 	fso-glib-1.0.pc
 ])
 AC_OUTPUT
