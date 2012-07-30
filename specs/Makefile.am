@@ -80,7 +80,7 @@ pydocs: $(pydoc_html_files)
 
 $(pydoc_html_files): %.html: %.xml.in
 	@echo calling pydoc on $@
-	$(top_srcdir)/tools/makedoc.py $(top_srcdir)/doc $< >/dev/null
+	$(top_srcdir)/tools/makedoc.py $(top_srcdir)/docs $< >/dev/null
 
 $(files): %.xml: %.xml.in
 	@echo calling xsltproc spec-strip-docs on $@ ...
