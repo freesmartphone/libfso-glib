@@ -1,5 +1,5 @@
 m4_define([fso_glib_released], [0])
-m4_define([fso_glib_version], [2012.07.27.2])
+m4_define([fso_glib_version], [2012.07.27.3])
 
 # If library source has changed since last release, increment revision
 # If public symbols have been added, removed or changed since last release,
@@ -10,7 +10,7 @@ m4_define([fso_glib_lt_current], [2])
 m4_define([fso_glib_lt_revision], [0])
 m4_define([fso_glib_lt_age], [0])
 
-AC_INIT([libfso-glib], fso_glib_version, [smartphones-standards@linuxtogo.org], [libfso-glib])
+AC_INIT([libfso-glib], fso_glib_version, [fso@openphoenux.org], [libfso-glib])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 AC_PREREQ([2.65])
 AC_CONFIG_SRCDIR([Makefile.am])
