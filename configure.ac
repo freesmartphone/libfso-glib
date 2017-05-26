@@ -1,5 +1,5 @@
 m4_define([fso_glib_released], [0])
-m4_define([fso_glib_version], [2012.07.27.3])
+m4_define([fso_glib_version], [2017.05.26.0])
 
 # If library source has changed since last release, increment revision
 # If public symbols have been added, removed or changed since last release,
@@ -41,7 +41,7 @@ AC_SUBST([LT_AGE])
 # Vala building options -- allows tarball builds without installing vala
 #########################################################################################
 
-VALA_REQUIRED=0.14.2
+VALA_REQUIRED=0.36.0
 
 AC_ARG_ENABLE([vala], AS_HELP_STRING([--enable-vala],[Enable building from Vala sources]),
               [enable_vala=$enableval], [enable_vala=no])
@@ -83,10 +83,10 @@ AS_IF([test "x$enable_typelib" != xno],
 # Check for various dependencies
 #########################################################################################
 
-VDBT_REQUIRED=0.4.0
-GLIB_REQUIRED=2.12.0
-DBUS_REQUIRED=0.70
-SPECS_REQUIRED=$PACKAGE_VERSION
+VDBT_REQUIRED=1.0
+GLIB_REQUIRED=2.24.0
+#SPECS_REQUIRED=$PACKAGE_VERSION
+SPECS_REQUIRED=2012.07.27.4
 
 PKG_CHECK_MODULES(VALA_DBUS_BINDING_TOOL,
 	vala-dbus-binding-tool-1.0 >= $VDBT_REQUIRED)
@@ -96,28 +96,12 @@ PKG_CHECK_MODULES(SPECS,
 FSO_SPECS_DIR="`$PKG_CONFIG --variable=specsdir fso-specs`"
 AC_SUBST(FSO_SPECS_DIR)
 
-AC_ARG_ENABLE(gdbus,
-  AS_HELP_STRING([--enable-gdbus],[Build code for gdbus as found in glib >= 2.26 (default=yes)]),
-  [gdbus=$enableval],
-  [gdbus="yes"])
-
-if test x$gdbus = x"yes"; then
-	GLIB_REQUIRED=2.26.0
-	PKG_CHECK_MODULES(DEPS,
-	glib-2.0 >= $GLIB_REQUIRED
-	gobject-2.0 >= $GLIB_REQUIRED
-	gio-2.0 >= $GLIB_REQUIRED
-	gthread-2.0 >= $GLIB_REQUIRED)
-else
-	PKG_CHECK_MODULES(DEPS,
-	glib-2.0 >= $GLIB_REQUIRED
-	gobject-2.0 >= $GLIB_REQUIRED
-	gio-2.0 >= $GLIB_REQUIRED
-	gthread-2.0 >= $GLIB_REQUIRED
-	dbus-glib-1 >= $DBUS_REQUIRED
-	dbus-1 >= $DBUS_REQUIRED)
-fi
-AM_CONDITIONAL( [WANT_GDBUS], [test x"$gdbus" = x"yes"])
+GLIB_REQUIRED=2.26.0
+PKG_CHECK_MODULES(DEPS,
+glib-2.0 >= $GLIB_REQUIRED
+gobject-2.0 >= $GLIB_REQUIRED
+gio-2.0 >= $GLIB_REQUIRED
+gthread-2.0 >= $GLIB_REQUIRED)
 
 AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LIBS)

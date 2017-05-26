@@ -14,12 +14,6 @@ DBUSBINDINGTOOLFLAGS = \
 	--rename-namespace=freesmartphone:FreeSmartphone \
 	$(NULL)
 
-if WANT_GDBUS
-DBUSBINDINGTOOLFLAGS += --gdbus
-else
-AM_VALAFLAGS += --pkg dbus-glib-1
-endif
-
 if WANT_DEBUG
 AM_VALAFLAGS += -g -D DEBUG
 AM_CFLAGS += -ggdb -O0
